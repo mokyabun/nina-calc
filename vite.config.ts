@@ -16,6 +16,7 @@ export default defineConfig({
                 version: '0.0.1',
                 match: ['http://afreehp.kr/setup/alertlist', 'https://point.afreecatv.com/Balloon/AfreecaNormalExchange.asp*'],
                 grant: ["GM.xmlHttpRequest"],
+                license: 'MIT',
                 require: ['https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js', 'https://cdn.jsdelivr.net/npm/@trim21/gm-fetch'],
                 "run-at": "document-idle",
             },

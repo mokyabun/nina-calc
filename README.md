@@ -1,64 +1,20 @@
-# Svelte + TS + Vite
+# nina-calc
 
-This template should help get you started developing with Svelte and TypeScript in Vite.
+버츄얼 헤르츠의 스파챠요미용으로 만들어진 Tampermonkey용 팬 제작 스크립트입니다.
 
-## Recommended IDE Setup
+## 설치방법
+1. [여기](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)에 들어가서 [Tampermonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) 크롬 확장프로그램을 설치합니다.
+2. tampermonkey 대시보드에 들어간다 <img src="images/tampermonkey1.png">
+3. 설정에 들어가 설정모드를 중급자로 바꾼다. <img src="images/tampermonkey2.png">
+4. 쭉 내린뒤 다운로드 BETA 아래부분에 .xlsx를 추가한다. <img src="images/tampermonkey3.png">
+5. [여기](https://github.com/sucat0/nina-calc/raw/main/dist/nina-calc.user.js)를 눌러 스크립트를 추가한다.
+6. 사용하다가 이런 화면이 뜨면 도메인 항상 허용 눌러주세요! <img src="images/tampermonkey4.png">
+7. 스크립트를 추가한 뒤에는 [아프리카 도우미](http://afreehp.kr/setup/alertlist), [아프리카 별풍선](https://point.afreecatv.com/Balloon/AfreecaNormalExchange.asp)에서 **F10**을 눌러 메뉴를 열 수 있습니다
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+## 기능
+- **[아프리카 도우미](http://afreehp.kr/setup/alertlist) 데이터 가져오기**
+- **[아프리카 별풍선](https://point.afreecatv.com/Balloon/AfreecaNormalExchange.asp) 데이터 가져오기**
+- **엑셀로 데이터 저장**
+- **아프리카 도우미, 별풍선 데이터 병합** (아프리카 도우미 200개 제한 넘었을 경우 사용)
 
-## Need an official Svelte framework?
-
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its
-serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less,
-and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
-
-## Technical considerations
-
-**Why use this over SvelteKit?**
-
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
-  `vite dev` and `vite build` wouldn't work in a SvelteKit environment, for example.
-
-This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account
-the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the
-other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte
-project.
-
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been
-structured similarly to SvelteKit so that it is easy to migrate.
-
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
-
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash
-references keeps the default TypeScript setting of accepting type information from the entire workspace, while also
-adding `svelte` and `vite/client` type information.
-
-**Why include `.vscode/extensions.json`?**
-
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to
-install the recommended extension upon opening the project.
-
-**Why enable `allowJs` in the TS template?**
-
-While `allowJs: false` would indeed prevent the use of `.js` files in the project, it does not prevent the use of
-JavaScript syntax in `.svelte` files. In addition, it would force `checkJs: false`, bringing the worst of both worlds:
-not being able to guarantee the entire codebase is TypeScript, and also having worse typechecking for the existing
-JavaScript. In addition, there are valid use cases in which a mixed codebase may be relevant.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr`
-and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the
-details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be
-replaced by HMR.
-
-```ts
-// store.ts
-// An extremely simple external store
-import {writable} from 'svelte/store';
-
-export default writable(0);
-```
+#### and i also 니나 조아

@@ -17,6 +17,8 @@ export default defineConfig({
                 match: ['http://afreehp.kr/setup/alertlist', 'https://point.afreecatv.com/Balloon/AfreecaNormalExchange.asp*'],
                 grant: ["GM.xmlHttpRequest"],
                 license: 'MIT',
+                downloadURL: 'https://github.com/sucat0/nina-calc/raw/main/dist/nina-calc.user.js',
+                updateURL: 'https://github.com/sucat0/nina-calc/raw/main/dist/nina-calc.user.js',
                 require: ['https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js', 'https://cdn.jsdelivr.net/npm/@trim21/gm-fetch'],
                 "run-at": "document-idle",
             },

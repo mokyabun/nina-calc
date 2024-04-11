@@ -6,6 +6,8 @@
 // @description  아프리카TV에서 방송하는 사람들을 위한 별풍선 정보 파일로 가져올 수 있는 스크립트입니다.
 // @license      MIT
 // @icon         https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihbuMpD-MVs_DTsPPvRNHh-UwGVQbDSCebrSMTIS3q7JfWGIxhFzi21zGLmIdzGIUH4NluidCGVnYglajvhX3mNkRXMi07MzvB4=w2702-h1512
+// @downloadURL  https://github.com/sucat0/nina-calc/raw/main/dist/nina-calc.user.js
+// @updateURL    https://github.com/sucat0/nina-calc/raw/main/dist/nina-calc.user.js
 // @match        http://afreehp.kr/setup/alertlist
 // @match        https://point.afreecatv.com/Balloon/AfreecaNormalExchange.asp*
 // @require      https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js

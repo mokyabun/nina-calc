@@ -1,0 +1,2 @@
+export const HELPER_DATA = 'HELPER:DATA'
+export const HELPER_HAS_DATA = 'HELPER:HAS_DATA'

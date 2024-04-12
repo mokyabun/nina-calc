@@ -1,30 +1,32 @@
-interface BalloonData {
+export interface BalloonData {
     timestamp: string
     countData: BalloonCountData
     userData: User
 }
 
-interface HelperData {
+export interface HelperData {
     timestamp: string
     countData: BalloonCountData
     userData: User
     msgData: UserBalloonMsgData
 }
 
-interface MixedData {
+export interface MixedData {
     countData: BalloonCountData
     userData: User
     msgData: UserBalloonMsgData
 }
 
-interface BalloonCountData {
+export interface BalloonCountData {
     [key: string]: number
 }
 
-interface User {
+export interface User {
     [key: string]: string[]
 }
 
-interface UserBalloonMsgData {
+export interface UserBalloonMsgData {
     [key: string]: string[]
 }
+
+export type sortType = 'asc' | 'desc' | 'latest' | 'oldest' | 'random'

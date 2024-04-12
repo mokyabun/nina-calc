@@ -1,4 +1,5 @@
 import {createWorkbook} from "./excel.utils";
+import type {BalloonData, HelperData, MixedData} from "../types";
 
 export function balloonToExcel(data: BalloonData) {
     const workbook = createWorkbook()

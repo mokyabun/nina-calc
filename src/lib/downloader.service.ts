@@ -2,6 +2,8 @@ import * as Excel from 'exceljs';
 import {GM_download} from "$";
 import {balloonToExcel, toExcel} from "./converter.service";
 import {mixData} from "./mixer.service";
+import type {BalloonData, HelperData, MixedData, sortType} from "../types";
+import {userSorter} from "./sort.service";
 
 export async function downloadExcel(workbook: Excel.Workbook, filename: string) {
     const fileData = await workbook.xlsx.writeBuffer()
@@ -17,17 +19,23 @@ export async function downloadExcel(workbook: Excel.Workbook, filename: string) 
             console.error('다운로드 실패', e)
 
             if (e.error === 'not_whitelisted') {
-                alert('xlsx 파일 다운로드가 차단되었습니다. 설정에서 허용해주세요. @sucat00 트위터에서 사용법을 확인해주세요!')
+                alert('xlsx 파일 다운로드가 차단되었습니다. 설정에서 허용해주세요.')
             }
         }
     })
 }
 
-export async function downloadBalloon(broadcastId: string, balloonData: BalloonData | null) {
+export function formatTimestamp(timestamp: string) {
+    return timestamp.replace(/^(\d{4})\. (\d{1,2})\. (\d{1,2})\.$/, '$1-$2-$3');
+}
+
+export async function downloadBalloon(balloonData: BalloonData | null, sort: sortType) {
     if (!balloonData) {
         console.error('별풍선 데이터가 없습니다.')
         return
     }
+
+    balloonData.userData = userSorter(balloonData.userData, sort)
 
     const excel = balloonToExcel(balloonData)
 
@@ -36,28 +44,28 @@ export async function downloadBalloon(broadcastId: string, balloonData: BalloonD
         return
     }
 
-    return downloadExcel(excel, `${broadcastId}-balloon-${balloonData.timestamp}.xlsx`)
+    return downloadExcel(excel, `ninacalc-balloon-${formatTimestamp(balloonData.timestamp)}.xlsx`)
 }
 
-export async function downloadHelper(broadcastId: string, helperData: HelperData | null) {
+export async function downloadHelper(helperData: HelperData | null, sort: sortType) {
     if (!helperData) {
         console.error('별풍선 데이터가 없습니다.')
         return
     }
 
-    const excel = toExcel(helperData)
+    helperData.userData = userSorter(helperData.userData, sort)
 
-    console.log(excel)
+    const excel = toExcel(helperData)
 
     if (!excel) {
         console.error('별풍선 데이터 변환에 실패했습니다.')
         return
     }
 
-    return downloadExcel(excel, `${broadcastId}-helper-${helperData.timestamp}.xlsx`)
+    return downloadExcel(excel, `ninacalc-helper-${formatTimestamp(helperData.timestamp)}.xlsx`)
 }
 
-export async function downloadMixed(broadcastId: string, balloonData: BalloonData | null, helperData: HelperData | null) {
+export async function downloadMixed(balloonData: BalloonData | null, helperData: HelperData | null, sort: sortType) {
     if (!balloonData || !helperData) {
         console.error('별풍선 데이터가 없습니다.')
         return
@@ -70,6 +78,8 @@ export async function downloadMixed(broadcastId: string, balloonData: BalloonDat
         return
     }
 
+    mixed.userData = userSorter(mixed.userData, sort)
+
     const excel = toExcel(mixed)
 
     if (!excel) {
@@ -77,5 +87,5 @@ export async function downloadMixed(broadcastId: string, balloonData: BalloonDat
         return
     }
 
-    return downloadExcel(excel, `${broadcastId}-mixed-${helperData.timestamp}.xlsx`)
+    return downloadExcel(excel, `ninacalc-mixed-${formatTimestamp(balloonData.timestamp)}.xlsx`)
 }

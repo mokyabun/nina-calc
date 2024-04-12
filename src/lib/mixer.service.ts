@@ -1,3 +1,5 @@
+import type {BalloonData, HelperData, MixedData} from "../types";
+
 export function mixData(balloonData: BalloonData, helperData: HelperData) {
     if (balloonData.timestamp !== helperData.timestamp) {
         const yes = confirm('서로 다른 날짜의 데이터입니다. 두 데이터를 합치시겠습니까?')

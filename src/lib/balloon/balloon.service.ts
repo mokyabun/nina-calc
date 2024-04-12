@@ -9,7 +9,7 @@ import {
     TEMP_NICKNAME,
     TEMP_START_TIME
 } from "./balloon.constants";
-import {userSorter} from "../sort.service";
+import type {BalloonCountData, BalloonData, User} from "../../types";
 
 function makeUserData() {
     let userData: User = {}
@@ -20,7 +20,7 @@ function makeUserData() {
         userData[id] = nicknames
     }
 
-    return userSorter(userData)
+    return userData
 }
 
 function makeCountData() {

@@ -84,9 +84,10 @@ export function balloonService() {
 
             GM_setValue(BALLOON_HAS_DATA, true)
 
-            console.log(userData, countData)
-
             clean()
+
+            //@ts-ignore
+            app_modal.showModal()
             return
         }
 

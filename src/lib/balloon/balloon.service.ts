@@ -15,9 +15,7 @@ function makeUserData() {
     let userData: User = {}
 
     for (const id of GM_getValue(TEMP_IDS, [])) {
-        const nicknames = GM_getValue(TEMP_NICKNAME + id, [])
-
-        userData[id] = nicknames
+        userData[id] = GM_getValue(TEMP_NICKNAME + id, [])
     }
 
     return userData
@@ -27,9 +25,7 @@ function makeCountData() {
     let balloonCountData: BalloonCountData = {}
 
     for (const id of GM_getValue(TEMP_IDS, [])) {
-        const balloon = GM_getValue(TEMP_COUNT + id, 0)
-
-        balloonCountData[id] = balloon
+        balloonCountData[id] = GM_getValue(TEMP_COUNT + id, 0)
     }
 
     return balloonCountData

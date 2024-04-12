@@ -1,6 +1,6 @@
 # nina-calc
 
-버츄얼 헤르츠의 스파챠요미용으로 만들어진 Tampermonkey용 팬 제작 스크립트입니다.
+버츄얼 헤르츠 도네 감사인사용으로 만들어진 Tampermonkey용 팬 제작 스크립트입니다.
 
 ## 설치방법
 1. [여기](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)에 들어가서 [Tampermonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) 크롬 확장프로그램을 설치합니다.

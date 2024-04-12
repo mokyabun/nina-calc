@@ -13,7 +13,7 @@ export default defineConfig({
                 namespace: 'sucat.dev',
                 author: 'sucat0',
                 description: '아프리카TV에서 방송하는 사람들을 위한 별풍선 정보 파일로 가져올 수 있는 스크립트입니다.',
-                version: '0.0.2',
+                version: '0.0.3',
                 match: ['http://afreehp.kr/setup/alertlist', 'https://point.afreecatv.com/Balloon/AfreecaNormalExchange.asp*'],
                 grant: ["GM.xmlHttpRequest"],
                 license: 'MIT',

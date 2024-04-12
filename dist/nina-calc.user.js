@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nina-calc
 // @namespace    sucat.dev
-// @version      0.0.2
+// @version      0.0.3
 // @author       sucat0
 // @description  아프리카TV에서 방송하는 사람들을 위한 별풍선 정보 파일로 가져올 수 있는 스크립트입니다.
 // @license      MIT
@@ -561,8 +561,8 @@
           userData
         });
         _GM_setValue(BALLOON_HAS_DATA, true);
-        console.log(userData, countData);
         clean();
+        app_modal.showModal();
         return;
       }
       const idAndNicknameElement = col.querySelector("td:nth-child(2) > span");
@@ -25820,7 +25820,7 @@
     for (const [id, nicknames] of Object.entries(data.userData)) {
       const balloon = data.countData[id];
       const msgData = data.msgData[id];
-      const rowData = [id, nicknames.join(", "), balloon, msgData[0]];
+      const rowData = [id, nicknames.join(", "), balloon, msgData[0] ?? ""];
       sheet.addRow(rowData);
       for (let i = 1; i < msgData.length; i++) {
         const rowData2 = ["", "", "", msgData[i]];

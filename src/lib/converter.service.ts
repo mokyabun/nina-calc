@@ -34,7 +34,7 @@ export function toExcel(data: MixedData | HelperData) {
         const balloon = data.countData[id]
         const msgData = data.msgData[id]
 
-        const rowData = [id, nicknames.join(', '), balloon, msgData[0]]
+        const rowData = [id, nicknames.join(', '), balloon, msgData[0] ?? '']
         sheet.addRow(rowData)
 
         for (let i = 1; i < msgData.length; i++) {

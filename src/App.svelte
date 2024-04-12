@@ -6,9 +6,7 @@
     import {BALLOON_DATA, TEMP_START_TIME} from "./lib/balloon/balloon.constants";
     import {BROADCASTER_ID} from "./constants";
     import {HELPER_DATA} from "./lib/helper/helper.constants";
-    import {balloonToExcel, toExcel} from "./lib/converter.service";
-    import {downloadExcel} from "./lib/downloader.service";
-    import {mixData} from "./lib/mixer.service";
+    import {downloadBalloon, downloadHelper, downloadMixed} from "./lib/downloader.service";
 
     const currentSite = location.host + location.pathname
     const isBalloon = currentSite === 'point.afreecatv.com/Balloon/AfreecaNormalExchange.asp'
@@ -33,10 +31,8 @@
 
             const startTime = await playService(broadcastId)
 
-            console.log(startTime)
-
             if (!startTime) {
-                alert('방송 시작 시간을 찾을 수 없습니다.')
+                console.error('방송 시작 시간을 찾을 수 없습니다.')
                 return
             }
 
@@ -49,63 +45,6 @@
             return
         }
     }
-
-    function downloadBalloon() {
-        if (balloonData === null) {
-            console.error('별풍선 데이터가 없습니다.')
-            return
-        }
-
-        const excel = balloonToExcel(balloonData)
-
-        if (!excel) {
-            console.error('별풍선 데이터 변환에 실패했습니다.')
-            return
-        }
-
-        downloadExcel(excel, `${broadcastId}-balloon-${balloonData.timestamp}.xlsx`)
-    }
-
-    function downloadHelper() {
-        if (helperData === null) {
-            console.error('별풍선 데이터가 없습니다.')
-            return
-        }
-
-        const excel = toExcel(helperData)
-
-        console.log(excel)
-
-        if (!excel) {
-            console.error('별풍선 데이터 변환에 실패했습니다.')
-            return
-        }
-
-        downloadExcel(excel, `${broadcastId}-helper-${helperData.timestamp}.xlsx`)
-    }
-
-    function downloadMixed() {
-        if (balloonData === null || helperData === null) {
-            console.error('데이터가 없습니다.')
-            return
-        }
-
-        const mixed = mixData(balloonData, helperData)
-
-        if (!mixed) {
-            console.error('데이터 병합에 실패했습니다.')
-            return
-        }
-
-        const excel = toExcel(mixed)
-
-        if (!excel) {
-            console.error('별풍선 데이터 변환에 실패했습니다.')
-            return
-        }
-
-        downloadExcel(excel, `${broadcastId}-mixed-${helperData.timestamp}.xlsx`)
-    }
 </script>
 
 <dialog class="modal" id="app_modal">
@@ -116,7 +55,9 @@
                 <input type="text" placeholder="방송국 ID" class="input input-bordered w-full max-w-xs"
                        bind:value={broadcastId}>
             {/if}
-            <button class="btn btn-primary" on:click={onStart}>가져오기 시작</button>
+            {#if isBalloon || isHelper}
+                <button class="btn btn-primary" on:click={onStart}>가져오기 시작</button>
+            {/if}
             <div class="collapse bg-base-200">
                 <input type="checkbox"/>
                 <div class="collapse-title text-xl font-medium">
@@ -128,21 +69,21 @@
                             <div class="flex flex-col w-1/2">
                                 <h3 class="font-medium text-sm">별풍선 데이터 다운로드</h3>
                                 <button class="btn btn-primary" disabled={balloonData === null}
-                                        on:click={downloadBalloon}>
+                                        on:click={() => downloadBalloon(broadcastId, balloonData)}>
                                     {balloonData === null ? '데이터 없음' : balloonData.timestamp}
                                 </button>
                             </div>
                             <div class="flex flex-col w-1/2">
                                 <h3 class="font-medium text-sm">아프리카 도우미 데이터 다운로드</h3>
                                 <button class="btn btn-primary" disabled={helperData === null}
-                                        on:click={downloadHelper}>
+                                        on:click={() => downloadHelper(broadcastId, helperData)}>
                                     {helperData === null ? '데이터 없음' : helperData.timestamp}
                                 </button>
                             </div>
                         </div>
 
                         <button class="btn btn-primary" disabled={balloonData === null || helperData === null}
-                                on:click={downloadMixed}>
+                                on:click={() => downloadMixed(broadcastId, balloonData, helperData)}>
                             {balloonData === null || helperData === null ? '데이터 없음' : '데이터 병합 다운로드'}
                         </button>
                     </div>

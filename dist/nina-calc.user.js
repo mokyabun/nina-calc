@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nina-calc
 // @namespace    sucat.dev
-// @version      0.0.1
+// @version      0.0.2
 // @author       sucat0
 // @description  아프리카TV에서 방송하는 사람들을 위한 별풍선 정보 파일로 가져올 수 있는 스크립트입니다.
 // @license      MIT
@@ -25829,6 +25829,19 @@
     }
     return workbook;
   }
+  function mixData(balloonData, helperData) {
+    if (balloonData.timestamp !== helperData.timestamp) {
+      const yes = confirm("서로 다른 날짜의 데이터입니다. 두 데이터를 합치시겠습니까?");
+      if (!yes) {
+        return;
+      }
+    }
+    return {
+      countData: balloonData.countData,
+      userData: balloonData.userData,
+      msgData: helperData.msgData
+    };
+  }
   async function downloadExcel(workbook, filename) {
     const fileData = await workbook.xlsx.writeBuffer();
     const blob = new Blob([fileData], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
@@ -25847,20 +25860,49 @@
       }
     });
   }
-  function mixData(balloonData, helperData) {
-    if (balloonData.timestamp !== helperData.timestamp) {
-      const yes = confirm("서로 다른 날짜의 데이터입니다. 두 데이터를 합치시겠습니까?");
-      if (!yes) {
-        return;
-      }
+  async function downloadBalloon(broadcastId, balloonData) {
+    if (!balloonData) {
+      console.error("별풍선 데이터가 없습니다.");
+      return;
     }
-    return {
-      countData: balloonData.countData,
-      userData: balloonData.userData,
-      msgData: helperData.msgData
-    };
+    const excel = balloonToExcel(balloonData);
+    if (!excel) {
+      console.error("별풍선 데이터 변환에 실패했습니다.");
+      return;
+    }
+    return downloadExcel(excel, `${broadcastId}-balloon-${balloonData.timestamp}.xlsx`);
   }
-  function create_if_block(ctx) {
+  async function downloadHelper(broadcastId, helperData) {
+    if (!helperData) {
+      console.error("별풍선 데이터가 없습니다.");
+      return;
+    }
+    const excel = toExcel(helperData);
+    console.log(excel);
+    if (!excel) {
+      console.error("별풍선 데이터 변환에 실패했습니다.");
+      return;
+    }
+    return downloadExcel(excel, `${broadcastId}-helper-${helperData.timestamp}.xlsx`);
+  }
+  async function downloadMixed(broadcastId, balloonData, helperData) {
+    if (!balloonData || !helperData) {
+      console.error("별풍선 데이터가 없습니다.");
+      return;
+    }
+    const mixed = mixData(balloonData, helperData);
+    if (!mixed) {
+      console.error("데이터 병합에 실패했습니다.");
+      return;
+    }
+    const excel = toExcel(mixed);
+    if (!excel) {
+      console.error("별풍선 데이터 변환에 실패했습니다.");
+      return;
+    }
+    return downloadExcel(excel, `${broadcastId}-mixed-${helperData.timestamp}.xlsx`);
+  }
+  function create_if_block_1(ctx) {
     let h3;
     let t1;
     let input;
@@ -25891,7 +25933,7 @@
             input,
             "input",
             /*input_input_handler*/
-            ctx[8]
+            ctx[6]
           );
           mounted = true;
         }
@@ -25918,120 +25960,155 @@
       }
     };
   }
+  function create_if_block(ctx) {
+    let button;
+    let mounted;
+    let dispose;
+    return {
+      c() {
+        button = element("button");
+        button.textContent = "가져오기 시작";
+        attr(button, "class", "btn btn-primary");
+      },
+      m(target, anchor) {
+        insert(target, button, anchor);
+        if (!mounted) {
+          dispose = listen(
+            button,
+            "click",
+            /*onStart*/
+            ctx[5]
+          );
+          mounted = true;
+        }
+      },
+      p: noop,
+      d(detaching) {
+        if (detaching) {
+          detach(button);
+        }
+        mounted = false;
+        dispose();
+      }
+    };
+  }
   function create_fragment(ctx) {
     let dialog;
     let div8;
     let div7;
     let t0;
-    let button0;
-    let t2;
+    let t1;
     let div6;
     let input;
-    let t3;
+    let t2;
     let div0;
-    let t5;
+    let t4;
     let div5;
     let div4;
     let div3;
     let div1;
     let h30;
-    let t7;
-    let button1;
-    let t8_value = (
+    let t6;
+    let button0;
+    let t7_value = (
       /*balloonData*/
       (ctx[0] === null ? "데이터 없음" : (
         /*balloonData*/
         ctx[0].timestamp
       )) + ""
     );
+    let t7;
+    let button0_disabled_value;
     let t8;
-    let button1_disabled_value;
-    let t9;
     let div2;
     let h31;
-    let t11;
-    let button2;
-    let t12_value = (
+    let t10;
+    let button1;
+    let t11_value = (
       /*helperData*/
       (ctx[1] === null ? "데이터 없음" : (
         /*helperData*/
         ctx[1].timestamp
       )) + ""
     );
+    let t11;
+    let button1_disabled_value;
     let t12;
-    let button2_disabled_value;
-    let t13;
-    let button3;
-    let t14_value = (
+    let button2;
+    let t13_value = (
       /*balloonData*/
       ctx[0] === null || /*helperData*/
       ctx[1] === null ? "데이터 없음" : "데이터 병합 다운로드"
     );
+    let t13;
+    let button2_disabled_value;
     let t14;
-    let button3_disabled_value;
-    let t15;
     let form;
     let mounted;
     let dispose;
-    let if_block = (
+    let if_block0 = (
       /*isBalloon*/
-      ctx[3] && create_if_block(ctx)
+      ctx[3] && create_if_block_1(ctx)
+    );
+    let if_block1 = (
+      /*isBalloon*/
+      (ctx[3] || /*isHelper*/
+      ctx[4]) && create_if_block(ctx)
     );
     return {
       c() {
         dialog = element("dialog");
         div8 = element("div");
         div7 = element("div");
-        if (if_block)
-          if_block.c();
+        if (if_block0)
+          if_block0.c();
         t0 = space();
-        button0 = element("button");
-        button0.textContent = "가져오기 시작";
-        t2 = space();
+        if (if_block1)
+          if_block1.c();
+        t1 = space();
         div6 = element("div");
         input = element("input");
-        t3 = space();
+        t2 = space();
         div0 = element("div");
         div0.textContent = "데이터 다운로드";
-        t5 = space();
+        t4 = space();
         div5 = element("div");
         div4 = element("div");
         div3 = element("div");
         div1 = element("div");
         h30 = element("h3");
         h30.textContent = "별풍선 데이터 다운로드";
-        t7 = space();
-        button1 = element("button");
-        t8 = text(t8_value);
-        t9 = space();
+        t6 = space();
+        button0 = element("button");
+        t7 = text(t7_value);
+        t8 = space();
         div2 = element("div");
         h31 = element("h3");
         h31.textContent = "아프리카 도우미 데이터 다운로드";
-        t11 = space();
+        t10 = space();
+        button1 = element("button");
+        t11 = text(t11_value);
+        t12 = space();
         button2 = element("button");
-        t12 = text(t12_value);
-        t13 = space();
-        button3 = element("button");
-        t14 = text(t14_value);
-        t15 = space();
+        t13 = text(t13_value);
+        t14 = space();
         form = element("form");
         form.innerHTML = `<button>close</button>`;
-        attr(button0, "class", "btn btn-primary");
         attr(input, "type", "checkbox");
         attr(div0, "class", "collapse-title text-xl font-medium");
         attr(h30, "class", "font-medium text-sm");
-        attr(button1, "class", "btn btn-primary");
-        button1.disabled = button1_disabled_value = /*balloonData*/
+        attr(button0, "class", "btn btn-primary");
+        button0.disabled = button0_disabled_value = /*balloonData*/
         ctx[0] === null;
         attr(div1, "class", "flex flex-col w-1/2");
         attr(h31, "class", "font-medium text-sm");
-        attr(button2, "class", "btn btn-primary");
-        button2.disabled = button2_disabled_value = /*helperData*/
+        attr(button1, "class", "btn btn-primary");
+        button1.disabled = button1_disabled_value = /*helperData*/
         ctx[1] === null;
         attr(div2, "class", "flex flex-col w-1/2");
         attr(div3, "class", "flex gap-4");
-        attr(button3, "class", "btn btn-primary");
-        button3.disabled = button3_disabled_value = /*balloonData*/
+        attr(button2, "class", "btn btn-primary");
+        button2.disabled = button2_disabled_value = /*balloonData*/
         ctx[0] === null || /*helperData*/
         ctx[1] === null;
         attr(div4, "class", "flex flex-col gap-4");
@@ -26048,60 +26125,55 @@
         insert(target, dialog, anchor);
         append(dialog, div8);
         append(div8, div7);
-        if (if_block)
-          if_block.m(div7, null);
+        if (if_block0)
+          if_block0.m(div7, null);
         append(div7, t0);
-        append(div7, button0);
-        append(div7, t2);
+        if (if_block1)
+          if_block1.m(div7, null);
+        append(div7, t1);
         append(div7, div6);
         append(div6, input);
-        append(div6, t3);
+        append(div6, t2);
         append(div6, div0);
-        append(div6, t5);
+        append(div6, t4);
         append(div6, div5);
         append(div5, div4);
         append(div4, div3);
         append(div3, div1);
         append(div1, h30);
-        append(div1, t7);
-        append(div1, button1);
-        append(button1, t8);
-        append(div3, t9);
+        append(div1, t6);
+        append(div1, button0);
+        append(button0, t7);
+        append(div3, t8);
         append(div3, div2);
         append(div2, h31);
-        append(div2, t11);
-        append(div2, button2);
-        append(button2, t12);
-        append(div4, t13);
-        append(div4, button3);
-        append(button3, t14);
-        append(dialog, t15);
+        append(div2, t10);
+        append(div2, button1);
+        append(button1, t11);
+        append(div4, t12);
+        append(div4, button2);
+        append(button2, t13);
+        append(dialog, t14);
         append(dialog, form);
         if (!mounted) {
           dispose = [
             listen(
               button0,
               "click",
-              /*onStart*/
-              ctx[4]
+              /*click_handler*/
+              ctx[7]
             ),
             listen(
               button1,
               "click",
-              /*downloadBalloon*/
-              ctx[5]
+              /*click_handler_1*/
+              ctx[8]
             ),
             listen(
               button2,
               "click",
-              /*downloadHelper*/
-              ctx[6]
-            ),
-            listen(
-              button3,
-              "click",
-              /*downloadMixed*/
-              ctx[7]
+              /*click_handler_2*/
+              ctx[9]
             )
           ];
           mounted = true;
@@ -26112,41 +26184,47 @@
           /*isBalloon*/
           ctx2[3]
         )
-          if_block.p(ctx2, dirty);
+          if_block0.p(ctx2, dirty);
+        if (
+          /*isBalloon*/
+          ctx2[3] || /*isHelper*/
+          ctx2[4]
+        )
+          if_block1.p(ctx2, dirty);
         if (dirty & /*balloonData*/
-        1 && t8_value !== (t8_value = /*balloonData*/
+        1 && t7_value !== (t7_value = /*balloonData*/
         (ctx2[0] === null ? "데이터 없음" : (
           /*balloonData*/
           ctx2[0].timestamp
         )) + ""))
-          set_data(t8, t8_value);
+          set_data(t7, t7_value);
         if (dirty & /*balloonData*/
-        1 && button1_disabled_value !== (button1_disabled_value = /*balloonData*/
+        1 && button0_disabled_value !== (button0_disabled_value = /*balloonData*/
         ctx2[0] === null)) {
-          button1.disabled = button1_disabled_value;
+          button0.disabled = button0_disabled_value;
         }
         if (dirty & /*helperData*/
-        2 && t12_value !== (t12_value = /*helperData*/
+        2 && t11_value !== (t11_value = /*helperData*/
         (ctx2[1] === null ? "데이터 없음" : (
           /*helperData*/
           ctx2[1].timestamp
         )) + ""))
-          set_data(t12, t12_value);
+          set_data(t11, t11_value);
         if (dirty & /*helperData*/
-        2 && button2_disabled_value !== (button2_disabled_value = /*helperData*/
+        2 && button1_disabled_value !== (button1_disabled_value = /*helperData*/
         ctx2[1] === null)) {
-          button2.disabled = button2_disabled_value;
+          button1.disabled = button1_disabled_value;
         }
         if (dirty & /*balloonData, helperData*/
-        3 && t14_value !== (t14_value = /*balloonData*/
+        3 && t13_value !== (t13_value = /*balloonData*/
         ctx2[0] === null || /*helperData*/
         ctx2[1] === null ? "데이터 없음" : "데이터 병합 다운로드"))
-          set_data(t14, t14_value);
+          set_data(t13, t13_value);
         if (dirty & /*balloonData, helperData*/
-        3 && button3_disabled_value !== (button3_disabled_value = /*balloonData*/
+        3 && button2_disabled_value !== (button2_disabled_value = /*balloonData*/
         ctx2[0] === null || /*helperData*/
         ctx2[1] === null)) {
-          button3.disabled = button3_disabled_value;
+          button2.disabled = button2_disabled_value;
         }
       },
       i: noop,
@@ -26155,8 +26233,10 @@
         if (detaching) {
           detach(dialog);
         }
-        if (if_block)
-          if_block.d();
+        if (if_block0)
+          if_block0.d();
+        if (if_block1)
+          if_block1.d();
         mounted = false;
         run_all(dispose);
       }
@@ -26178,9 +26258,8 @@
       if (isBalloon) {
         _GM_setValue(BROADCASTER_ID, broadcastId);
         const startTime = await playService(broadcastId);
-        console.log(startTime);
         if (!startTime) {
-          alert("방송 시작 시간을 찾을 수 없습니다.");
+          console.error("방송 시작 시간을 찾을 수 없습니다.");
           return;
         }
         _GM_setValue(TEMP_START_TIME, startTime);
@@ -26189,62 +26268,24 @@
         return;
       }
     }
-    function downloadBalloon() {
-      if (balloonData === null) {
-        console.error("별풍선 데이터가 없습니다.");
-        return;
-      }
-      const excel = balloonToExcel(balloonData);
-      if (!excel) {
-        console.error("별풍선 데이터 변환에 실패했습니다.");
-        return;
-      }
-      downloadExcel(excel, `${broadcastId}-balloon-${balloonData.timestamp}.xlsx`);
-    }
-    function downloadHelper() {
-      if (helperData === null) {
-        console.error("별풍선 데이터가 없습니다.");
-        return;
-      }
-      const excel = toExcel(helperData);
-      console.log(excel);
-      if (!excel) {
-        console.error("별풍선 데이터 변환에 실패했습니다.");
-        return;
-      }
-      downloadExcel(excel, `${broadcastId}-helper-${helperData.timestamp}.xlsx`);
-    }
-    function downloadMixed() {
-      if (balloonData === null || helperData === null) {
-        console.error("데이터가 없습니다.");
-        return;
-      }
-      const mixed = mixData(balloonData, helperData);
-      if (!mixed) {
-        console.error("데이터 병합에 실패했습니다.");
-        return;
-      }
-      const excel = toExcel(mixed);
-      if (!excel) {
-        console.error("별풍선 데이터 변환에 실패했습니다.");
-        return;
-      }
-      downloadExcel(excel, `${broadcastId}-mixed-${helperData.timestamp}.xlsx`);
-    }
     function input_input_handler() {
       broadcastId = this.value;
       $$invalidate(2, broadcastId);
     }
+    const click_handler = () => downloadBalloon(broadcastId, balloonData);
+    const click_handler_1 = () => downloadHelper(broadcastId, helperData);
+    const click_handler_2 = () => downloadMixed(broadcastId, balloonData, helperData);
     return [
       balloonData,
       helperData,
       broadcastId,
       isBalloon,
+      isHelper,
       onStart,
-      downloadBalloon,
-      downloadHelper,
-      downloadMixed,
-      input_input_handler
+      input_input_handler,
+      click_handler,
+      click_handler_1,
+      click_handler_2
     ];
   }
   class App extends SvelteComponent {

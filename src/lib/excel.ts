@@ -13,7 +13,7 @@ export function toExcel(data: BalloonSaveData) {
     const sheet = workbook.addWorksheet('별풍선')
 
     // Add rows
-    const headers = ['ID', '닉네임', '도네 개수', '별풍선 평균', '총 별풍선 수']
+    const headers = ['ID', '닉네임', '도네 개수', '총 별풍선 수']
 
     const headerRow = sheet.addRow(headers)
     headerRow.font = {bold: true}
@@ -24,7 +24,6 @@ export function toExcel(data: BalloonSaveData) {
             balloonData.uid,
             balloonData.nicknames.join(', '),
             balloonData.balloonCount,
-            balloonData.balloonAverage,
             balloonData.balloonAmountSum,
         ]
 
@@ -40,7 +39,7 @@ export function toExcel(data: BalloonSaveData) {
 
             // Add messages to new rows
             for (let i = 1; i < balloonData.messageData.length; i++) {
-                sheet.addRow(['', '', '', '', '', balloonData.messageData[i]])
+                sheet.addRow(['', '', '', '', balloonData.messageData[i]])
             }
         } else {
             sheet.addRow(row)

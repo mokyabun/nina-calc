@@ -7,7 +7,6 @@ export interface BalloonSingleData {
     uid: string
     nickname: string
     balloonAmount: number
-    index: number // smallest index is the latest
     message?: string
 }
 
@@ -15,9 +14,7 @@ export interface BalloonData {
     uid: string
     nicknames: string[]
     balloonAmountSum: number
-    balloonAverage: number
     balloonCount: number
-    minIndex: number
     messageData?: string[]
 }
 

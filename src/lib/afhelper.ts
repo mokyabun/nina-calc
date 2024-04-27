@@ -9,11 +9,12 @@ export function getAfHpBalloon(streamStartTime: string) {
     const balloonRawData: BalloonSingleData[] = []
 
     // Get balloon data
-    for (const [index, col] of cols.entries()) {
+    for (const col of cols) {
         const type = col.querySelector('td.type > p > b')?.textContent
 
         if (!type || !type.startsWith('별풍선')) {
             console.log('별풍선 메시지가 아님')
+            alert('별풍선 메시지가 아닌 항목이 발견 되었습니다.')
             continue
         }
 
@@ -33,7 +34,6 @@ export function getAfHpBalloon(streamStartTime: string) {
             uid: id,
             nickname: nickname,
             balloonAmount: Number(balloon),
-            index: index,
             message: msg === null ? undefined : msg,
         }
 
@@ -50,9 +50,7 @@ export function getAfHpBalloon(streamStartTime: string) {
                 uid: data.uid,
                 nicknames: [],
                 balloonAmountSum: 0,
-                balloonAverage: 0,
                 balloonCount: 0,
-                minIndex: data.index,
                 messageData: [],
             })
         }
@@ -60,7 +58,7 @@ export function getAfHpBalloon(streamStartTime: string) {
         const balloonData = balloonMapData.get(data.uid)
 
         // Add nickname if not exists
-        if (!balloonData!.nicknames.includes(data.nickname)) {
+        if (!(balloonData!.nicknames.includes(data.nickname))) {
             balloonData!.nicknames.push(data.nickname)
         }
 
@@ -72,17 +70,8 @@ export function getAfHpBalloon(streamStartTime: string) {
             balloonData!.messageData!.push(data.message)
         }
 
-        // Update min index
-        if (data.index < balloonData!.minIndex) {
-            balloonData!.minIndex = data.index
-        }
-
         // Update balloon count
         balloonData!.balloonCount++
-    }
-
-    for (const data of balloonMapData.values()) {
-        data.balloonAverage = data.balloonAmountSum / data.balloonCount
     }
 
     const afHpData: BalloonSaveData = {

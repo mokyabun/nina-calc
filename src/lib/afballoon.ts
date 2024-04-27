@@ -71,7 +71,6 @@ export function getAfBalloon() {
                 uid: id,
                 nickname: nickname,
                 balloonAmount: Number(amount),
-                index: index
             }
 
             balloonRawData.push(newBalloonData)
@@ -86,33 +85,22 @@ export function getAfBalloon() {
                         uid: data.uid,
                         nicknames: [],
                         balloonAmountSum: 0,
-                        balloonAverage: 0,
                         balloonCount: 0,
-                        minIndex: data.index,
                     })
                 }
 
                 const balloonData = balloonMapData.get(data.uid)
 
                 // Add nickname if not exists
-                if (!balloonData!.nicknames.includes(data.nickname)) {
+                if (!(balloonData!.nicknames.includes(data.nickname))) {
                     balloonData!.nicknames.push(data.nickname)
                 }
 
                 // Add balloon amount
                 balloonData!.balloonAmountSum += data.balloonAmount
 
-                // Update min index
-                if (data.index < balloonData!.minIndex) {
-                    balloonData!.minIndex = data.index
-                }
-
                 // Update balloon count
                 balloonData!.balloonCount++
-            }
-
-            for (const data of balloonMapData.values()) {
-                data.balloonAverage = data.balloonAmountSum / data.balloonCount
             }
 
             const afBalloonData: BalloonSaveData = {

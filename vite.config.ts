@@ -12,7 +12,7 @@ export default defineConfig({
                 icon: 'https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihbuMpD-MVs_DTsPPvRNHh-UwGVQbDSCebrSMTIS3q7JfWGIxhFzi21zGLmIdzGIUH4NluidCGVnYglajvhX3mNkRXMi07MzvB4=w2702-h1512',
                 namespace: 'sucat.dev',
                 author: 'sucat0',
-                description: '아프리카TV에서 방송하는 사람들을 위한 별풍선 정보 파일로 가져올 수 있는 스크립트입니다.',
+                description: '버츄얼 헤르츠 도네 감사인사용으로 만들어진 Tampermonkey용 팬 제작 스크립트입니다.',
                 version: '0.1.0',
                 match: ['http://afreehp.kr/setup/alertlist', 'https://point.afreecatv.com/Balloon/AfreecaNormalExchange.asp*'],
                 grant: ["GM.xmlHttpRequest"],

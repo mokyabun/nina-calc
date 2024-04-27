@@ -47,21 +47,20 @@
     }
 </script>
 
-<dialog class="modal" id="app_modal">
-    <div class="modal-box">
+<dialog class="daisy-modal" id="app_modal">
+    <div class="daisy-modal-box">
         <div class="flex flex-col gap-4">
             {#if isBalloon}
                 <h3 class="font-bold text-lg">방송국 ID 입력</h3>
-                <input type="text" placeholder="방송국 ID" class="input input-bordered w-full max-w-xs"
-                       bind:value={broadcastId}>
+                <input type="text" placeholder="방송국 ID" class="daisy-input daisy-input-bordered w-full max-w-xs" bind:value={broadcastId}>
             {/if}
             {#if isBalloon || isHelper}
-                <button class="btn btn-primary" on:click={onStart}>가져오기 시작</button>
+                <button class="daisy-btn daisy-btn-primary" on:click={onStart}>가져오기 시작</button>
             {/if}
-            <DownloadCollpase {balloonData} {helperData} />
+            <DownloadCollpase bind:balloonData bind:helperData />
         </div>
     </div>
-    <form class="modal-backdrop" method="dialog">
+    <form class="daisy-modal-backdrop" method="dialog">
         <button>close</button>
     </form>
 </dialog>

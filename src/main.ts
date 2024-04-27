@@ -1,11 +1,11 @@
 import App from './App.svelte';
 import './app.css'
 import {GM_getValue} from "$";
-import {balloonService} from "./lib/balloon/balloon.service";
-import {TEMP_GETTING_DATA} from "./lib/balloon/balloon.constants";
+import {getBalloonData} from "./lib/balloon/get-balloon-data";
+import {TEMP_GETTING_DATA} from "./lib/balloon/constants";
 
 if (GM_getValue(TEMP_GETTING_DATA, false)) {
-    balloonService()
+    getBalloonData()
 }
 
 const app = new App({

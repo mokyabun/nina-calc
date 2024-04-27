@@ -1,9 +1,9 @@
 import * as Excel from 'exceljs';
 import {GM_download} from "$";
-import {balloonToExcel, toExcel} from "./converter.service";
-import {mixData} from "./mixer.service";
+import {balloonToExcel, toExcel} from "./convert";
+import {mixData} from "./mix";
 import type {BalloonData, HelperData, MixedData, sortType} from "../types";
-import {userSorter} from "./sort.service";
+import {userSorter} from "./sort";
 
 export async function downloadExcel(workbook: Excel.Workbook, filename: string) {
     const fileData = await workbook.xlsx.writeBuffer()

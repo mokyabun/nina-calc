@@ -1,6 +1,6 @@
 import GM_fetch from "@trim21/gm-fetch";
 
-export async function playService(broadcastId: string) {
+export async function getBroadcastData(broadcastId: string) {
     const res = await GM_fetch('https://play.afreecatv.com/' + broadcastId)
     const html = await res.text()
     const parser = new DOMParser()

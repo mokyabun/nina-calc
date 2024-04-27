@@ -1,11 +1,11 @@
 <script lang="ts">
     import {GM_getValue, GM_setValue} from "$";
-    import {playService} from "./lib/play.service";
-    import {balloonService} from "./lib/balloon/balloon.service";
-    import {helperService} from "./lib/helper/helper.service";
-    import {BALLOON_DATA, TEMP_START_TIME} from "./lib/balloon/balloon.constants";
+    import {getBroadcastData} from "./lib/play";
+    import {getBalloonData} from "./lib/balloon/get-balloon-data";
+    import {getAfhelperData} from "./lib/helper/get-afhelper-data";
+    import {BALLOON_DATA, TEMP_START_TIME} from "./lib/balloon/constants";
     import {BROADCASTER_ID} from "./constants";
-    import {HELPER_DATA} from "./lib/helper/helper.constants";
+    import {HELPER_DATA} from "./lib/helper/constants";
     import type {BalloonData, HelperData} from "./types";
     import DownloadCollpase from "./DownloadCollpase.svelte";
 
@@ -19,7 +19,7 @@
 
     async function onStart() {
         if (isHelper) {
-            helperService()
+            getAfhelperData()
 
             helperData = GM_getValue(HELPER_DATA, null)
 
@@ -29,7 +29,7 @@
         if (isBalloon) {
             GM_setValue(BROADCASTER_ID, broadcastId)
 
-            const startTime = await playService(broadcastId)
+            const startTime = await getBroadcastData(broadcastId)
 
             if (!startTime) {
                 console.error('방송 시작 시간을 찾을 수 없습니다.')
@@ -38,7 +38,7 @@
 
             GM_setValue(TEMP_START_TIME, startTime)
 
-            balloonService()
+            getBalloonData()
 
             balloonData = GM_getValue(BALLOON_DATA, null)
 

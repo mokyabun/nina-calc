@@ -8,7 +8,7 @@ import {
     TEMP_IDS,
     TEMP_NICKNAME,
     TEMP_START_TIME
-} from "./balloon.constants";
+} from "./constants";
 import type {BalloonCountData, BalloonData, User} from "../../types";
 
 function makeUserData() {
@@ -42,7 +42,7 @@ function clean() {
     GM_deleteValue(TEMP_GETTING_DATA)
 }
 
-export function balloonService() {
+export function getBalloonData() {
     const startTimeString = GM_getValue(TEMP_START_TIME, '')
 
     if (startTimeString === '') {

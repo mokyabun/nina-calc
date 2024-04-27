@@ -1,8 +1,8 @@
 import {GM_openInTab, GM_setValue} from "$";
-import {HELPER_DATA, HELPER_HAS_DATA} from "./helper.constants";
+import {HELPER_DATA, HELPER_HAS_DATA} from "./constants";
 import type {BalloonCountData, HelperData, User, UserBalloonMsgData} from "../../types";
 
-export function helperService() {
+export function getAfhelperData() {
     const cols = document.querySelectorAll('#alertlist_table > tbody > tr')
 
     const userResult: User = {}

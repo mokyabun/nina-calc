@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {downloadBalloon, downloadHelper, downloadMixed} from "./lib/downloader.service.js";
+    import {downloadBalloon, downloadHelper, downloadMixed} from "./lib/download.js";
     import type {BalloonData, HelperData, sortType} from "./types";
 
     export let balloonData: BalloonData | null

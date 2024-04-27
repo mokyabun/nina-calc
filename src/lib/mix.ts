@@ -1,17 +1,9 @@
-import type {BalloonData, HelperData, MixedData} from "../types";
+import type {BalloonSaveData} from "../types";
 
-export function mixData(balloonData: BalloonData, helperData: HelperData) {
-    if (balloonData.timestamp !== helperData.timestamp) {
-        const yes = confirm('서로 다른 날짜의 데이터입니다. 두 데이터를 합치시겠습니까?')
-
-        if (!yes) {
-            return
-        }
+export function mixData(afData: BalloonSaveData, afhpData: BalloonSaveData): BalloonSaveData {
+    for (const af of afData.balloonData) {
+        af.messageData = afhpData.balloonData.find(afhpDataBalloon => af.uid === afhpDataBalloon.uid)?.messageData
     }
 
-    return {
-        countData: balloonData.countData,
-        userData: balloonData.userData,
-        msgData: helperData.msgData
-    } as MixedData
+    return afData
 }

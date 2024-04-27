@@ -1,91 +1,57 @@
 import * as Excel from 'exceljs';
 import {GM_download} from "$";
-import {balloonToExcel, toExcel} from "./convert";
-import {mixData} from "./mix";
-import type {BalloonData, HelperData, MixedData, sortType} from "../types";
-import {userSorter} from "./sort";
+import JSZip from "jszip";
+import type {BalloonSaveData, sortType} from "../types";
+import {toExcel} from "./excel";
+import {sortData} from "./sortData";
 
-export async function downloadExcel(workbook: Excel.Workbook, filename: string) {
+async function downloadExcel(workbook: Excel.Workbook, filename: string) {
     const fileData = await workbook.xlsx.writeBuffer()
     const blob = new Blob([fileData], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
     const url = URL.createObjectURL(blob)
+
+    const downloadAsZip = async () => {
+        const zip = new JSZip()
+        zip.file(filename, blob)
+        const zipFile = await zip.generateAsync({type: 'blob'})
+
+        const zipUrl = URL.createObjectURL(zipFile)
+
+        GM_download({
+            url: zipUrl,
+            name: filename,
+            onload: () => {
+                console.log('Zip 다운로드 완료')
+            },
+            onerror: (e) => {
+                console.error('Zip 다운로드 실패', e)
+            }
+        })
+    }
+
+    // Download the file
     GM_download({
         url,
         name: filename,
         onload: () => {
             console.log('다운로드 완료')
         },
-        onerror: (e) => {
+        onerror: async (e) => {
             console.error('다운로드 실패', e)
 
+            // If the error is 'not_whitelisted', download the file as a zip
             if (e.error === 'not_whitelisted') {
-                alert('xlsx 파일 다운로드가 차단되었습니다. 설정에서 허용해주세요.')
+                alert('xlsx 파일 다운로드가 차단되었습니다. zip파일로 압축하여 다운로드 받습니다.')
+                downloadAsZip()
             }
         }
     })
 }
 
-export function formatTimestamp(timestamp: string) {
-    return timestamp.replace(/^(\d{4})\. (\d{1,2})\. (\d{1,2})\.$/, '$1-$2-$3');
-}
+export async function downloadData(data: BalloonSaveData, sort: sortType) {
+    sortData(data, sort)
 
-export async function downloadBalloon(balloonData: BalloonData | null, sort: sortType) {
-    if (!balloonData) {
-        console.error('별풍선 데이터가 없습니다.')
-        return
-    }
+    const excel = toExcel(data)
 
-    balloonData.userData = userSorter(balloonData.userData, sort)
-
-    const excel = balloonToExcel(balloonData)
-
-    if (!excel) {
-        console.error('별풍선 데이터 변환에 실패했습니다.')
-        return
-    }
-
-    return downloadExcel(excel, `ninacalc-balloon-${formatTimestamp(balloonData.timestamp)}.xlsx`)
-}
-
-export async function downloadHelper(helperData: HelperData | null, sort: sortType) {
-    if (!helperData) {
-        console.error('별풍선 데이터가 없습니다.')
-        return
-    }
-
-    helperData.userData = userSorter(helperData.userData, sort)
-
-    const excel = toExcel(helperData)
-
-    if (!excel) {
-        console.error('별풍선 데이터 변환에 실패했습니다.')
-        return
-    }
-
-    return downloadExcel(excel, `ninacalc-helper-${formatTimestamp(helperData.timestamp)}.xlsx`)
-}
-
-export async function downloadMixed(balloonData: BalloonData | null, helperData: HelperData | null, sort: sortType) {
-    if (!balloonData || !helperData) {
-        console.error('별풍선 데이터가 없습니다.')
-        return
-    }
-
-    const mixed = mixData(balloonData, helperData)
-
-    if (!mixed) {
-        console.error('데이터 병합에 실패했습니다.')
-        return
-    }
-
-    mixed.userData = userSorter(mixed.userData, sort)
-
-    const excel = toExcel(mixed)
-
-    if (!excel) {
-        console.error('별풍선 데이터 변환에 실패했습니다.')
-        return
-    }
-
-    return downloadExcel(excel, `ninacalc-mixed-${formatTimestamp(balloonData.timestamp)}.xlsx`)
+    return downloadExcel(excel, `ninacalc ${data.timestamp}`)
 }

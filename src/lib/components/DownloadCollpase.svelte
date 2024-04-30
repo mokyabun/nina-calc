@@ -23,6 +23,11 @@
             return
         }
 
+        if (afData.timestamp !== afhpData.timestamp) {
+            alert('두 데이터의 방송 시작 시간이 다릅니다.')
+            return
+        }
+
         downloadData(mixData(afData, afhpData), sortOrder)
     }
 </script>

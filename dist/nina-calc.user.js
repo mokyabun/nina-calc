@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nina-calc
 // @namespace    sucat.dev
-// @version      1.0.4
+// @version      1.1.1
 // @author       sucat0
 // @description  버츄얼 헤르츠 도네 감사인사용으로 만들어진 Tampermonkey용 팬 제작 스크립트입니다.
 // @license      MIT
@@ -903,19 +903,9 @@
     }
     throw new Error(`unsupported http method ${method}`);
   }
-  function getAfHpBalloon(col) {
-    var _a, _b, _c, _d, _e, _f, _g;
-    const nickname = (_b = (_a = col.querySelector("td.name > p")) == null ? void 0 : _a.textContent) == null ? void 0 : _b.split("(")[0];
-    const id = (_d = (_c = col.querySelector("td.name > p > span")) == null ? void 0 : _c.textContent) == null ? void 0 : _d.slice(1, -1);
-    const balloon = (_f = (_e = col.querySelector("td.value > p")) == null ? void 0 : _e.textContent) == null ? void 0 : _f.replace(" 개", "").replace(",", "");
-    if (!nickname) {
-      alert("닉네임 가져오기 오류");
-      return;
-    }
-    if (!id) {
-      alert("아이디 가져오기 오류");
-      return;
-    }
+  function getAfHpBalloon(col, id, nickname) {
+    var _a, _b, _c;
+    const balloon = (_b = (_a = col.querySelector("td.value > p")) == null ? void 0 : _a.textContent) == null ? void 0 : _b.replace(" 개", "").replace(",", "");
     if (!balloon) {
       alert("별풍선 개수 가져오기 오류");
       return;
@@ -924,7 +914,7 @@
       alert("별풍선 개수가 숫자가 아닌 값이 있습니다.");
       return;
     }
-    const msg = (_g = col.querySelector("td.msg > p")) == null ? void 0 : _g.textContent;
+    const msg = (_c = col.querySelector("td.msg > p")) == null ? void 0 : _c.textContent;
     const newBalloonData = {
       uid: id,
       nickname,
@@ -933,19 +923,9 @@
     };
     return newBalloonData;
   }
-  function getAfHpSub(col) {
-    var _a, _b, _c, _d, _e, _f;
-    const nickname = (_b = (_a = col.querySelector("td.name > p")) == null ? void 0 : _a.textContent) == null ? void 0 : _b.split("(")[0];
-    const id = (_d = (_c = col.querySelector("td.name > p > span")) == null ? void 0 : _c.textContent) == null ? void 0 : _d.slice(1, -1);
-    const month = (_f = (_e = col.querySelector("td.value > p")) == null ? void 0 : _e.textContent) == null ? void 0 : _f.replace(" 개월", "");
-    if (!nickname) {
-      alert("닉네임 가져오기 오류");
-      return;
-    }
-    if (!id) {
-      alert("아이디 가져오기 오류");
-      return;
-    }
+  function getAfHpSub(col, id, nickname) {
+    var _a, _b;
+    const month = (_b = (_a = col.querySelector("td.value > p")) == null ? void 0 : _a.textContent) == null ? void 0 : _b.replace(" 개월", "");
     if (!month) {
       alert("별풍선 개수 가져오기 오류");
       return;
@@ -958,18 +938,33 @@
     return newSubData;
   }
   function getAfHp(streamStartTime) {
-    var _a;
+    var _a, _b, _c, _d, _e, _f, _g;
     const cols = document.querySelectorAll("#alertlist_table > tbody > tr");
     const balloonRawData = [];
     const subRawData = [];
     for (const col of cols) {
       const type = (_a = col.querySelector("td.type > p > b")) == null ? void 0 : _a.textContent;
+      const timeText = (_c = (_b = col.querySelector("td.time > p > span")) == null ? void 0 : _b.textContent) == null ? void 0 : _c.split("분")[0].replace("(", "");
+      const nickname = (_e = (_d = col.querySelector("td.name > p")) == null ? void 0 : _d.textContent) == null ? void 0 : _e.split("(")[0];
+      let id = (_g = (_f = col.querySelector("td.name > p > span")) == null ? void 0 : _f.textContent) == null ? void 0 : _g.slice(1, -1);
+      const time = dayjs().subtract(Number(timeText), "minute").add(1, "minutes");
+      if (time.isBefore(dayjs(streamStartTime))) {
+        continue;
+      }
       if (!type) {
         alert("타입 가져오기 오류");
         continue;
       }
+      if (!nickname) {
+        alert("닉네임 가져오기 오류");
+        return;
+      }
+      if (!id) {
+        id = nickname;
+        return;
+      }
       if (type.startsWith("별풍선")) {
-        const data = getAfHpBalloon(col);
+        const data = getAfHpBalloon(col, id, nickname);
         if (data === void 0) {
           continue;
         }
@@ -977,7 +972,7 @@
         continue;
       }
       if (type.startsWith("구독")) {
-        const data = getAfHpSub(col);
+        const data = getAfHpSub(col, id, nickname);
         if (data === void 0) {
           continue;
         }

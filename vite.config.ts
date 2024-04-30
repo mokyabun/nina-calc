@@ -13,7 +13,7 @@ export default defineConfig({
                 namespace: 'sucat.dev',
                 author: 'sucat0',
                 description: '버츄얼 헤르츠 도네 감사인사용으로 만들어진 Tampermonkey용 팬 제작 스크립트입니다.',
-                version: '1.1.0',
+                version: '1.1.1',
                 match: ['http://afreehp.kr/setup/alertlist', 'https://point.afreecatv.com/Balloon/AfreecaNormalExchange.asp*'],
                 grant: ["GM.xmlHttpRequest"],
                 license: 'MIT',

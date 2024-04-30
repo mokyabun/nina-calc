@@ -3,21 +3,10 @@ import {GM_openInTab, GM_setValue} from "$";
 import {HELPER_DATA} from "./constants";
 import {AUTO_OPEN} from "./constants";
 import GM_fetch from "@trim21/gm-fetch";
+import dayjs from "dayjs";
 
-function getAfHpBalloon(col: Element) {
-    const nickname = col.querySelector('td.name > p')?.textContent?.split('(')[0]
-    const id = col.querySelector('td.name > p > span')?.textContent?.slice(1, -1)
+function getAfHpBalloon(col: Element, id: string, nickname: string) {
     const balloon = col.querySelector('td.value > p')?.textContent?.replace(' 개', '').replace(',', '')
-
-    if (!nickname) {
-        alert('닉네임 가져오기 오류')
-        return
-    }
-
-    if (!id) {
-        alert('아이디 가져오기 오류')
-        return
-    }
 
     if (!balloon) {
         alert('별풍선 개수 가져오기 오류')
@@ -41,20 +30,8 @@ function getAfHpBalloon(col: Element) {
     return newBalloonData
 }
 
-function getAfHpSub(col: Element) {
-    const nickname = col.querySelector('td.name > p')?.textContent?.split('(')[0]
-    const id = col.querySelector('td.name > p > span')?.textContent?.slice(1, -1)
+function getAfHpSub(col: Element, id: string, nickname: string) {
     const month = col.querySelector('td.value > p')?.textContent?.replace(' 개월', '')
-
-    if (!nickname) {
-        alert('닉네임 가져오기 오류')
-        return
-    }
-
-    if (!id) {
-        alert('아이디 가져오기 오류')
-        return
-    }
 
     if (!month) {
         alert('별풍선 개수 가져오기 오류')
@@ -79,14 +56,32 @@ export function getAfHp(streamStartTime: string) {
     // Get balloon data
     for (const col of cols) {
         const type = col.querySelector('td.type > p > b')?.textContent
+        const timeText = col.querySelector('td.time > p > span')?.textContent?.split('분')[0].replace('(', '')
+        const nickname = col.querySelector('td.name > p')?.textContent?.split('(')[0]
+        let id = col.querySelector('td.name > p > span')?.textContent?.slice(1, -1)
+
+        const time = dayjs().subtract(Number(timeText), 'minute').add(1, 'minutes')
+        if (time.isBefore(dayjs(streamStartTime))) {
+            continue
+        }
 
         if (!type) {
             alert('타입 가져오기 오류')
             continue
         }
 
+        if (!nickname) {
+            alert('닉네임 가져오기 오류')
+            return
+        }
+
+        if (!id) {
+            id = nickname
+            return
+        }
+
         if (type.startsWith('별풍선')) {
-            const data = getAfHpBalloon(col)
+            const data = getAfHpBalloon(col, id, nickname)
             if (data === undefined) {
                 continue
             }
@@ -95,7 +90,7 @@ export function getAfHp(streamStartTime: string) {
         }
 
         if (type.startsWith('구독')) {
-            const data = getAfHpSub(col)
+            const data = getAfHpSub(col, id, nickname)
             if (data === undefined) {
                 continue
             }

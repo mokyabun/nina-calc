@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nina-calc
 // @namespace    sucat.dev
-// @version      1.0.2
+// @version      1.0.3
 // @author       sucat0
 // @description  버츄얼 헤르츠 도네 감사인사용으로 만들어진 Tampermonkey용 팬 제작 스크립트입니다.
 // @license      MIT
@@ -29415,6 +29415,7 @@
         getAfBalloon();
         $$invalidate(1, afData = _GM_getValue(AF_BALLOON_DATA, null));
       }
+      alert("데이터 수집을 완료했습니다!");
     }
     function input_input_handler() {
       broadcastId = this.value;

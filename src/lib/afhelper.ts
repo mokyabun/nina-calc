@@ -2,8 +2,9 @@ import type {BalloonData, BalloonSaveData, BalloonSingleData} from "../types";
 import {GM_openInTab, GM_setValue} from "$";
 import {HELPER_DATA} from "./constants";
 import {AUTO_OPEN} from "./constants";
+import GM_fetch from "@trim21/gm-fetch";
 
-export function getAfHpBalloon(streamStartTime: string) {
+export async function getAfHpBalloon(streamStartTime: string) {
     const cols = document.querySelectorAll('#alertlist_table > tbody > tr')
 
     const balloonRawData: BalloonSingleData[] = []
@@ -20,9 +21,10 @@ export function getAfHpBalloon(streamStartTime: string) {
 
         const nickname = col.querySelector('td.name > p')?.textContent?.split('(')[0]
         const id = col.querySelector('td.name > p > span')?.textContent?.slice(1, -1)
-        const balloon = col.querySelector('td.value > p')?.textContent?.split(' ')[0]
+        // 1 개 -> 1
+        const balloon = col.querySelector('td.value > p')?.textContent?.replace(' 개', '').replace(',', '')
 
-        if (!nickname || !id || !balloon) {
+        if (!nickname || !id || !balloon || isNaN(Number(balloon))) {
             console.error('올바른 정보가 아님')
             alert('아프리카 도우미 정보를 가져오는 도중 오류가 발생했습니다.')
             continue

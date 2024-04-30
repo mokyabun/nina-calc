@@ -42,7 +42,7 @@ async function downloadExcel(workbook: Excel.Workbook, filename: string) {
             // If the error is 'not_whitelisted', download the file as a zip
             if (e.error === 'not_whitelisted') {
                 alert('xlsx 파일 다운로드가 차단되었습니다. zip파일로 압축하여 다운로드 받습니다.')
-                downloadAsZip()
+                await downloadAsZip()
             }
         }
     })

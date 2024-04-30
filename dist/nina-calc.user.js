@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nina-calc
 // @namespace    sucat.dev
-// @version      1.0.0
+// @version      1.0.1
 // @author       sucat0
 // @description  버츄얼 헤르츠 도네 감사인사용으로 만들어진 Tampermonkey용 팬 제작 스크립트입니다.
 // @license      MIT
@@ -376,12 +376,10 @@
         const nickname = idAndNicknameArr[0];
         const id = idAndNicknameArr[1].replace(")", "");
         const amount = (_d = (_c = col.querySelector("td:nth-child(3)")) == null ? void 0 : _c.textContent) == null ? void 0 : _d.replace("개", "");
-        const index = i - 1 + (currentPage - 1) * 10;
         const newBalloonData = {
           uid: id,
           nickname,
-          balloonAmount: Number(amount),
-          index
+          balloonAmount: Number(amount)
         };
         balloonRawData.push(newBalloonData);
       } else {
@@ -392,9 +390,7 @@
               uid: data.uid,
               nicknames: [],
               balloonAmountSum: 0,
-              balloonAverage: 0,
-              balloonCount: 0,
-              minIndex: data.index
+              balloonCount: 0
             });
           }
           const balloonData = balloonMapData.get(data.uid);
@@ -402,13 +398,7 @@
             balloonData.nicknames.push(data.nickname);
           }
           balloonData.balloonAmountSum += data.balloonAmount;
-          if (data.index < balloonData.minIndex) {
-            balloonData.minIndex = data.index;
-          }
           balloonData.balloonCount++;
-        }
-        for (const data of balloonMapData.values()) {
-          data.balloonAverage = data.balloonAmountSum / data.balloonCount;
         }
         const afBalloonData = {
           timestamp: streamStartTimeString,
@@ -766,76 +756,6 @@
   const PUBLIC_VERSION = "4";
   if (typeof window !== "undefined")
     (window.__svelte || (window.__svelte = { v: /* @__PURE__ */ new Set() })).v.add(PUBLIC_VERSION);
-  function getAfHpBalloon(streamStartTime) {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
-    const cols = document.querySelectorAll("#alertlist_table > tbody > tr");
-    const balloonRawData = [];
-    for (const [index, col] of cols.entries()) {
-      const type = (_a = col.querySelector("td.type > p > b")) == null ? void 0 : _a.textContent;
-      if (!type || !type.startsWith("별풍선")) {
-        console.log("별풍선 메시지가 아님");
-        continue;
-      }
-      const nickname = (_c = (_b = col.querySelector("td.name > p")) == null ? void 0 : _b.textContent) == null ? void 0 : _c.split("(")[0];
-      const id = (_e = (_d = col.querySelector("td.name > p > span")) == null ? void 0 : _d.textContent) == null ? void 0 : _e.slice(1, -1);
-      const balloon = (_g = (_f = col.querySelector("td.value > p")) == null ? void 0 : _f.textContent) == null ? void 0 : _g.split(" ")[0];
-      if (!nickname || !id || !balloon) {
-        console.error("올바른 정보가 아님");
-        alert("아프리카 도우미 정보를 가져오는 도중 오류가 발생했습니다.");
-        continue;
-      }
-      const msg = (_h = col.querySelector("td.msg > p")) == null ? void 0 : _h.textContent;
-      const newBalloonData = {
-        uid: id,
-        nickname,
-        balloonAmount: Number(balloon),
-        index,
-        message: msg === null ? void 0 : msg
-      };
-      balloonRawData.push(newBalloonData);
-    }
-    const balloonMapData = /* @__PURE__ */ new Map();
-    for (const data of balloonRawData) {
-      if (!balloonMapData.has(data.uid)) {
-        balloonMapData.set(data.uid, {
-          uid: data.uid,
-          nicknames: [],
-          balloonAmountSum: 0,
-          balloonAverage: 0,
-          balloonCount: 0,
-          minIndex: data.index,
-          messageData: []
-        });
-      }
-      const balloonData = balloonMapData.get(data.uid);
-      if (!balloonData.nicknames.includes(data.nickname)) {
-        balloonData.nicknames.push(data.nickname);
-      }
-      balloonData.balloonAmountSum += data.balloonAmount;
-      if (data.message) {
-        balloonData.messageData.push(data.message);
-      }
-      if (data.index < balloonData.minIndex) {
-        balloonData.minIndex = data.index;
-      }
-      balloonData.balloonCount++;
-    }
-    for (const data of balloonMapData.values()) {
-      data.balloonAverage = data.balloonAmountSum / data.balloonCount;
-    }
-    const afHpData = {
-      timestamp: streamStartTime,
-      balloonData: Array.from(balloonMapData.values())
-    };
-    _GM_setValue(HELPER_DATA, afHpData);
-    if (cols.length >= 200) {
-      const okay = confirm("200개 이상의 별풍선 메시지가 존재합니다. 별풍선 정보 웹사이트를 사용하여 나머지 정보를 가져오시겠습니까?");
-      if (okay) {
-        _GM_setValue(AUTO_OPEN, true);
-        _GM_openInTab("https://point.afreecatv.com/Balloon/AfreecaNormalExchange.asp", { active: true });
-      }
-    }
-  }
   function parseRawHeaders(h) {
     const s = h.trim();
     if (!s) {
@@ -982,6 +902,68 @@
       return method;
     }
     throw new Error(`unsupported http method ${method}`);
+  }
+  async function getAfHpBalloon(streamStartTime) {
+    var _a, _b, _c, _d, _e, _f, _g, _h;
+    const cols = document.querySelectorAll("#alertlist_table > tbody > tr");
+    const balloonRawData = [];
+    for (const col of cols) {
+      const type = (_a = col.querySelector("td.type > p > b")) == null ? void 0 : _a.textContent;
+      if (!type || !type.startsWith("별풍선")) {
+        console.log("별풍선 메시지가 아님");
+        alert("별풍선 메시지가 아닌 항목이 발견 되었습니다.");
+        continue;
+      }
+      const nickname = (_c = (_b = col.querySelector("td.name > p")) == null ? void 0 : _b.textContent) == null ? void 0 : _c.split("(")[0];
+      const id = (_e = (_d = col.querySelector("td.name > p > span")) == null ? void 0 : _d.textContent) == null ? void 0 : _e.slice(1, -1);
+      const balloon = (_g = (_f = col.querySelector("td.value > p")) == null ? void 0 : _f.textContent) == null ? void 0 : _g.replace(" 개", "").replace(",", "");
+      if (!nickname || !id || !balloon || isNaN(Number(balloon))) {
+        console.error("올바른 정보가 아님");
+        alert("아프리카 도우미 정보를 가져오는 도중 오류가 발생했습니다.");
+        continue;
+      }
+      const msg = (_h = col.querySelector("td.msg > p")) == null ? void 0 : _h.textContent;
+      const newBalloonData = {
+        uid: id,
+        nickname,
+        balloonAmount: Number(balloon),
+        message: msg === null ? void 0 : msg
+      };
+      balloonRawData.push(newBalloonData);
+    }
+    const balloonMapData = /* @__PURE__ */ new Map();
+    for (const data of balloonRawData) {
+      if (!balloonMapData.has(data.uid)) {
+        balloonMapData.set(data.uid, {
+          uid: data.uid,
+          nicknames: [],
+          balloonAmountSum: 0,
+          balloonCount: 0,
+          messageData: []
+        });
+      }
+      const balloonData = balloonMapData.get(data.uid);
+      if (!balloonData.nicknames.includes(data.nickname)) {
+        balloonData.nicknames.push(data.nickname);
+      }
+      balloonData.balloonAmountSum += data.balloonAmount;
+      if (data.message) {
+        balloonData.messageData.push(data.message);
+      }
+      balloonData.balloonCount++;
+    }
+    const afHpData = {
+      timestamp: streamStartTime,
+      balloonData: Array.from(balloonMapData.values())
+    };
+    _GM_setValue(HELPER_DATA, afHpData);
+    if (cols.length >= 200) {
+      const okay = confirm("200개 이상의 별풍선 메시지가 존재합니다. 별풍선 정보 웹사이트를 사용하여 나머지 정보를 가져오시겠습니까?");
+      if (okay) {
+        _GM_setValue(AUTO_OPEN, true);
+        _GM_openInTab("https://point.afreecatv.com/Balloon/AfreecaNormalExchange.asp", { active: true });
+      }
+    }
   }
   async function getStreamStartTime(broadcastId) {
     var _a;
@@ -28802,7 +28784,7 @@
     workbook.created = /* @__PURE__ */ new Date();
     workbook.modified = /* @__PURE__ */ new Date();
     const sheet = workbook.addWorksheet("별풍선");
-    const headers = ["ID", "닉네임", "도네 개수", "별풍선 평균", "총 별풍선 수"];
+    const headers = ["ID", "닉네임", "도네 개수", "총 별풍선 수"];
     const headerRow = sheet.addRow(headers);
     headerRow.font = { bold: true };
     for (const balloonData of data.balloonData) {
@@ -28810,7 +28792,6 @@
         balloonData.uid,
         balloonData.nicknames.join(", "),
         balloonData.balloonCount,
-        balloonData.balloonAverage,
         balloonData.balloonAmountSum
       ];
       if (balloonData.messageData) {
@@ -28819,7 +28800,7 @@
         row.push(balloonData.messageData[0]);
         sheet.addRow(row);
         for (let i = 1; i < balloonData.messageData.length; i++) {
-          sheet.addRow(["", "", "", "", "", balloonData.messageData[i]]);
+          sheet.addRow(["", "", "", "", balloonData.messageData[i]]);
         }
       } else {
         sheet.addRow(row);
@@ -28871,7 +28852,7 @@
         console.error("다운로드 실패", e);
         if (e.error === "not_whitelisted") {
           alert("xlsx 파일 다운로드가 차단되었습니다. zip파일로 압축하여 다운로드 받습니다.");
-          downloadAsZip();
+          await downloadAsZip();
         }
       }
     });

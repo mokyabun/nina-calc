@@ -13,10 +13,15 @@ export function toExcel(data: BalloonSaveData) {
     const sheet = workbook.addWorksheet('별풍선')
 
     // Add rows
-    const headers = ['ID', '닉네임', '도네 개수', '총 별풍선 수']
+    const headers = ['ID', '닉네임', '도네 개수', '별풍선', '메시지']
 
     const headerRow = sheet.addRow(headers)
     headerRow.font = {bold: true}
+    headerRow.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: {argb: '8DB4E2'},
+    }
 
     // Enumerate data
     for (const balloonData of data.balloonData) {
@@ -35,14 +40,24 @@ export function toExcel(data: BalloonSaveData) {
             // Add message to the row
             row.push(balloonData.messageData[0])
 
-            sheet.addRow(row)
+            const addedRow = sheet.addRow(row)
+            addedRow.fill = {
+                type: 'pattern',
+                pattern: 'solid',
+                fgColor: {argb: 'C5D9F1'},
+            }
 
             // Add messages to new rows
             for (let i = 1; i < balloonData.messageData.length; i++) {
                 sheet.addRow(['', '', '', '', balloonData.messageData[i]])
             }
         } else {
-            sheet.addRow(row)
+            const addedRow = sheet.addRow(row)
+            addedRow.fill = {
+                type: 'pattern',
+                pattern: 'solid',
+                fgColor: {argb: 'C5D9F1'},
+            }
         }
     }
 

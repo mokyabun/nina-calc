@@ -4,7 +4,7 @@ import {HELPER_DATA} from "./constants";
 import {AUTO_OPEN} from "./constants";
 import GM_fetch from "@trim21/gm-fetch";
 
-export async function getAfHpBalloon(streamStartTime: string) {
+export function getAfHpBalloon(streamStartTime: string) {
     const cols = document.querySelectorAll('#alertlist_table > tbody > tr')
 
     const balloonRawData: BalloonSingleData[] = []

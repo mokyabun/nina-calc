@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nina-calc
 // @namespace    sucat.dev
-// @version      1.0.1
+// @version      1.0.2
 // @author       sucat0
 // @description  버츄얼 헤르츠 도네 감사인사용으로 만들어진 Tampermonkey용 팬 제작 스크립트입니다.
 // @license      MIT
@@ -903,7 +903,7 @@
     }
     throw new Error(`unsupported http method ${method}`);
   }
-  async function getAfHpBalloon(streamStartTime) {
+  function getAfHpBalloon(streamStartTime) {
     var _a, _b, _c, _d, _e, _f, _g, _h;
     const cols = document.querySelectorAll("#alertlist_table > tbody > tr");
     const balloonRawData = [];
@@ -28784,9 +28784,14 @@
     workbook.created = /* @__PURE__ */ new Date();
     workbook.modified = /* @__PURE__ */ new Date();
     const sheet = workbook.addWorksheet("별풍선");
-    const headers = ["ID", "닉네임", "도네 개수", "총 별풍선 수"];
+    const headers = ["ID", "닉네임", "도네 개수", "별풍선", "메시지"];
     const headerRow = sheet.addRow(headers);
     headerRow.font = { bold: true };
+    headerRow.fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "8DB4E2" }
+    };
     for (const balloonData of data.balloonData) {
       const row = [
         balloonData.uid,
@@ -28798,12 +28803,22 @@
         if (headers.length === 3)
           headers.push("메시지");
         row.push(balloonData.messageData[0]);
-        sheet.addRow(row);
+        const addedRow = sheet.addRow(row);
+        addedRow.fill = {
+          type: "pattern",
+          pattern: "solid",
+          fgColor: { argb: "C5D9F1" }
+        };
         for (let i = 1; i < balloonData.messageData.length; i++) {
           sheet.addRow(["", "", "", "", balloonData.messageData[i]]);
         }
       } else {
-        sheet.addRow(row);
+        const addedRow = sheet.addRow(row);
+        addedRow.fill = {
+          type: "pattern",
+          pattern: "solid",
+          fgColor: { argb: "C5D9F1" }
+        };
       }
     }
     return workbook;

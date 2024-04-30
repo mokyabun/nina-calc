@@ -1,45 +1,107 @@
-import type {BalloonData, BalloonSaveData, BalloonSingleData} from "../types";
+import type {BalloonData, BalloonSaveData, BalloonSingleData, SubSingleData} from "../types";
 import {GM_openInTab, GM_setValue} from "$";
 import {HELPER_DATA} from "./constants";
 import {AUTO_OPEN} from "./constants";
 import GM_fetch from "@trim21/gm-fetch";
 
-export function getAfHpBalloon(streamStartTime: string) {
+function getAfHpBalloon(col: Element) {
+    const nickname = col.querySelector('td.name > p')?.textContent?.split('(')[0]
+    const id = col.querySelector('td.name > p > span')?.textContent?.slice(1, -1)
+    const balloon = col.querySelector('td.value > p')?.textContent?.replace(' 개', '').replace(',', '')
+
+    if (!nickname) {
+        alert('닉네임 가져오기 오류')
+        return
+    }
+
+    if (!id) {
+        alert('아이디 가져오기 오류')
+        return
+    }
+
+    if (!balloon) {
+        alert('별풍선 개수 가져오기 오류')
+        return
+    }
+
+    if (isNaN(Number(balloon))) {
+        alert('별풍선 개수가 숫자가 아닌 값이 있습니다.')
+        return
+    }
+
+    const msg = col.querySelector('td.msg > p')?.textContent
+
+    const newBalloonData: BalloonSingleData = {
+        uid: id,
+        nickname: nickname,
+        balloonAmount: Number(balloon),
+        message: msg === null ? undefined : msg,
+    }
+
+    return newBalloonData
+}
+
+function getAfHpSub(col: Element) {
+    const nickname = col.querySelector('td.name > p')?.textContent?.split('(')[0]
+    const id = col.querySelector('td.name > p > span')?.textContent?.slice(1, -1)
+    const month = col.querySelector('td.value > p')?.textContent?.replace(' 개월', '')
+
+    if (!nickname) {
+        alert('닉네임 가져오기 오류')
+        return
+    }
+
+    if (!id) {
+        alert('아이디 가져오기 오류')
+        return
+    }
+
+    if (!month) {
+        alert('별풍선 개수 가져오기 오류')
+        return
+    }
+
+    const newSubData: SubSingleData = {
+        uid: id,
+        nickname: nickname,
+        month: Number(month),
+    }
+
+    return newSubData
+}
+
+export function getAfHp(streamStartTime: string) {
     const cols = document.querySelectorAll('#alertlist_table > tbody > tr')
 
     const balloonRawData: BalloonSingleData[] = []
+    const subRawData: SubSingleData[] = []
 
     // Get balloon data
     for (const col of cols) {
         const type = col.querySelector('td.type > p > b')?.textContent
 
-        if (!type || !type.startsWith('별풍선')) {
-            console.log('별풍선 메시지가 아님')
-            alert('별풍선 메시지가 아닌 항목이 발견 되었습니다.')
+        if (!type) {
+            alert('타입 가져오기 오류')
             continue
         }
 
-        const nickname = col.querySelector('td.name > p')?.textContent?.split('(')[0]
-        const id = col.querySelector('td.name > p > span')?.textContent?.slice(1, -1)
-        // 1 개 -> 1
-        const balloon = col.querySelector('td.value > p')?.textContent?.replace(' 개', '').replace(',', '')
-
-        if (!nickname || !id || !balloon || isNaN(Number(balloon))) {
-            console.error('올바른 정보가 아님')
-            alert('아프리카 도우미 정보를 가져오는 도중 오류가 발생했습니다.')
+        if (type.startsWith('별풍선')) {
+            const data = getAfHpBalloon(col)
+            if (data === undefined) {
+                continue
+            }
+            balloonRawData.push(data)
             continue
         }
 
-        const msg = col.querySelector('td.msg > p')?.textContent
-
-        const newBalloonData: BalloonSingleData = {
-            uid: id,
-            nickname: nickname,
-            balloonAmount: Number(balloon),
-            message: msg === null ? undefined : msg,
+        if (type.startsWith('구독')) {
+            const data = getAfHpSub(col)
+            if (data === undefined) {
+                continue
+            }
+            subRawData.push(data)
+            continue
         }
-
-        balloonRawData.push(newBalloonData)
     }
 
     // Process balloon data
@@ -78,7 +140,8 @@ export function getAfHpBalloon(streamStartTime: string) {
 
     const afHpData: BalloonSaveData = {
         timestamp: streamStartTime,
-        balloonData: Array.from(balloonMapData.values())
+        balloonData: Array.from(balloonMapData.values()),
+        subData: subRawData
     }
 
     // Save data

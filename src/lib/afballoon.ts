@@ -65,8 +65,6 @@ export function getAfBalloon() {
             // Get balloon amount
             const amount = col.querySelector('td:nth-child(3)')?.textContent?.replace('개', '')
 
-            const index = (i-1) + (currentPage-1)*10
-
             const newBalloonData: BalloonSingleData = {
                 uid: id,
                 nickname: nickname,

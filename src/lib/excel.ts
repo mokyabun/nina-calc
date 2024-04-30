@@ -61,5 +61,27 @@ export function toExcel(data: BalloonSaveData) {
         }
     }
 
+    if (data.subData) {
+        const sheet = workbook.addWorksheet('구독')
+
+        const headers = ['ID', '닉네임', '월']
+        const headerRow = sheet.addRow(headers)
+        headerRow.font = {bold: true}
+        headerRow.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: {argb: '8DB4E2'},
+        }
+
+        for (const subData of data.subData) {
+            const row = [
+                subData.uid,
+                subData.nickname,
+                subData.month,
+            ]
+            sheet.addRow(row)
+        }
+    }
+
     return workbook
 }

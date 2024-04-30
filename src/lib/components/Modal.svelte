@@ -2,7 +2,7 @@
     import {GM_getValue, GM_setValue} from "$";
     import {BROADCASTER_ID, TEMP_START_TIME} from "../constants";
     import {AF_BALLOON_DATA, HELPER_DATA} from "../constants";
-    import {getAfHpBalloon} from "../afhelper";
+    import {getAfHp} from "../afhelper";
     import {getAfBalloon} from "../afballoon";
     import type {BalloonSaveData} from "../../types";
     import {getStreamStartTime} from "../stream-info";
@@ -15,7 +15,7 @@
 
     let broadcastId = GM_getValue(BROADCASTER_ID, '')
     let afData = GM_getValue(AF_BALLOON_DATA, null) as BalloonSaveData | null
-    let afhpData = GM_getValue(HELPER_DATA, null) as BalloonSaveData | null
+    let afHpData = GM_getValue(HELPER_DATA, null) as BalloonSaveData | null
 
     async function onStartClick() {
         GM_setValue(BROADCASTER_ID, broadcastId)
@@ -39,10 +39,10 @@
 
         if (isHelper) {
             // Get data
-            getAfHpBalloon(startTime)
+            getAfHp(startTime)
 
             // Re Get data
-            afhpData = GM_getValue(HELPER_DATA, null)
+            afHpData = GM_getValue(HELPER_DATA, null)
         }
 
         else if (isBalloon) {
@@ -65,7 +65,7 @@
                 <input type="text" placeholder="방송국 ID" class="daisy-input daisy-input-bordered w-full max-w-xs" bind:value={broadcastId}>
                 <button class="daisy-btn daisy-btn-primary" on:click={onStartClick}>가져오기 시작</button>
             {/if}
-            <DownloadCollpase bind:afData={afData} bind:afhpData={afhpData} />
+            <DownloadCollpase bind:afData={afData} bind:afhpData={afHpData} />
         </div>
     </div>
     <form class="daisy-modal-backdrop" method="dialog">

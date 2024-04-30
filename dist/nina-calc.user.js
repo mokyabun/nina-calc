@@ -903,33 +903,87 @@
     }
     throw new Error(`unsupported http method ${method}`);
   }
-  function getAfHpBalloon(streamStartTime) {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
+  function getAfHpBalloon(col) {
+    var _a, _b, _c, _d, _e, _f, _g;
+    const nickname = (_b = (_a = col.querySelector("td.name > p")) == null ? void 0 : _a.textContent) == null ? void 0 : _b.split("(")[0];
+    const id = (_d = (_c = col.querySelector("td.name > p > span")) == null ? void 0 : _c.textContent) == null ? void 0 : _d.slice(1, -1);
+    const balloon = (_f = (_e = col.querySelector("td.value > p")) == null ? void 0 : _e.textContent) == null ? void 0 : _f.replace(" 개", "").replace(",", "");
+    if (!nickname) {
+      alert("닉네임 가져오기 오류");
+      return;
+    }
+    if (!id) {
+      alert("아이디 가져오기 오류");
+      return;
+    }
+    if (!balloon) {
+      alert("별풍선 개수 가져오기 오류");
+      return;
+    }
+    if (isNaN(Number(balloon))) {
+      alert("별풍선 개수가 숫자가 아닌 값이 있습니다.");
+      return;
+    }
+    const msg = (_g = col.querySelector("td.msg > p")) == null ? void 0 : _g.textContent;
+    const newBalloonData = {
+      uid: id,
+      nickname,
+      balloonAmount: Number(balloon),
+      message: msg === null ? void 0 : msg
+    };
+    return newBalloonData;
+  }
+  function getAfHpSub(col) {
+    var _a, _b, _c, _d, _e, _f;
+    const nickname = (_b = (_a = col.querySelector("td.name > p")) == null ? void 0 : _a.textContent) == null ? void 0 : _b.split("(")[0];
+    const id = (_d = (_c = col.querySelector("td.name > p > span")) == null ? void 0 : _c.textContent) == null ? void 0 : _d.slice(1, -1);
+    const month = (_f = (_e = col.querySelector("td.value > p")) == null ? void 0 : _e.textContent) == null ? void 0 : _f.replace(" 개월", "");
+    if (!nickname) {
+      alert("닉네임 가져오기 오류");
+      return;
+    }
+    if (!id) {
+      alert("아이디 가져오기 오류");
+      return;
+    }
+    if (!month) {
+      alert("별풍선 개수 가져오기 오류");
+      return;
+    }
+    const newSubData = {
+      uid: id,
+      nickname,
+      month: Number(month)
+    };
+    return newSubData;
+  }
+  function getAfHp(streamStartTime) {
+    var _a;
     const cols = document.querySelectorAll("#alertlist_table > tbody > tr");
     const balloonRawData = [];
+    const subRawData = [];
     for (const col of cols) {
       const type = (_a = col.querySelector("td.type > p > b")) == null ? void 0 : _a.textContent;
-      if (!type || !type.startsWith("별풍선")) {
-        console.log("별풍선 메시지가 아님");
-        alert("별풍선 메시지가 아닌 항목이 발견 되었습니다.");
+      if (!type) {
+        alert("타입 가져오기 오류");
         continue;
       }
-      const nickname = (_c = (_b = col.querySelector("td.name > p")) == null ? void 0 : _b.textContent) == null ? void 0 : _c.split("(")[0];
-      const id = (_e = (_d = col.querySelector("td.name > p > span")) == null ? void 0 : _d.textContent) == null ? void 0 : _e.slice(1, -1);
-      const balloon = (_g = (_f = col.querySelector("td.value > p")) == null ? void 0 : _f.textContent) == null ? void 0 : _g.replace(" 개", "").replace(",", "");
-      if (!nickname || !id || !balloon || isNaN(Number(balloon))) {
-        console.error("올바른 정보가 아님");
-        alert("아프리카 도우미 정보를 가져오는 도중 오류가 발생했습니다.");
+      if (type.startsWith("별풍선")) {
+        const data = getAfHpBalloon(col);
+        if (data === void 0) {
+          continue;
+        }
+        balloonRawData.push(data);
         continue;
       }
-      const msg = (_h = col.querySelector("td.msg > p")) == null ? void 0 : _h.textContent;
-      const newBalloonData = {
-        uid: id,
-        nickname,
-        balloonAmount: Number(balloon),
-        message: msg === null ? void 0 : msg
-      };
-      balloonRawData.push(newBalloonData);
+      if (type.startsWith("구독")) {
+        const data = getAfHpSub(col);
+        if (data === void 0) {
+          continue;
+        }
+        subRawData.push(data);
+        continue;
+      }
     }
     const balloonMapData = /* @__PURE__ */ new Map();
     for (const data of balloonRawData) {
@@ -954,7 +1008,8 @@
     }
     const afHpData = {
       timestamp: streamStartTime,
-      balloonData: Array.from(balloonMapData.values())
+      balloonData: Array.from(balloonMapData.values()),
+      subData: subRawData
     };
     _GM_setValue(HELPER_DATA, afHpData);
     if (cols.length >= 200) {
@@ -28821,6 +28876,25 @@
         };
       }
     }
+    if (data.subData) {
+      const sheet2 = workbook.addWorksheet("구독");
+      const headers2 = ["ID", "닉네임", "월"];
+      const headerRow2 = sheet2.addRow(headers2);
+      headerRow2.font = { bold: true };
+      headerRow2.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "8DB4E2" }
+      };
+      for (const subData of data.subData) {
+        const row = [
+          subData.uid,
+          subData.nickname,
+          subData.month
+        ];
+        sheet2.addRow(row);
+      }
+    }
     return workbook;
   }
   function sortData(data, type) {
@@ -29305,10 +29379,10 @@
       ctx[1];
     }
     if (
-      /*afhpData*/
+      /*afHpData*/
       ctx[2] !== void 0
     ) {
-      downloadcollpase_props.afhpData = /*afhpData*/
+      downloadcollpase_props.afhpData = /*afHpData*/
       ctx[2];
     }
     downloadcollpase = new DownloadCollpase({ props: downloadcollpase_props });
@@ -29360,10 +29434,10 @@
           ctx2[1];
           add_flush_callback(() => updating_afData = false);
         }
-        if (!updating_afhpData && dirty & /*afhpData*/
+        if (!updating_afhpData && dirty & /*afHpData*/
         4) {
           updating_afhpData = true;
-          downloadcollpase_changes.afhpData = /*afhpData*/
+          downloadcollpase_changes.afhpData = /*afHpData*/
           ctx2[2];
           add_flush_callback(() => updating_afhpData = false);
         }
@@ -29395,7 +29469,7 @@
     const isBalloon = currentSite === "point.afreecatv.com/Balloon/AfreecaNormalExchange.asp";
     let broadcastId = _GM_getValue(BROADCASTER_ID, "");
     let afData = _GM_getValue(AF_BALLOON_DATA, null);
-    let afhpData = _GM_getValue(HELPER_DATA, null);
+    let afHpData = _GM_getValue(HELPER_DATA, null);
     async function onStartClick() {
       _GM_setValue(BROADCASTER_ID, broadcastId);
       let startTime = await getStreamStartTime(broadcastId);
@@ -29412,8 +29486,8 @@
         return;
       }
       if (isHelper) {
-        getAfHpBalloon(startTime);
-        $$invalidate(2, afhpData = _GM_getValue(HELPER_DATA, null));
+        getAfHp(startTime);
+        $$invalidate(2, afHpData = _GM_getValue(HELPER_DATA, null));
       } else if (isBalloon) {
         _GM_setValue(TEMP_START_TIME, startTime);
         getAfBalloon();
@@ -29430,13 +29504,13 @@
       $$invalidate(1, afData);
     }
     function downloadcollpase_afhpData_binding(value) {
-      afhpData = value;
-      $$invalidate(2, afhpData);
+      afHpData = value;
+      $$invalidate(2, afHpData);
     }
     return [
       broadcastId,
       afData,
-      afhpData,
+      afHpData,
       isHelper,
       isBalloon,
       onStartClick,

@@ -52,6 +52,8 @@
 
             afData = GM_getValue(AF_BALLOON_DATA, null)
         }
+
+        alert('데이터 수집을 완료했습니다!')
     }
 </script>
 

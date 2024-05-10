@@ -1,7 +1,7 @@
-import * as Excel from "exceljs";
-import type {BalloonSaveData} from "../types";
+import * as Excel from 'exceljs'
+import type { BalloonDataSum } from '../types'
 
-export function toExcel(data: BalloonSaveData) {
+export function toExcel(data: BalloonDataSum[]) {
     // Create a workbook
     const workbook = new Excel.Workbook()
     workbook.creator = '니나 계산기'
@@ -13,73 +13,34 @@ export function toExcel(data: BalloonSaveData) {
     const sheet = workbook.addWorksheet('별풍선')
 
     // Add rows
-    const headers = ['ID', '닉네임', '도네 개수', '별풍선', '메시지']
-
+    const headers = ['ID', '닉네임', '후원금액', '내용']
     const headerRow = sheet.addRow(headers)
-    headerRow.font = {bold: true}
+    headerRow.font = { bold: true }
     headerRow.fill = {
         type: 'pattern',
         pattern: 'solid',
-        fgColor: {argb: '8DB4E2'},
+        fgColor: { argb: '8DB4E2' },
     }
 
     // Enumerate data
-    for (const balloonData of data.balloonData) {
-        const row = [
-            balloonData.uid,
-            balloonData.nicknames.join(', '),
-            balloonData.balloonCount,
-            balloonData.balloonAmountSum,
-        ]
+    for (const balloonData of Object.values(data)) {
+        const row = [balloonData.uid, balloonData.nicknames.join(', '), balloonData.amountSum]
 
-        // If message is not undefined
-        if (balloonData.messageData) {
-            // Add message header if not exists
-            if (headers.length === 3) headers.push('메시지')
-
-            // Add message to the row
-            row.push(balloonData.messageData[0])
-
-            const addedRow = sheet.addRow(row)
-            addedRow.fill = {
-                type: 'pattern',
-                pattern: 'solid',
-                fgColor: {argb: 'C5D9F1'},
-            }
-
-            // Add messages to new rows
-            for (let i = 1; i < balloonData.messageData.length; i++) {
-                sheet.addRow(['', '', '', '', balloonData.messageData[i]])
-            }
-        } else {
-            const addedRow = sheet.addRow(row)
-            addedRow.fill = {
-                type: 'pattern',
-                pattern: 'solid',
-                fgColor: {argb: 'C5D9F1'},
-            }
+        // Add first message
+        if (balloonData.message.length > 0) {
+            row.push(balloonData.message[0])
         }
-    }
 
-    if (data.subData) {
-        const sheet = workbook.addWorksheet('구독')
-
-        const headers = ['ID', '닉네임', '월']
-        const headerRow = sheet.addRow(headers)
-        headerRow.font = {bold: true}
-        headerRow.fill = {
+        const addedRow = sheet.addRow(row)
+        addedRow.fill = {
             type: 'pattern',
             pattern: 'solid',
-            fgColor: {argb: '8DB4E2'},
+            fgColor: { argb: 'C5D9F1' },
         }
 
-        for (const subData of data.subData) {
-            const row = [
-                subData.uid,
-                subData.nickname,
-                subData.month,
-            ]
-            sheet.addRow(row)
+        // Add other messages
+        for (let i = 1; i < balloonData.message.length; i++) {
+            sheet.addRow(['', '', '', balloonData.message[i]])
         }
     }
 

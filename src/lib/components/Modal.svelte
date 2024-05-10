@@ -1,74 +1,82 @@
 <script lang="ts">
-    import {GM_getValue, GM_setValue} from "$";
-    import {BROADCASTER_ID, TEMP_START_TIME} from "../constants";
-    import {AF_BALLOON_DATA, HELPER_DATA} from "../constants";
-    import {getAfHp} from "../afhelper";
-    import {getAfBalloon} from "../afballoon";
-    import type {BalloonSaveData} from "../../types";
-    import {getStreamStartTime} from "../stream-info";
-    import DownloadCollpase from "./DownloadCollpase.svelte";
-    import dayjs from "dayjs";
+    import type { BalloonDataSum } from '../../types'
+    import { GM, GM_getValue } from '$'
+    import { BALLOON, BALLOON_KEYS, IS_POSTPONE } from '../constants'
+    import ViewData from './ViewData.svelte'
+    import DownloadCollpase from './DownloadCollpase.svelte'
 
-    const currentSite = location.host + location.pathname
-    const isHelper = currentSite === 'afreehp.kr/setup/alertlist'
-    const isBalloon = currentSite === 'point.afreecatv.com/Balloon/AfreecaNormalExchange.asp'
+    const data: { [key: string]: BalloonDataSum } = {}
 
-    let broadcastId = GM_getValue(BROADCASTER_ID, '')
-    let afData = GM_getValue(AF_BALLOON_DATA, null) as BalloonSaveData | null
-    let afHpData = GM_getValue(HELPER_DATA, null) as BalloonSaveData | null
+    // Load data
+    const keys = GM_getValue<string[]>(BALLOON_KEYS, [])
+    for (const key of keys) {
+        const newData = GM_getValue<BalloonDataSum>(key)
 
-    async function onStartClick() {
-        GM_setValue(BROADCASTER_ID, broadcastId)
-        let startTime = await getStreamStartTime(broadcastId)
+        data[key] = newData
+    }
 
-        if (!startTime) {
-            const ok = prompt('해당 라이버가 방송중이 아니거나 시간을 가져올 수 없습니다. 수동으로 입력해주세요.', dayjs().format('YYYY-MM-DD HH:mm:ss'))
+    // Listen for data changes
+    document.addEventListener('balloonDataChanged', ((event: CustomEvent<BalloonDataSum>) => {
+        data[BALLOON + event.detail.uid] = event.detail
+    }) as EventListener)
 
-            if (ok) {
-                startTime = ok
-            } else {
-                return
-            }
+    const onPostpone = async () => {
+        const ok = confirm('정말로 감사인사를 미루시겠습니까?')
+
+        if (ok) {
+            await GM.setValue(IS_POSTPONE, true)
         }
+    }
 
-        // Reverify
-        if (!dayjs(startTime).isValid()) {
-            alert('시간을 잘못 입력하셨습니다. 다시 입력해주세요.')
-            return
-        }
-
-        if (isHelper) {
-            // Get data
-            getAfHp(startTime)
-
-            // Re Get data
-            afHpData = GM_getValue(HELPER_DATA, null)
-        }
-
-        else if (isBalloon) {
-            GM_setValue(TEMP_START_TIME, startTime)
-
-            getAfBalloon()
-
-            afData = GM_getValue(AF_BALLOON_DATA, null)
-        }
-
-        alert('데이터 수집을 완료했습니다!')
+    const openDataView = () => {
+        //@ts-ignore
+        data_modal.showModal()
     }
 </script>
 
-<dialog class="daisy-modal" id="app_modal">
+<dialog class="daisy-modal z-[999]" id="app_modal">
     <div class="daisy-modal-box">
         <div class="flex flex-col gap-4">
-            {#if isBalloon || isHelper}
-                <h3 class="font-bold text-lg">방송국 ID 입력</h3>
-                <input type="text" placeholder="방송국 ID" class="daisy-input daisy-input-bordered w-full max-w-xs" bind:value={broadcastId}>
-                <button class="daisy-btn daisy-btn-primary" on:click={onStartClick}>가져오기 시작</button>
-            {/if}
-            <DownloadCollpase bind:afData={afData} bind:afhpData={afHpData} />
+            <button class="daisy-btn daisy-btn-primary" on:click={openDataView}>
+                <svg
+                    class="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+                별풍선 데이터 보기
+            </button>
+            <button class="daisy-btn daisy-btn-warning" on:click={onPostpone}>
+                <svg
+                    class="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+                감사인사 미루기
+            </button>
+            <DownloadCollpase {data} />
         </div>
     </div>
     <form class="daisy-modal-backdrop" method="dialog">
         <button>close</button>
     </form>
 </dialog>
+
+<ViewData {data} />

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nina-calc
 // @namespace    sucat.dev
-// @version      1.1.1
+// @version      2.0.0
 // @author       sucat0
 // @description  버츄얼 헤르츠 도네 감사인사용으로 만들어진 Tampermonkey용 팬 제작 스크립트입니다.
 // @license      MIT
@@ -9,24 +9,25 @@
 // @downloadURL  https://github.com/sucat0/nina-calc/raw/main/dist/nina-calc.user.js
 // @updateURL    https://github.com/sucat0/nina-calc/raw/main/dist/nina-calc.user.js
 // @match        http://afreehp.kr/setup/alertlist
-// @match        https://point.afreecatv.com/Balloon/AfreecaNormalExchange.asp*
 // @require      https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js
 // @require      https://cdn.jsdelivr.net/npm/@trim21/gm-fetch
 // @require      https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js
 // @require      https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js
+// @grant        GM.deleteValue
+// @grant        GM.getValue
+// @grant        GM.setValue
 // @grant        GM.xmlHttpRequest
 // @grant        GM_addStyle
 // @grant        GM_deleteValue
 // @grant        GM_download
 // @grant        GM_getValue
-// @grant        GM_openInTab
 // @grant        GM_setValue
 // @run-at       document-end
 // ==/UserScript==
 
-(a=>{if(typeof GM_addStyle=="function"){GM_addStyle(a);return}const t=document.createElement("style");t.textContent=a,document.head.append(t)})(' *,:before,:after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}:before,:after{--tw-content: ""}html,:host{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}ol,ul,menu{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}button,[role=button]{cursor:pointer}:disabled{cursor:default}img,svg,video,canvas,audio,iframe,embed,object{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}:root{color-scheme:light;--in: 72.06% .191 231.6;--su: 64.8% .15 160;--wa: 84.71% .199 83.87;--er: 71.76% .221 22.18;--pc: 89.824% .06192 275.75;--ac: 15.352% .0368 183.61;--inc: 0% 0 0;--suc: 0% 0 0;--wac: 0% 0 0;--erc: 0% 0 0;--rounded-box: 1rem;--rounded-btn: .5rem;--rounded-badge: 1.9rem;--animation-btn: .25s;--animation-input: .2s;--btn-focus-scale: .95;--border-btn: 1px;--tab-border: 1px;--tab-radius: .5rem;--p: 49.12% .3096 275.75;--s: 69.71% .329 342.55;--sc: 98.71% .0106 342.55;--a: 76.76% .184 183.61;--n: 32.1785% .02476 255.701624;--nc: 89.4994% .011585 252.096176;--b1: 100% 0 0;--b2: 96.1151% 0 0;--b3: 92.4169% .00108 197.137559;--bc: 27.8078% .029596 256.847952}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }.daisy-btn{display:inline-flex;height:3rem;min-height:3rem;flex-shrink:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;user-select:none;flex-wrap:wrap;align-items:center;justify-content:center;border-radius:var(--rounded-btn, .5rem);border-color:transparent;border-color:oklch(var(--btn-color, var(--b2)) / var(--tw-border-opacity));padding-left:1rem;padding-right:1rem;text-align:center;font-size:.875rem;line-height:1em;gap:.5rem;font-weight:600;text-decoration-line:none;transition-duration:.2s;transition-timing-function:cubic-bezier(0,0,.2,1);border-width:var(--border-btn, 1px);animation:button-pop var(--animation-btn, .25s) ease-out;transition-property:color,background-color,border-color,opacity,box-shadow,transform;--tw-text-opacity: 1;color:var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / .05);--tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow);outline-color:var(--fallback-bc,oklch(var(--bc)/1));background-color:oklch(var(--btn-color, var(--b2)) / var(--tw-bg-opacity));--tw-bg-opacity: 1;--tw-border-opacity: 1}.daisy-btn-disabled,.daisy-btn[disabled],.daisy-btn:disabled{pointer-events:none}:where(.daisy-btn:is(input[type=checkbox])),:where(.daisy-btn:is(input[type=radio])){width:auto;-webkit-appearance:none;-moz-appearance:none;appearance:none}.daisy-btn:is(input[type=checkbox]):after,.daisy-btn:is(input[type=radio]):after{--tw-content: attr(aria-label);content:var(--tw-content)}.daisy-collapse:not(td):not(tr):not(colgroup){visibility:visible}.daisy-collapse{position:relative;display:grid;overflow:hidden;grid-template-rows:auto 0fr;transition:grid-template-rows .2s;width:100%;border-radius:var(--rounded-box, 1rem)}.daisy-collapse-title,.daisy-collapse>input[type=checkbox],.daisy-collapse>input[type=radio],.daisy-collapse-content{grid-column-start:1;grid-row-start:1}.daisy-collapse>input[type=checkbox],.daisy-collapse>input[type=radio]{-webkit-appearance:none;-moz-appearance:none;appearance:none;opacity:0}.daisy-collapse-content{visibility:hidden;grid-column-start:1;grid-row-start:2;min-height:0px;transition:visibility .2s;transition:padding .2s ease-out,background-color .2s ease-out;padding-left:1rem;padding-right:1rem;cursor:unset}.daisy-collapse[open],.daisy-collapse-open,.daisy-collapse:focus:not(.daisy-collapse-close){grid-template-rows:auto 1fr}.daisy-collapse:not(.daisy-collapse-close):has(>input[type=checkbox]:checked),.daisy-collapse:not(.daisy-collapse-close):has(>input[type=radio]:checked){grid-template-rows:auto 1fr}.daisy-collapse[open]>.daisy-collapse-content,.daisy-collapse-open>.daisy-collapse-content,.daisy-collapse:focus:not(.daisy-collapse-close)>.daisy-collapse-content,.daisy-collapse:not(.daisy-collapse-close)>input[type=checkbox]:checked~.daisy-collapse-content,.daisy-collapse:not(.daisy-collapse-close)>input[type=radio]:checked~.daisy-collapse-content{visibility:visible;min-height:-moz-fit-content;min-height:fit-content}@media (hover: hover){.daisy-btn:hover{--tw-border-opacity: 1;border-color:var(--fallback-b3,oklch(var(--b3)/var(--tw-border-opacity)));--tw-bg-opacity: 1;background-color:var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity)))}@supports (color: color-mix(in oklab,black,black)){.daisy-btn:hover{background-color:color-mix(in oklab,oklch(var(--btn-color, var(--b2)) / var(--tw-bg-opacity, 1)) 90%,black);border-color:color-mix(in oklab,oklch(var(--btn-color, var(--b2)) / var(--tw-border-opacity, 1)) 90%,black)}}@supports not (color: oklch(0% 0 0)){.daisy-btn:hover{background-color:var(--btn-color, var(--fallback-b2));border-color:var(--btn-color, var(--fallback-b2))}}.daisy-btn.daisy-glass:hover{--glass-opacity: 25%;--glass-border-opacity: 15%}.daisy-btn-outline.daisy-btn-primary:hover{--tw-text-opacity: 1;color:var(--fallback-pc,oklch(var(--pc)/var(--tw-text-opacity)))}@supports (color: color-mix(in oklab,black,black)){.daisy-btn-outline.daisy-btn-primary:hover{background-color:color-mix(in oklab,var(--fallback-p,oklch(var(--p)/1)) 90%,black);border-color:color-mix(in oklab,var(--fallback-p,oklch(var(--p)/1)) 90%,black)}}.daisy-btn-disabled:hover,.daisy-btn[disabled]:hover,.daisy-btn:disabled:hover{--tw-border-opacity: 0;background-color:var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));--tw-bg-opacity: .2;color:var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));--tw-text-opacity: .2}@supports (color: color-mix(in oklab,black,black)){.daisy-btn:is(input[type=checkbox]:checked):hover,.daisy-btn:is(input[type=radio]:checked):hover{background-color:color-mix(in oklab,var(--fallback-p,oklch(var(--p)/1)) 90%,black);border-color:color-mix(in oklab,var(--fallback-p,oklch(var(--p)/1)) 90%,black)}}}.daisy-input{flex-shrink:1;-webkit-appearance:none;-moz-appearance:none;appearance:none;height:3rem;padding-left:1rem;padding-right:1rem;font-size:1rem;line-height:2;line-height:1.5rem;border-radius:var(--rounded-btn, .5rem);border-width:1px;border-color:transparent;--tw-bg-opacity: 1;background-color:var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)))}.daisy-input[type=number]::-webkit-inner-spin-button,.daisy-input-md[type=number]::-webkit-inner-spin-button{margin-top:-1rem;margin-bottom:-1rem;margin-inline-end:-1rem}.daisy-modal{pointer-events:none;position:fixed;top:0;right:0;bottom:0;left:0;margin:0;display:grid;height:100%;max-height:none;width:100%;max-width:none;justify-items:center;padding:0;opacity:0;overscroll-behavior:contain;z-index:999;background-color:transparent;color:inherit;transition-duration:.2s;transition-timing-function:cubic-bezier(0,0,.2,1);transition-property:transform,opacity,visibility;overflow-y:hidden}:where(.daisy-modal){align-items:center}.daisy-modal-box{max-height:calc(100vh - 5em);grid-column-start:1;grid-row-start:1;width:91.666667%;max-width:32rem;--tw-scale-x: .9;--tw-scale-y: .9;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));border-bottom-right-radius:var(--rounded-box, 1rem);border-bottom-left-radius:var(--rounded-box, 1rem);border-top-left-radius:var(--rounded-box, 1rem);border-top-right-radius:var(--rounded-box, 1rem);--tw-bg-opacity: 1;background-color:var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));padding:1.5rem;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-timing-function:cubic-bezier(0,0,.2,1);transition-duration:.2s;box-shadow:#00000040 0 25px 50px -12px;overflow-y:auto;overscroll-behavior:contain}.daisy-modal-open,.daisy-modal:target,.daisy-modal-toggle:checked+.daisy-modal,.daisy-modal[open]{pointer-events:auto;visibility:visible;opacity:1}:root:has(:is(.daisy-modal-open,.daisy-modal:target,.daisy-modal-toggle:checked+.daisy-modal,.daisy-modal[open])){overflow:hidden;scrollbar-gutter:stable}.daisy-select{display:inline-flex;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;height:3rem;min-height:3rem;padding-left:1rem;padding-right:2.5rem;font-size:.875rem;line-height:1.25rem;line-height:2;border-radius:var(--rounded-btn, .5rem);border-width:1px;border-color:transparent;--tw-bg-opacity: 1;background-color:var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 20px) calc(1px + 50%),calc(100% - 16.1px) calc(1px + 50%);background-size:4px 4px,4px 4px;background-repeat:no-repeat}.daisy-select[multiple]{height:auto}.daisy-btn:active:hover,.daisy-btn:active:focus{animation:button-pop 0s ease-out;transform:scale(var(--btn-focus-scale, .97))}@supports not (color: oklch(0% 0 0)){.daisy-btn{background-color:var(--btn-color, var(--fallback-b2));border-color:var(--btn-color, var(--fallback-b2))}.daisy-btn-primary{--btn-color: var(--fallback-p)}}@supports (color: color-mix(in oklab,black,black)){.daisy-btn-outline.daisy-btn-primary.daisy-btn-active{background-color:color-mix(in oklab,var(--fallback-p,oklch(var(--p)/1)) 90%,black);border-color:color-mix(in oklab,var(--fallback-p,oklch(var(--p)/1)) 90%,black)}}.daisy-btn:focus-visible{outline-style:solid;outline-width:2px;outline-offset:2px}.daisy-btn-primary{--tw-text-opacity: 1;color:var(--fallback-pc,oklch(var(--pc)/var(--tw-text-opacity)));outline-color:var(--fallback-p,oklch(var(--p)/1))}@supports (color: oklch(0% 0 0)){.daisy-btn-primary{--btn-color: var(--p)}}.daisy-btn.daisy-glass{--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow);outline-color:currentColor}.daisy-btn.daisy-glass.daisy-btn-active{--glass-opacity: 25%;--glass-border-opacity: 15%}.daisy-btn-outline.daisy-btn-primary{--tw-text-opacity: 1;color:var(--fallback-p,oklch(var(--p)/var(--tw-text-opacity)))}.daisy-btn-outline.daisy-btn-primary.daisy-btn-active{--tw-text-opacity: 1;color:var(--fallback-pc,oklch(var(--pc)/var(--tw-text-opacity)))}.daisy-btn.daisy-btn-disabled,.daisy-btn[disabled],.daisy-btn:disabled{--tw-border-opacity: 0;background-color:var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));--tw-bg-opacity: .2;color:var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));--tw-text-opacity: .2}.daisy-btn:is(input[type=checkbox]:checked),.daisy-btn:is(input[type=radio]:checked){--tw-border-opacity: 1;border-color:var(--fallback-p,oklch(var(--p)/var(--tw-border-opacity)));--tw-bg-opacity: 1;background-color:var(--fallback-p,oklch(var(--p)/var(--tw-bg-opacity)));--tw-text-opacity: 1;color:var(--fallback-pc,oklch(var(--pc)/var(--tw-text-opacity)))}.daisy-btn:is(input[type=checkbox]:checked):focus-visible,.daisy-btn:is(input[type=radio]:checked):focus-visible{outline-color:var(--fallback-p,oklch(var(--p)/1))}@keyframes button-pop{0%{transform:scale(var(--btn-focus-scale, .98))}40%{transform:scale(1.02)}to{transform:scale(1)}}@keyframes checkmark{0%{background-position-y:5px}50%{background-position-y:-2px}to{background-position-y:0}}details.daisy-collapse{width:100%}details.daisy-collapse summary{position:relative;display:block;outline:2px solid transparent;outline-offset:2px}details.daisy-collapse summary::-webkit-details-marker{display:none}.daisy-collapse:focus-visible{outline-style:solid;outline-width:2px;outline-offset:2px;outline-color:var(--fallback-bc,oklch(var(--bc)/1))}.daisy-collapse:has(.daisy-collapse-title:focus-visible),.daisy-collapse:has(>input[type=checkbox]:focus-visible),.daisy-collapse:has(>input[type=radio]:focus-visible){outline-style:solid;outline-width:2px;outline-offset:2px;outline-color:var(--fallback-bc,oklch(var(--bc)/1))}.daisy-collapse-arrow>.daisy-collapse-title:after{position:absolute;display:block;height:.5rem;width:.5rem;--tw-translate-y: -100%;--tw-rotate: 45deg;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-timing-function:cubic-bezier(0,0,.2,1);transition-duration:.15s;transition-duration:.2s;top:1.9rem;inset-inline-end:1.4rem;content:"";transform-origin:75% 75%;box-shadow:2px 2px;pointer-events:none}.daisy-collapse-plus>.daisy-collapse-title:after{position:absolute;display:block;height:.5rem;width:.5rem;transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-timing-function:cubic-bezier(0,0,.2,1);transition-duration:.3s;top:.9rem;inset-inline-end:1.4rem;content:"+";pointer-events:none}.daisy-collapse:not(.daisy-collapse-open):not(.daisy-collapse-close)>input[type=checkbox],.daisy-collapse:not(.daisy-collapse-open):not(.daisy-collapse-close)>input[type=radio]:not(:checked),.daisy-collapse:not(.daisy-collapse-open):not(.daisy-collapse-close)>.daisy-collapse-title{cursor:pointer}.daisy-collapse:focus:not(.daisy-collapse-open):not(.daisy-collapse-close):not(.daisy-collapse[open])>.daisy-collapse-title{cursor:unset}.daisy-collapse-title{position:relative}:where(.daisy-collapse>input[type=checkbox]),:where(.daisy-collapse>input[type=radio]){z-index:1}.daisy-collapse-title,:where(.daisy-collapse>input[type=checkbox]),:where(.daisy-collapse>input[type=radio]){width:100%;padding:1rem;padding-inline-end:3rem;min-height:3.75rem;transition:background-color .2s ease-out}.daisy-collapse[open]>:where(.daisy-collapse-content),.daisy-collapse-open>:where(.daisy-collapse-content),.daisy-collapse:focus:not(.daisy-collapse-close)>:where(.daisy-collapse-content),.daisy-collapse:not(.daisy-collapse-close)>:where(input[type=checkbox]:checked~.daisy-collapse-content),.daisy-collapse:not(.daisy-collapse-close)>:where(input[type=radio]:checked~.daisy-collapse-content){padding-bottom:1rem;transition:padding .2s ease-out,background-color .2s ease-out}.daisy-collapse[open].daisy-collapse-arrow>.daisy-collapse-title:after,.daisy-collapse-open.daisy-collapse-arrow>.daisy-collapse-title:after,.daisy-collapse-arrow:focus:not(.daisy-collapse-close)>.daisy-collapse-title:after,.daisy-collapse-arrow:not(.daisy-collapse-close)>input[type=checkbox]:checked~.daisy-collapse-title:after,.daisy-collapse-arrow:not(.daisy-collapse-close)>input[type=radio]:checked~.daisy-collapse-title:after{--tw-translate-y: -50%;--tw-rotate: 225deg;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.daisy-collapse[open].daisy-collapse-plus>.daisy-collapse-title:after,.daisy-collapse-open.daisy-collapse-plus>.daisy-collapse-title:after,.daisy-collapse-plus:focus:not(.daisy-collapse-close)>.daisy-collapse-title:after,.daisy-collapse-plus:not(.daisy-collapse-close)>input[type=checkbox]:checked~.daisy-collapse-title:after,.daisy-collapse-plus:not(.daisy-collapse-close)>input[type=radio]:checked~.daisy-collapse-title:after{content:"\u2212"}.daisy-input input{--tw-bg-opacity: 1;background-color:var(--fallback-p,oklch(var(--p)/var(--tw-bg-opacity)));background-color:transparent}.daisy-input input:focus{outline:2px solid transparent;outline-offset:2px}.daisy-input[list]::-webkit-calendar-picker-indicator{line-height:1em}.daisy-input-bordered{border-color:var(--fallback-bc,oklch(var(--bc)/.2))}.daisy-input:focus,.daisy-input:focus-within{box-shadow:none;border-color:var(--fallback-bc,oklch(var(--bc)/.2));outline-style:solid;outline-width:2px;outline-offset:2px;outline-color:var(--fallback-bc,oklch(var(--bc)/.2))}.daisy-input-disabled,.daisy-input:disabled,.daisy-input[disabled]{cursor:not-allowed;--tw-border-opacity: 1;border-color:var(--fallback-b2,oklch(var(--b2)/var(--tw-border-opacity)));--tw-bg-opacity: 1;background-color:var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)));color:var(--fallback-bc,oklch(var(--bc)/.4))}.daisy-input-disabled::-moz-placeholder,.daisy-input:disabled::-moz-placeholder,.daisy-input[disabled]::-moz-placeholder{color:var(--fallback-bc,oklch(var(--bc)/var(--tw-placeholder-opacity)));--tw-placeholder-opacity: .2}.daisy-input-disabled::placeholder,.daisy-input:disabled::placeholder,.daisy-input[disabled]::placeholder{color:var(--fallback-bc,oklch(var(--bc)/var(--tw-placeholder-opacity)));--tw-placeholder-opacity: .2}.daisy-input::-webkit-date-and-time-value{text-align:inherit}.daisy-mockup-browser .daisy-mockup-browser-toolbar .daisy-input{position:relative;margin-left:auto;margin-right:auto;display:block;height:1.75rem;width:24rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;--tw-bg-opacity: 1;background-color:var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)));padding-left:2rem;direction:ltr}.daisy-mockup-browser .daisy-mockup-browser-toolbar .daisy-input:before{content:"";position:absolute;left:.5rem;top:50%;aspect-ratio:1 / 1;height:.75rem;--tw-translate-y: -50%;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));border-radius:9999px;border-width:2px;border-color:currentColor;opacity:.6}.daisy-mockup-browser .daisy-mockup-browser-toolbar .daisy-input:after{content:"";position:absolute;left:1.25rem;top:50%;height:.5rem;--tw-translate-y: 25%;--tw-rotate: -45deg;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));border-radius:9999px;border-width:1px;border-color:currentColor;opacity:.6}.daisy-modal:not(dialog:not(.daisy-modal-open)),.daisy-modal::backdrop{background-color:#0006;animation:modal-pop .2s ease-out}.daisy-modal-backdrop{z-index:-1;grid-column-start:1;grid-row-start:1;display:grid;align-self:stretch;justify-self:stretch;color:transparent}.daisy-modal-open .daisy-modal-box,.daisy-modal-toggle:checked+.daisy-modal .daisy-modal-box,.daisy-modal:target .daisy-modal-box,.daisy-modal[open] .daisy-modal-box{--tw-translate-y: 0px;--tw-scale-x: 1;--tw-scale-y: 1;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@keyframes modal-pop{0%{opacity:0}}@keyframes progress-loading{50%{background-position-x:-115%}}@keyframes radiomark{0%{box-shadow:0 0 0 12px var(--fallback-b1,oklch(var(--b1)/1)) inset,0 0 0 12px var(--fallback-b1,oklch(var(--b1)/1)) inset}50%{box-shadow:0 0 0 3px var(--fallback-b1,oklch(var(--b1)/1)) inset,0 0 0 3px var(--fallback-b1,oklch(var(--b1)/1)) inset}to{box-shadow:0 0 0 4px var(--fallback-b1,oklch(var(--b1)/1)) inset,0 0 0 4px var(--fallback-b1,oklch(var(--b1)/1)) inset}}@keyframes rating-pop{0%{transform:translateY(-.125em)}40%{transform:translateY(-.125em)}to{transform:translateY(0)}}.daisy-select:focus{box-shadow:none;border-color:var(--fallback-bc,oklch(var(--bc)/.2));outline-style:solid;outline-width:2px;outline-offset:2px;outline-color:var(--fallback-bc,oklch(var(--bc)/.2))}.daisy-select-disabled,.daisy-select:disabled,.daisy-select[disabled]{cursor:not-allowed;--tw-border-opacity: 1;border-color:var(--fallback-b2,oklch(var(--b2)/var(--tw-border-opacity)));--tw-bg-opacity: 1;background-color:var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)));color:var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));--tw-text-opacity: .2}.daisy-select-disabled::-moz-placeholder,.daisy-select:disabled::-moz-placeholder,.daisy-select[disabled]::-moz-placeholder{color:var(--fallback-bc,oklch(var(--bc)/var(--tw-placeholder-opacity)));--tw-placeholder-opacity: .2}.daisy-select-disabled::placeholder,.daisy-select:disabled::placeholder,.daisy-select[disabled]::placeholder{color:var(--fallback-bc,oklch(var(--bc)/var(--tw-placeholder-opacity)));--tw-placeholder-opacity: .2}.daisy-select-multiple,.daisy-select[multiple],.daisy-select[size].daisy-select:not([size="1"]){background-image:none;padding-right:1rem}[dir=rtl] .daisy-select{background-position:calc(0% + 12px) calc(1px + 50%),calc(0% + 16px) calc(1px + 50%)}@keyframes skeleton{0%{background-position:150%}to{background-position:-50%}}@keyframes toast-pop{0%{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}.daisy-modal-top :where(.daisy-modal-box){width:100%;max-width:none;--tw-translate-y: -2.5rem;--tw-scale-x: 1;--tw-scale-y: 1;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));border-bottom-right-radius:var(--rounded-box, 1rem);border-bottom-left-radius:var(--rounded-box, 1rem);border-top-left-radius:0;border-top-right-radius:0}.daisy-modal-middle :where(.daisy-modal-box){width:91.666667%;max-width:32rem;--tw-translate-y: 0px;--tw-scale-x: .9;--tw-scale-y: .9;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));border-top-left-radius:var(--rounded-box, 1rem);border-top-right-radius:var(--rounded-box, 1rem);border-bottom-right-radius:var(--rounded-box, 1rem);border-bottom-left-radius:var(--rounded-box, 1rem)}.daisy-modal-bottom :where(.daisy-modal-box){width:100%;max-width:none;--tw-translate-y: 2.5rem;--tw-scale-x: 1;--tw-scale-y: 1;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));border-top-left-radius:var(--rounded-box, 1rem);border-top-right-radius:var(--rounded-box, 1rem);border-bottom-right-radius:0;border-bottom-left-radius:0}.flex{display:flex}.table{display:table}.w-1\\/2{width:50%}.w-full{width:100%}.max-w-xs{max-width:20rem}.flex-col{flex-direction:column}.gap-4{gap:1rem}.bg-base-200{--tw-bg-opacity: 1;background-color:var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)))}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.text-base-content{--tw-text-opacity: 1;color:var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)))} ');
+(a=>{if(typeof GM_addStyle=="function"){GM_addStyle(a);return}const t=document.createElement("style");t.textContent=a,document.head.append(t)})(' *,:before,:after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}:before,:after{--tw-content: ""}html,:host{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}ol,ul,menu{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}button,[role=button]{cursor:pointer}:disabled{cursor:default}img,svg,video,canvas,audio,iframe,embed,object{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}:root{color-scheme:light;--in: 72.06% .191 231.6;--su: 64.8% .15 160;--wa: 84.71% .199 83.87;--er: 71.76% .221 22.18;--pc: 89.824% .06192 275.75;--ac: 15.352% .0368 183.61;--inc: 0% 0 0;--suc: 0% 0 0;--wac: 0% 0 0;--erc: 0% 0 0;--rounded-box: 1rem;--rounded-btn: .5rem;--rounded-badge: 1.9rem;--animation-btn: .25s;--animation-input: .2s;--btn-focus-scale: .95;--border-btn: 1px;--tab-border: 1px;--tab-radius: .5rem;--p: 49.12% .3096 275.75;--s: 69.71% .329 342.55;--sc: 98.71% .0106 342.55;--a: 76.76% .184 183.61;--n: 32.1785% .02476 255.701624;--nc: 89.4994% .011585 252.096176;--b1: 100% 0 0;--b2: 96.1151% 0 0;--b3: 92.4169% .00108 197.137559;--bc: 27.8078% .029596 256.847952}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }@media (hover:hover){.daisy-table tr.daisy-hover:hover,.daisy-table tr.daisy-hover:nth-child(2n):hover{--tw-bg-opacity: 1;background-color:var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)))}}.daisy-btn{display:inline-flex;height:3rem;min-height:3rem;flex-shrink:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;user-select:none;flex-wrap:wrap;align-items:center;justify-content:center;border-radius:var(--rounded-btn, .5rem);border-color:transparent;border-color:oklch(var(--btn-color, var(--b2)) / var(--tw-border-opacity));padding-left:1rem;padding-right:1rem;text-align:center;font-size:.875rem;line-height:1em;gap:.5rem;font-weight:600;text-decoration-line:none;transition-duration:.2s;transition-timing-function:cubic-bezier(0,0,.2,1);border-width:var(--border-btn, 1px);animation:button-pop var(--animation-btn, .25s) ease-out;transition-property:color,background-color,border-color,opacity,box-shadow,transform;--tw-text-opacity: 1;color:var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / .05);--tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow);outline-color:var(--fallback-bc,oklch(var(--bc)/1));background-color:oklch(var(--btn-color, var(--b2)) / var(--tw-bg-opacity));--tw-bg-opacity: 1;--tw-border-opacity: 1}.daisy-btn-disabled,.daisy-btn[disabled],.daisy-btn:disabled{pointer-events:none}:where(.daisy-btn:is(input[type=checkbox])),:where(.daisy-btn:is(input[type=radio])){width:auto;-webkit-appearance:none;-moz-appearance:none;appearance:none}.daisy-btn:is(input[type=checkbox]):after,.daisy-btn:is(input[type=radio]):after{--tw-content: attr(aria-label);content:var(--tw-content)}.daisy-collapse:not(td):not(tr):not(colgroup){visibility:visible}.daisy-collapse{position:relative;display:grid;overflow:hidden;grid-template-rows:auto 0fr;transition:grid-template-rows .2s;width:100%;border-radius:var(--rounded-box, 1rem)}.daisy-collapse-title,.daisy-collapse>input[type=checkbox],.daisy-collapse>input[type=radio],.daisy-collapse-content{grid-column-start:1;grid-row-start:1}.daisy-collapse>input[type=checkbox],.daisy-collapse>input[type=radio]{-webkit-appearance:none;-moz-appearance:none;appearance:none;opacity:0}.daisy-collapse-content{visibility:hidden;grid-column-start:1;grid-row-start:2;min-height:0px;transition:visibility .2s;transition:padding .2s ease-out,background-color .2s ease-out;padding-left:1rem;padding-right:1rem;cursor:unset}.daisy-collapse[open],.daisy-collapse-open,.daisy-collapse:focus:not(.daisy-collapse-close){grid-template-rows:auto 1fr}.daisy-collapse:not(.daisy-collapse-close):has(>input[type=checkbox]:checked),.daisy-collapse:not(.daisy-collapse-close):has(>input[type=radio]:checked){grid-template-rows:auto 1fr}.daisy-collapse[open]>.daisy-collapse-content,.daisy-collapse-open>.daisy-collapse-content,.daisy-collapse:focus:not(.daisy-collapse-close)>.daisy-collapse-content,.daisy-collapse:not(.daisy-collapse-close)>input[type=checkbox]:checked~.daisy-collapse-content,.daisy-collapse:not(.daisy-collapse-close)>input[type=radio]:checked~.daisy-collapse-content{visibility:visible;min-height:-moz-fit-content;min-height:fit-content}@media (hover: hover){.daisy-btn:hover{--tw-border-opacity: 1;border-color:var(--fallback-b3,oklch(var(--b3)/var(--tw-border-opacity)));--tw-bg-opacity: 1;background-color:var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity)))}@supports (color: color-mix(in oklab,black,black)){.daisy-btn:hover{background-color:color-mix(in oklab,oklch(var(--btn-color, var(--b2)) / var(--tw-bg-opacity, 1)) 90%,black);border-color:color-mix(in oklab,oklch(var(--btn-color, var(--b2)) / var(--tw-border-opacity, 1)) 90%,black)}}@supports not (color: oklch(0% 0 0)){.daisy-btn:hover{background-color:var(--btn-color, var(--fallback-b2));border-color:var(--btn-color, var(--fallback-b2))}}.daisy-btn.daisy-glass:hover{--glass-opacity: 25%;--glass-border-opacity: 15%}.daisy-btn-outline.daisy-btn-primary:hover{--tw-text-opacity: 1;color:var(--fallback-pc,oklch(var(--pc)/var(--tw-text-opacity)))}@supports (color: color-mix(in oklab,black,black)){.daisy-btn-outline.daisy-btn-primary:hover{background-color:color-mix(in oklab,var(--fallback-p,oklch(var(--p)/1)) 90%,black);border-color:color-mix(in oklab,var(--fallback-p,oklch(var(--p)/1)) 90%,black)}}.daisy-btn-outline.daisy-btn-warning:hover{--tw-text-opacity: 1;color:var(--fallback-wac,oklch(var(--wac)/var(--tw-text-opacity)))}@supports (color: color-mix(in oklab,black,black)){.daisy-btn-outline.daisy-btn-warning:hover{background-color:color-mix(in oklab,var(--fallback-wa,oklch(var(--wa)/1)) 90%,black);border-color:color-mix(in oklab,var(--fallback-wa,oklch(var(--wa)/1)) 90%,black)}}.daisy-btn-disabled:hover,.daisy-btn[disabled]:hover,.daisy-btn:disabled:hover{--tw-border-opacity: 0;background-color:var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));--tw-bg-opacity: .2;color:var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));--tw-text-opacity: .2}@supports (color: color-mix(in oklab,black,black)){.daisy-btn:is(input[type=checkbox]:checked):hover,.daisy-btn:is(input[type=radio]:checked):hover{background-color:color-mix(in oklab,var(--fallback-p,oklch(var(--p)/1)) 90%,black);border-color:color-mix(in oklab,var(--fallback-p,oklch(var(--p)/1)) 90%,black)}}}.daisy-modal{pointer-events:none;position:fixed;top:0;right:0;bottom:0;left:0;margin:0;display:grid;height:100%;max-height:none;width:100%;max-width:none;justify-items:center;padding:0;opacity:0;overscroll-behavior:contain;z-index:999;background-color:transparent;color:inherit;transition-duration:.2s;transition-timing-function:cubic-bezier(0,0,.2,1);transition-property:transform,opacity,visibility;overflow-y:hidden}:where(.daisy-modal){align-items:center}.daisy-modal-box{max-height:calc(100vh - 5em);grid-column-start:1;grid-row-start:1;width:91.666667%;max-width:32rem;--tw-scale-x: .9;--tw-scale-y: .9;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));border-bottom-right-radius:var(--rounded-box, 1rem);border-bottom-left-radius:var(--rounded-box, 1rem);border-top-left-radius:var(--rounded-box, 1rem);border-top-right-radius:var(--rounded-box, 1rem);--tw-bg-opacity: 1;background-color:var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));padding:1.5rem;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-timing-function:cubic-bezier(0,0,.2,1);transition-duration:.2s;box-shadow:#00000040 0 25px 50px -12px;overflow-y:auto;overscroll-behavior:contain}.daisy-modal-open,.daisy-modal:target,.daisy-modal-toggle:checked+.daisy-modal,.daisy-modal[open]{pointer-events:auto;visibility:visible;opacity:1}:root:has(:is(.daisy-modal-open,.daisy-modal:target,.daisy-modal-toggle:checked+.daisy-modal,.daisy-modal[open])){overflow:hidden;scrollbar-gutter:stable}.daisy-select{display:inline-flex;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;height:3rem;min-height:3rem;padding-left:1rem;padding-right:2.5rem;font-size:.875rem;line-height:1.25rem;line-height:2;border-radius:var(--rounded-btn, .5rem);border-width:1px;border-color:transparent;--tw-bg-opacity: 1;background-color:var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 20px) calc(1px + 50%),calc(100% - 16.1px) calc(1px + 50%);background-size:4px 4px,4px 4px;background-repeat:no-repeat}.daisy-select[multiple]{height:auto}.daisy-table{position:relative;width:100%;border-radius:var(--rounded-box, 1rem);text-align:left;font-size:.875rem;line-height:1.25rem}.daisy-table :where(.daisy-table-pin-rows thead tr){position:sticky;top:0;z-index:1;--tw-bg-opacity: 1;background-color:var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)))}.daisy-table :where(.daisy-table-pin-rows tfoot tr){position:sticky;bottom:0;z-index:1;--tw-bg-opacity: 1;background-color:var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)))}.daisy-table :where(.daisy-table-pin-cols tr th){position:sticky;left:0;right:0;--tw-bg-opacity: 1;background-color:var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)))}.daisy-btn:active:hover,.daisy-btn:active:focus{animation:button-pop 0s ease-out;transform:scale(var(--btn-focus-scale, .97))}@supports not (color: oklch(0% 0 0)){.daisy-btn{background-color:var(--btn-color, var(--fallback-b2));border-color:var(--btn-color, var(--fallback-b2))}.daisy-btn-primary{--btn-color: var(--fallback-p)}.daisy-btn-warning{--btn-color: var(--fallback-wa)}}@supports (color: color-mix(in oklab,black,black)){.daisy-btn-outline.daisy-btn-primary.daisy-btn-active{background-color:color-mix(in oklab,var(--fallback-p,oklch(var(--p)/1)) 90%,black);border-color:color-mix(in oklab,var(--fallback-p,oklch(var(--p)/1)) 90%,black)}.daisy-btn-outline.daisy-btn-warning.daisy-btn-active{background-color:color-mix(in oklab,var(--fallback-wa,oklch(var(--wa)/1)) 90%,black);border-color:color-mix(in oklab,var(--fallback-wa,oklch(var(--wa)/1)) 90%,black)}}.daisy-btn:focus-visible{outline-style:solid;outline-width:2px;outline-offset:2px}.daisy-btn-primary{--tw-text-opacity: 1;color:var(--fallback-pc,oklch(var(--pc)/var(--tw-text-opacity)));outline-color:var(--fallback-p,oklch(var(--p)/1))}@supports (color: oklch(0% 0 0)){.daisy-btn-primary{--btn-color: var(--p)}.daisy-btn-warning{--btn-color: var(--wa)}}.daisy-btn-warning{--tw-text-opacity: 1;color:var(--fallback-wac,oklch(var(--wac)/var(--tw-text-opacity)));outline-color:var(--fallback-wa,oklch(var(--wa)/1))}.daisy-btn.daisy-glass{--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow);outline-color:currentColor}.daisy-btn.daisy-glass.daisy-btn-active{--glass-opacity: 25%;--glass-border-opacity: 15%}.daisy-btn-outline.daisy-btn-primary{--tw-text-opacity: 1;color:var(--fallback-p,oklch(var(--p)/var(--tw-text-opacity)))}.daisy-btn-outline.daisy-btn-primary.daisy-btn-active{--tw-text-opacity: 1;color:var(--fallback-pc,oklch(var(--pc)/var(--tw-text-opacity)))}.daisy-btn-outline.daisy-btn-warning{--tw-text-opacity: 1;color:var(--fallback-wa,oklch(var(--wa)/var(--tw-text-opacity)))}.daisy-btn-outline.daisy-btn-warning.daisy-btn-active{--tw-text-opacity: 1;color:var(--fallback-wac,oklch(var(--wac)/var(--tw-text-opacity)))}.daisy-btn.daisy-btn-disabled,.daisy-btn[disabled],.daisy-btn:disabled{--tw-border-opacity: 0;background-color:var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));--tw-bg-opacity: .2;color:var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));--tw-text-opacity: .2}.daisy-btn:is(input[type=checkbox]:checked),.daisy-btn:is(input[type=radio]:checked){--tw-border-opacity: 1;border-color:var(--fallback-p,oklch(var(--p)/var(--tw-border-opacity)));--tw-bg-opacity: 1;background-color:var(--fallback-p,oklch(var(--p)/var(--tw-bg-opacity)));--tw-text-opacity: 1;color:var(--fallback-pc,oklch(var(--pc)/var(--tw-text-opacity)))}.daisy-btn:is(input[type=checkbox]:checked):focus-visible,.daisy-btn:is(input[type=radio]:checked):focus-visible{outline-color:var(--fallback-p,oklch(var(--p)/1))}@keyframes button-pop{0%{transform:scale(var(--btn-focus-scale, .98))}40%{transform:scale(1.02)}to{transform:scale(1)}}@keyframes checkmark{0%{background-position-y:5px}50%{background-position-y:-2px}to{background-position-y:0}}details.daisy-collapse{width:100%}details.daisy-collapse summary{position:relative;display:block;outline:2px solid transparent;outline-offset:2px}details.daisy-collapse summary::-webkit-details-marker{display:none}.daisy-collapse:focus-visible{outline-style:solid;outline-width:2px;outline-offset:2px;outline-color:var(--fallback-bc,oklch(var(--bc)/1))}.daisy-collapse:has(.daisy-collapse-title:focus-visible),.daisy-collapse:has(>input[type=checkbox]:focus-visible),.daisy-collapse:has(>input[type=radio]:focus-visible){outline-style:solid;outline-width:2px;outline-offset:2px;outline-color:var(--fallback-bc,oklch(var(--bc)/1))}.daisy-collapse-arrow>.daisy-collapse-title:after{position:absolute;display:block;height:.5rem;width:.5rem;--tw-translate-y: -100%;--tw-rotate: 45deg;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-timing-function:cubic-bezier(0,0,.2,1);transition-duration:.15s;transition-duration:.2s;top:1.9rem;inset-inline-end:1.4rem;content:"";transform-origin:75% 75%;box-shadow:2px 2px;pointer-events:none}.daisy-collapse-plus>.daisy-collapse-title:after{position:absolute;display:block;height:.5rem;width:.5rem;transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-timing-function:cubic-bezier(0,0,.2,1);transition-duration:.3s;top:.9rem;inset-inline-end:1.4rem;content:"+";pointer-events:none}.daisy-collapse:not(.daisy-collapse-open):not(.daisy-collapse-close)>input[type=checkbox],.daisy-collapse:not(.daisy-collapse-open):not(.daisy-collapse-close)>input[type=radio]:not(:checked),.daisy-collapse:not(.daisy-collapse-open):not(.daisy-collapse-close)>.daisy-collapse-title{cursor:pointer}.daisy-collapse:focus:not(.daisy-collapse-open):not(.daisy-collapse-close):not(.daisy-collapse[open])>.daisy-collapse-title{cursor:unset}.daisy-collapse-title{position:relative}:where(.daisy-collapse>input[type=checkbox]),:where(.daisy-collapse>input[type=radio]){z-index:1}.daisy-collapse-title,:where(.daisy-collapse>input[type=checkbox]),:where(.daisy-collapse>input[type=radio]){width:100%;padding:1rem;padding-inline-end:3rem;min-height:3.75rem;transition:background-color .2s ease-out}.daisy-collapse[open]>:where(.daisy-collapse-content),.daisy-collapse-open>:where(.daisy-collapse-content),.daisy-collapse:focus:not(.daisy-collapse-close)>:where(.daisy-collapse-content),.daisy-collapse:not(.daisy-collapse-close)>:where(input[type=checkbox]:checked~.daisy-collapse-content),.daisy-collapse:not(.daisy-collapse-close)>:where(input[type=radio]:checked~.daisy-collapse-content){padding-bottom:1rem;transition:padding .2s ease-out,background-color .2s ease-out}.daisy-collapse[open].daisy-collapse-arrow>.daisy-collapse-title:after,.daisy-collapse-open.daisy-collapse-arrow>.daisy-collapse-title:after,.daisy-collapse-arrow:focus:not(.daisy-collapse-close)>.daisy-collapse-title:after,.daisy-collapse-arrow:not(.daisy-collapse-close)>input[type=checkbox]:checked~.daisy-collapse-title:after,.daisy-collapse-arrow:not(.daisy-collapse-close)>input[type=radio]:checked~.daisy-collapse-title:after{--tw-translate-y: -50%;--tw-rotate: 225deg;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.daisy-collapse[open].daisy-collapse-plus>.daisy-collapse-title:after,.daisy-collapse-open.daisy-collapse-plus>.daisy-collapse-title:after,.daisy-collapse-plus:focus:not(.daisy-collapse-close)>.daisy-collapse-title:after,.daisy-collapse-plus:not(.daisy-collapse-close)>input[type=checkbox]:checked~.daisy-collapse-title:after,.daisy-collapse-plus:not(.daisy-collapse-close)>input[type=radio]:checked~.daisy-collapse-title:after{content:"\u2212"}.daisy-modal:not(dialog:not(.daisy-modal-open)),.daisy-modal::backdrop{background-color:#0006;animation:modal-pop .2s ease-out}.daisy-modal-backdrop{z-index:-1;grid-column-start:1;grid-row-start:1;display:grid;align-self:stretch;justify-self:stretch;color:transparent}.daisy-modal-open .daisy-modal-box,.daisy-modal-toggle:checked+.daisy-modal .daisy-modal-box,.daisy-modal:target .daisy-modal-box,.daisy-modal[open] .daisy-modal-box{--tw-translate-y: 0px;--tw-scale-x: 1;--tw-scale-y: 1;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@keyframes modal-pop{0%{opacity:0}}@keyframes progress-loading{50%{background-position-x:-115%}}@keyframes radiomark{0%{box-shadow:0 0 0 12px var(--fallback-b1,oklch(var(--b1)/1)) inset,0 0 0 12px var(--fallback-b1,oklch(var(--b1)/1)) inset}50%{box-shadow:0 0 0 3px var(--fallback-b1,oklch(var(--b1)/1)) inset,0 0 0 3px var(--fallback-b1,oklch(var(--b1)/1)) inset}to{box-shadow:0 0 0 4px var(--fallback-b1,oklch(var(--b1)/1)) inset,0 0 0 4px var(--fallback-b1,oklch(var(--b1)/1)) inset}}@keyframes rating-pop{0%{transform:translateY(-.125em)}40%{transform:translateY(-.125em)}to{transform:translateY(0)}}.daisy-select:focus{box-shadow:none;border-color:var(--fallback-bc,oklch(var(--bc)/.2));outline-style:solid;outline-width:2px;outline-offset:2px;outline-color:var(--fallback-bc,oklch(var(--bc)/.2))}.daisy-select-disabled,.daisy-select:disabled,.daisy-select[disabled]{cursor:not-allowed;--tw-border-opacity: 1;border-color:var(--fallback-b2,oklch(var(--b2)/var(--tw-border-opacity)));--tw-bg-opacity: 1;background-color:var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)));color:var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));--tw-text-opacity: .2}.daisy-select-disabled::-moz-placeholder,.daisy-select:disabled::-moz-placeholder,.daisy-select[disabled]::-moz-placeholder{color:var(--fallback-bc,oklch(var(--bc)/var(--tw-placeholder-opacity)));--tw-placeholder-opacity: .2}.daisy-select-disabled::placeholder,.daisy-select:disabled::placeholder,.daisy-select[disabled]::placeholder{color:var(--fallback-bc,oklch(var(--bc)/var(--tw-placeholder-opacity)));--tw-placeholder-opacity: .2}.daisy-select-multiple,.daisy-select[multiple],.daisy-select[size].daisy-select:not([size="1"]){background-image:none;padding-right:1rem}[dir=rtl] .daisy-select{background-position:calc(0% + 12px) calc(1px + 50%),calc(0% + 16px) calc(1px + 50%)}@keyframes skeleton{0%{background-position:150%}to{background-position:-50%}}:is([dir=rtl] .daisy-table){text-align:right}.daisy-table :where(th,td){padding:.75rem 1rem;vertical-align:middle}.daisy-table tr.daisy-active,.daisy-table tr.daisy-active:nth-child(2n),.daisy-table-zebra tbody tr:nth-child(2n){--tw-bg-opacity: 1;background-color:var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)))}.daisy-table :where(thead tr,tbody tr:not(:last-child),tbody tr:first-child:last-child){border-bottom-width:1px;--tw-border-opacity: 1;border-bottom-color:var(--fallback-b2,oklch(var(--b2)/var(--tw-border-opacity)))}.daisy-table :where(thead,tfoot){white-space:nowrap;font-size:.75rem;line-height:1rem;font-weight:700;color:var(--fallback-bc,oklch(var(--bc)/.6))}.daisy-table :where(tfoot){border-top-width:1px;--tw-border-opacity: 1;border-top-color:var(--fallback-b2,oklch(var(--b2)/var(--tw-border-opacity)))}@keyframes toast-pop{0%{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}.daisy-modal-top :where(.daisy-modal-box){width:100%;max-width:none;--tw-translate-y: -2.5rem;--tw-scale-x: 1;--tw-scale-y: 1;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));border-bottom-right-radius:var(--rounded-box, 1rem);border-bottom-left-radius:var(--rounded-box, 1rem);border-top-left-radius:0;border-top-right-radius:0}.daisy-modal-middle :where(.daisy-modal-box){width:91.666667%;max-width:32rem;--tw-translate-y: 0px;--tw-scale-x: .9;--tw-scale-y: .9;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));border-top-left-radius:var(--rounded-box, 1rem);border-top-right-radius:var(--rounded-box, 1rem);border-bottom-right-radius:var(--rounded-box, 1rem);border-bottom-left-radius:var(--rounded-box, 1rem)}.daisy-modal-bottom :where(.daisy-modal-box){width:100%;max-width:none;--tw-translate-y: 2.5rem;--tw-scale-x: 1;--tw-scale-y: 1;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));border-top-left-radius:var(--rounded-box, 1rem);border-top-right-radius:var(--rounded-box, 1rem);border-bottom-right-radius:0;border-bottom-left-radius:0}.z-\\[1000\\]{z-index:1000}.z-\\[999\\]{z-index:999}.mb-4{margin-bottom:1rem}.flex{display:flex}.table{display:table}.h-6{height:1.5rem}.w-11\\/12{width:91.666667%}.w-6{width:1.5rem}.w-full{width:100%}.max-w-5xl{max-width:64rem}.flex-col{flex-direction:column}.gap-4{gap:1rem}.overflow-x-auto{overflow-x:auto}.bg-base-200{--tw-bg-opacity: 1;background-color:var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)))}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.text-base-content{--tw-text-opacity: 1;color:var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)))} ');
 
-(function () {
+(async function () {
   'use strict';
 
   var __defProp = Object.defineProperty;
@@ -35,19 +36,354 @@
     __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
     return value;
   };
-  var _GM_deleteValue = /* @__PURE__ */ (() => typeof GM_deleteValue != "undefined" ? GM_deleteValue : void 0)();
+  var _GM = /* @__PURE__ */ (() => typeof GM != "undefined" ? GM : void 0)();
   var _GM_download = /* @__PURE__ */ (() => typeof GM_download != "undefined" ? GM_download : void 0)();
   var _GM_getValue = /* @__PURE__ */ (() => typeof GM_getValue != "undefined" ? GM_getValue : void 0)();
-  var _GM_openInTab = /* @__PURE__ */ (() => typeof GM_openInTab != "undefined" ? GM_openInTab : void 0)();
-  var _GM_setValue = /* @__PURE__ */ (() => typeof GM_setValue != "undefined" ? GM_setValue : void 0)();
-  const HELPER_DATA = "helper:data";
-  const AF_TEMP_CURRENT_PAGE = "af_temp:current_page";
-  const AF_TEMP_RAW_DATA = "af_temp:raw_data";
-  const AF_BALLOON_DATA = "af_balloon:data";
-  const TEMP_START_TIME = "temp:start_time";
-  const BROADCASTER_ID = "settings:broadcaster_id";
-  const AUTO_OPEN = "settings:auto_open";
-  const AF_WORKING = "settings:af_working";
+  const LAST_SAVE_TIME = "last_save_time";
+  const IS_POSTPONE = "is_postpone";
+  const BALLOON_KEYS = "balloon.keys";
+  const BALLOON = "balloon.";
+  function noop() {
+  }
+  function run(fn) {
+    return fn();
+  }
+  function blank_object() {
+    return /* @__PURE__ */ Object.create(null);
+  }
+  function run_all(fns) {
+    fns.forEach(run);
+  }
+  function is_function(thing) {
+    return typeof thing === "function";
+  }
+  function safe_not_equal(a, b) {
+    return a != a ? b == b : a !== b || a && typeof a === "object" || typeof a === "function";
+  }
+  function is_empty(obj) {
+    return Object.keys(obj).length === 0;
+  }
+  function append(target, node) {
+    target.appendChild(node);
+  }
+  function insert(target, node, anchor) {
+    target.insertBefore(node, anchor || null);
+  }
+  function detach(node) {
+    if (node.parentNode) {
+      node.parentNode.removeChild(node);
+    }
+  }
+  function destroy_each(iterations, detaching) {
+    for (let i = 0; i < iterations.length; i += 1) {
+      if (iterations[i])
+        iterations[i].d(detaching);
+    }
+  }
+  function element(name) {
+    return document.createElement(name);
+  }
+  function text(data) {
+    return document.createTextNode(data);
+  }
+  function space() {
+    return text(" ");
+  }
+  function empty() {
+    return text("");
+  }
+  function listen(node, event, handler, options) {
+    node.addEventListener(event, handler, options);
+    return () => node.removeEventListener(event, handler, options);
+  }
+  function attr(node, attribute, value) {
+    if (value == null)
+      node.removeAttribute(attribute);
+    else if (node.getAttribute(attribute) !== value)
+      node.setAttribute(attribute, value);
+  }
+  function children(element2) {
+    return Array.from(element2.childNodes);
+  }
+  function set_data(text2, data) {
+    data = "" + data;
+    if (text2.data === data)
+      return;
+    text2.data = /** @type {string} */
+    data;
+  }
+  function set_input_value(input, value) {
+    input.value = value == null ? "" : value;
+  }
+  function select_option(select, value, mounting) {
+    for (let i = 0; i < select.options.length; i += 1) {
+      const option = select.options[i];
+      if (option.__value === value) {
+        option.selected = true;
+        return;
+      }
+    }
+    if (!mounting || value !== void 0) {
+      select.selectedIndex = -1;
+    }
+  }
+  function select_value(select) {
+    const selected_option = select.querySelector(":checked");
+    return selected_option && selected_option.__value;
+  }
+  let current_component;
+  function set_current_component(component) {
+    current_component = component;
+  }
+  const dirty_components = [];
+  const binding_callbacks = [];
+  let render_callbacks = [];
+  const flush_callbacks = [];
+  const resolved_promise = /* @__PURE__ */ Promise.resolve();
+  let update_scheduled = false;
+  function schedule_update() {
+    if (!update_scheduled) {
+      update_scheduled = true;
+      resolved_promise.then(flush);
+    }
+  }
+  function add_render_callback(fn) {
+    render_callbacks.push(fn);
+  }
+  const seen_callbacks = /* @__PURE__ */ new Set();
+  let flushidx = 0;
+  function flush() {
+    if (flushidx !== 0) {
+      return;
+    }
+    const saved_component = current_component;
+    do {
+      try {
+        while (flushidx < dirty_components.length) {
+          const component = dirty_components[flushidx];
+          flushidx++;
+          set_current_component(component);
+          update(component.$$);
+        }
+      } catch (e) {
+        dirty_components.length = 0;
+        flushidx = 0;
+        throw e;
+      }
+      set_current_component(null);
+      dirty_components.length = 0;
+      flushidx = 0;
+      while (binding_callbacks.length)
+        binding_callbacks.pop()();
+      for (let i = 0; i < render_callbacks.length; i += 1) {
+        const callback = render_callbacks[i];
+        if (!seen_callbacks.has(callback)) {
+          seen_callbacks.add(callback);
+          callback();
+        }
+      }
+      render_callbacks.length = 0;
+    } while (dirty_components.length);
+    while (flush_callbacks.length) {
+      flush_callbacks.pop()();
+    }
+    update_scheduled = false;
+    seen_callbacks.clear();
+    set_current_component(saved_component);
+  }
+  function update($$) {
+    if ($$.fragment !== null) {
+      $$.update();
+      run_all($$.before_update);
+      const dirty = $$.dirty;
+      $$.dirty = [-1];
+      $$.fragment && $$.fragment.p($$.ctx, dirty);
+      $$.after_update.forEach(add_render_callback);
+    }
+  }
+  function flush_render_callbacks(fns) {
+    const filtered = [];
+    const targets = [];
+    render_callbacks.forEach((c) => fns.indexOf(c) === -1 ? filtered.push(c) : targets.push(c));
+    targets.forEach((c) => c());
+    render_callbacks = filtered;
+  }
+  const outroing = /* @__PURE__ */ new Set();
+  let outros;
+  function transition_in(block, local) {
+    if (block && block.i) {
+      outroing.delete(block);
+      block.i(local);
+    }
+  }
+  function transition_out(block, local, detach2, callback) {
+    if (block && block.o) {
+      if (outroing.has(block))
+        return;
+      outroing.add(block);
+      outros.c.push(() => {
+        outroing.delete(block);
+        if (callback) {
+          if (detach2)
+            block.d(1);
+          callback();
+        }
+      });
+      block.o(local);
+    } else if (callback) {
+      callback();
+    }
+  }
+  function ensure_array_like(array_like_or_iterator) {
+    return (array_like_or_iterator == null ? void 0 : array_like_or_iterator.length) !== void 0 ? array_like_or_iterator : Array.from(array_like_or_iterator);
+  }
+  function create_component(block) {
+    block && block.c();
+  }
+  function mount_component(component, target, anchor) {
+    const { fragment, after_update } = component.$$;
+    fragment && fragment.m(target, anchor);
+    add_render_callback(() => {
+      const new_on_destroy = component.$$.on_mount.map(run).filter(is_function);
+      if (component.$$.on_destroy) {
+        component.$$.on_destroy.push(...new_on_destroy);
+      } else {
+        run_all(new_on_destroy);
+      }
+      component.$$.on_mount = [];
+    });
+    after_update.forEach(add_render_callback);
+  }
+  function destroy_component(component, detaching) {
+    const $$ = component.$$;
+    if ($$.fragment !== null) {
+      flush_render_callbacks($$.after_update);
+      run_all($$.on_destroy);
+      $$.fragment && $$.fragment.d(detaching);
+      $$.on_destroy = $$.fragment = null;
+      $$.ctx = [];
+    }
+  }
+  function make_dirty(component, i) {
+    if (component.$$.dirty[0] === -1) {
+      dirty_components.push(component);
+      schedule_update();
+      component.$$.dirty.fill(0);
+    }
+    component.$$.dirty[i / 31 | 0] |= 1 << i % 31;
+  }
+  function init(component, options, instance2, create_fragment2, not_equal, props, append_styles = null, dirty = [-1]) {
+    const parent_component = current_component;
+    set_current_component(component);
+    const $$ = component.$$ = {
+      fragment: null,
+      ctx: [],
+      // state
+      props,
+      update: noop,
+      not_equal,
+      bound: blank_object(),
+      // lifecycle
+      on_mount: [],
+      on_destroy: [],
+      on_disconnect: [],
+      before_update: [],
+      after_update: [],
+      context: new Map(options.context || (parent_component ? parent_component.$$.context : [])),
+      // everything else
+      callbacks: blank_object(),
+      dirty,
+      skip_bound: false,
+      root: options.target || parent_component.$$.root
+    };
+    append_styles && append_styles($$.root);
+    let ready = false;
+    $$.ctx = instance2 ? instance2(component, options.props || {}, (i, ret, ...rest) => {
+      const value = rest.length ? rest[0] : ret;
+      if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
+        if (!$$.skip_bound && $$.bound[i])
+          $$.bound[i](value);
+        if (ready)
+          make_dirty(component, i);
+      }
+      return ret;
+    }) : [];
+    $$.update();
+    ready = true;
+    run_all($$.before_update);
+    $$.fragment = create_fragment2 ? create_fragment2($$.ctx) : false;
+    if (options.target) {
+      if (options.hydrate) {
+        const nodes = children(options.target);
+        $$.fragment && $$.fragment.l(nodes);
+        nodes.forEach(detach);
+      } else {
+        $$.fragment && $$.fragment.c();
+      }
+      if (options.intro)
+        transition_in(component.$$.fragment);
+      mount_component(component, options.target, options.anchor);
+      flush();
+    }
+    set_current_component(parent_component);
+  }
+  class SvelteComponent {
+    constructor() {
+      /**
+       * ### PRIVATE API
+       *
+       * Do not use, may change at any time
+       *
+       * @type {any}
+       */
+      __publicField(this, "$$");
+      /**
+       * ### PRIVATE API
+       *
+       * Do not use, may change at any time
+       *
+       * @type {any}
+       */
+      __publicField(this, "$$set");
+    }
+    /** @returns {void} */
+    $destroy() {
+      destroy_component(this, 1);
+      this.$destroy = noop;
+    }
+    /**
+     * @template {Extract<keyof Events, string>} K
+     * @param {K} type
+     * @param {((e: Events[K]) => void) | null | undefined} callback
+     * @returns {() => void}
+     */
+    $on(type, callback) {
+      if (!is_function(callback)) {
+        return noop;
+      }
+      const callbacks = this.$$.callbacks[type] || (this.$$.callbacks[type] = []);
+      callbacks.push(callback);
+      return () => {
+        const index = callbacks.indexOf(callback);
+        if (index !== -1)
+          callbacks.splice(index, 1);
+      };
+    }
+    /**
+     * @param {Partial<Props>} props
+     * @returns {void}
+     */
+    $set(props) {
+      if (this.$$set && !is_empty(props)) {
+        this.$$.skip_bound = true;
+        this.$$set(props);
+        this.$$.skip_bound = false;
+      }
+    }
+  }
+  const PUBLIC_VERSION = "4";
+  if (typeof window !== "undefined")
+    (window.__svelte || (window.__svelte = { v: /* @__PURE__ */ new Set() })).v.add(PUBLIC_VERSION);
   var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
   function getDefaultExportFromCjs(x) {
     return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
@@ -344,689 +680,488 @@
   })(dayjs_min);
   var dayjs_minExports = dayjs_min.exports;
   const dayjs = /* @__PURE__ */ getDefaultExportFromCjs(dayjs_minExports);
-  function getAfBalloon() {
-    var _a, _b, _c, _d;
-    const streamStartTimeString = _GM_getValue(TEMP_START_TIME, "");
-    if (streamStartTimeString === "") {
-      console.error("startTime이 없음");
-      alert("에러 발생: startTime이 없음");
-      return;
-    }
-    const streamStartTime = dayjs(streamStartTimeString);
-    _GM_setValue(AF_WORKING, true);
-    const currentPage = _GM_getValue(AF_TEMP_CURRENT_PAGE, 1);
-    const cols = document.querySelectorAll("body > div.sub_whole > div.sub_contents > div > div.myballoon > div:nth-child(2) > table > tbody > tr");
-    const lastPage = cols.length !== 11;
-    const balloonRawData = _GM_getValue(AF_TEMP_RAW_DATA, []);
-    for (let i = 1; i < cols.length; i++) {
-      const col = cols[i];
-      const timeText = (_a = col.querySelector("td:nth-child(1)")) == null ? void 0 : _a.textContent;
-      if (!timeText) {
-        console.error("No time element found");
-        alert("아프리카 별풍선 정보를 가져오는 도중 오류가 발생했습니다.");
-        continue;
+  var Utils;
+  ((Utils2) => {
+    async function getTimeValue(key, defaultValue = null) {
+      const value = await _GM.getValue(key, null);
+      if (!value) {
+        return defaultValue;
       }
-      const time = dayjs(timeText);
-      if (time.isAfter(streamStartTime) || lastPage && i === cols.length) {
-        const idAndNickname = (_b = col.querySelector("td:nth-child(2) > span")) == null ? void 0 : _b.textContent;
-        if (!idAndNickname) {
-          continue;
+      return dayjs(value);
+    }
+    Utils2.getTimeValue = getTimeValue;
+    async function getAllBalloons() {
+      const keys = await _GM.getValue(BALLOON_KEYS, []);
+      const balloons = await Promise.all(keys.map(async (key) => {
+        return await _GM.getValue(key, null);
+      }));
+      return balloons;
+    }
+    Utils2.getAllBalloons = getAllBalloons;
+    async function deleteAllBalloons() {
+      const keys = await _GM.getValue(BALLOON_KEYS, []);
+      await Promise.all(keys.map(async (key) => {
+        await _GM.deleteValue(key);
+      }));
+      await _GM.deleteValue(BALLOON_KEYS);
+    }
+    Utils2.deleteAllBalloons = deleteAllBalloons;
+    function sortData(data, type) {
+      switch (type) {
+        case "asc":
+          return Object.values(data).sort((a, b) => {
+            return a.nicknames[0].localeCompare(b.nicknames[0]);
+          });
+        case "desc":
+          return Object.values(data).sort((a, b) => {
+            return b.nicknames[0].localeCompare(a.nicknames[0]);
+          });
+      }
+    }
+    Utils2.sortData = sortData;
+  })(Utils || (Utils = {}));
+  function get_each_context(ctx, list, i) {
+    const child_ctx = ctx.slice();
+    child_ctx[4] = list[i];
+    return child_ctx;
+  }
+  function get_each_context_1(ctx, list, i) {
+    const child_ctx = ctx.slice();
+    child_ctx[7] = list[i];
+    child_ctx[9] = i;
+    return child_ctx;
+  }
+  function create_if_block_1(ctx) {
+    let td;
+    let t_value = (
+      /*value*/
+      ctx[4].message[0] + ""
+    );
+    let t;
+    return {
+      c() {
+        td = element("td");
+        t = text(t_value);
+      },
+      m(target, anchor) {
+        insert(target, td, anchor);
+        append(td, t);
+      },
+      p(ctx2, dirty) {
+        if (dirty & /*sortedData*/
+        2 && t_value !== (t_value = /*value*/
+        ctx2[4].message[0] + ""))
+          set_data(t, t_value);
+      },
+      d(detaching) {
+        if (detaching) {
+          detach(td);
         }
-        const idAndNicknameArr = idAndNickname.split("(");
-        const nickname = idAndNicknameArr[0];
-        const id = idAndNicknameArr[1].replace(")", "");
-        const amount = (_d = (_c = col.querySelector("td:nth-child(3)")) == null ? void 0 : _c.textContent) == null ? void 0 : _d.replace("개", "");
-        const newBalloonData = {
-          uid: id,
-          nickname,
-          balloonAmount: Number(amount)
-        };
-        balloonRawData.push(newBalloonData);
-      } else {
-        const balloonMapData = /* @__PURE__ */ new Map();
-        for (const data of balloonRawData) {
-          if (!balloonMapData.has(data.uid)) {
-            balloonMapData.set(data.uid, {
-              uid: data.uid,
-              nicknames: [],
-              balloonAmountSum: 0,
-              balloonCount: 0
-            });
+      }
+    };
+  }
+  function create_if_block(ctx) {
+    let tr;
+    let td0;
+    let t0;
+    let td1;
+    let t1;
+    let td2;
+    let t2;
+    let td3;
+    let t3_value = (
+      /*message*/
+      ctx[7] + ""
+    );
+    let t3;
+    let t4;
+    return {
+      c() {
+        tr = element("tr");
+        td0 = element("td");
+        t0 = space();
+        td1 = element("td");
+        t1 = space();
+        td2 = element("td");
+        t2 = space();
+        td3 = element("td");
+        t3 = text(t3_value);
+        t4 = space();
+      },
+      m(target, anchor) {
+        insert(target, tr, anchor);
+        append(tr, td0);
+        append(tr, t0);
+        append(tr, td1);
+        append(tr, t1);
+        append(tr, td2);
+        append(tr, t2);
+        append(tr, td3);
+        append(td3, t3);
+        append(tr, t4);
+      },
+      p(ctx2, dirty) {
+        if (dirty & /*sortedData*/
+        2 && t3_value !== (t3_value = /*message*/
+        ctx2[7] + ""))
+          set_data(t3, t3_value);
+      },
+      d(detaching) {
+        if (detaching) {
+          detach(tr);
+        }
+      }
+    };
+  }
+  function create_each_block_1(ctx) {
+    let if_block_anchor;
+    let if_block = (
+      /*index*/
+      ctx[9] > 0 && create_if_block(ctx)
+    );
+    return {
+      c() {
+        if (if_block)
+          if_block.c();
+        if_block_anchor = empty();
+      },
+      m(target, anchor) {
+        if (if_block)
+          if_block.m(target, anchor);
+        insert(target, if_block_anchor, anchor);
+      },
+      p(ctx2, dirty) {
+        if (
+          /*index*/
+          ctx2[9] > 0
+        )
+          if_block.p(ctx2, dirty);
+      },
+      d(detaching) {
+        if (detaching) {
+          detach(if_block_anchor);
+        }
+        if (if_block)
+          if_block.d(detaching);
+      }
+    };
+  }
+  function create_each_block(ctx) {
+    let tr;
+    let td0;
+    let t0_value = (
+      /*value*/
+      ctx[4].uid + ""
+    );
+    let t0;
+    let t1;
+    let td1;
+    let t2_value = (
+      /*value*/
+      ctx[4].nicknames.join(", ") + ""
+    );
+    let t2;
+    let t3;
+    let td2;
+    let t4_value = (
+      /*value*/
+      ctx[4].amountSum + ""
+    );
+    let t4;
+    let t5;
+    let t6;
+    let each_1_anchor;
+    let if_block = (
+      /*value*/
+      ctx[4].message.length > 0 && create_if_block_1(ctx)
+    );
+    let each_value_1 = ensure_array_like(
+      /*value*/
+      ctx[4].message
+    );
+    let each_blocks = [];
+    for (let i = 0; i < each_value_1.length; i += 1) {
+      each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
+    }
+    return {
+      c() {
+        tr = element("tr");
+        td0 = element("td");
+        t0 = text(t0_value);
+        t1 = space();
+        td1 = element("td");
+        t2 = text(t2_value);
+        t3 = space();
+        td2 = element("td");
+        t4 = text(t4_value);
+        t5 = space();
+        if (if_block)
+          if_block.c();
+        t6 = space();
+        for (let i = 0; i < each_blocks.length; i += 1) {
+          each_blocks[i].c();
+        }
+        each_1_anchor = empty();
+      },
+      m(target, anchor) {
+        insert(target, tr, anchor);
+        append(tr, td0);
+        append(td0, t0);
+        append(tr, t1);
+        append(tr, td1);
+        append(td1, t2);
+        append(tr, t3);
+        append(tr, td2);
+        append(td2, t4);
+        append(tr, t5);
+        if (if_block)
+          if_block.m(tr, null);
+        insert(target, t6, anchor);
+        for (let i = 0; i < each_blocks.length; i += 1) {
+          if (each_blocks[i]) {
+            each_blocks[i].m(target, anchor);
           }
-          const balloonData = balloonMapData.get(data.uid);
-          if (!balloonData.nicknames.includes(data.nickname)) {
-            balloonData.nicknames.push(data.nickname);
+        }
+        insert(target, each_1_anchor, anchor);
+      },
+      p(ctx2, dirty) {
+        if (dirty & /*sortedData*/
+        2 && t0_value !== (t0_value = /*value*/
+        ctx2[4].uid + ""))
+          set_data(t0, t0_value);
+        if (dirty & /*sortedData*/
+        2 && t2_value !== (t2_value = /*value*/
+        ctx2[4].nicknames.join(", ") + ""))
+          set_data(t2, t2_value);
+        if (dirty & /*sortedData*/
+        2 && t4_value !== (t4_value = /*value*/
+        ctx2[4].amountSum + ""))
+          set_data(t4, t4_value);
+        if (
+          /*value*/
+          ctx2[4].message.length > 0
+        ) {
+          if (if_block) {
+            if_block.p(ctx2, dirty);
+          } else {
+            if_block = create_if_block_1(ctx2);
+            if_block.c();
+            if_block.m(tr, null);
           }
-          balloonData.balloonAmountSum += data.balloonAmount;
-          balloonData.balloonCount++;
+        } else if (if_block) {
+          if_block.d(1);
+          if_block = null;
         }
-        const afBalloonData = {
-          timestamp: streamStartTimeString,
-          balloonData: Array.from(balloonMapData.values())
-        };
-        _GM_setValue(AF_BALLOON_DATA, afBalloonData);
-        _GM_deleteValue(AF_WORKING);
-        _GM_deleteValue(TEMP_START_TIME);
-        _GM_deleteValue(AF_TEMP_RAW_DATA);
-        _GM_deleteValue(AF_TEMP_CURRENT_PAGE);
-        _GM_setValue(AUTO_OPEN, true);
-        return;
-      }
-    }
-    _GM_setValue(AF_TEMP_RAW_DATA, balloonRawData);
-    _GM_setValue(AF_TEMP_CURRENT_PAGE, currentPage + 1);
-    goBJPage(currentPage + 1);
-  }
-  function noop() {
-  }
-  function run(fn) {
-    return fn();
-  }
-  function blank_object() {
-    return /* @__PURE__ */ Object.create(null);
-  }
-  function run_all(fns) {
-    fns.forEach(run);
-  }
-  function is_function(thing) {
-    return typeof thing === "function";
-  }
-  function safe_not_equal(a, b) {
-    return a != a ? b == b : a !== b || a && typeof a === "object" || typeof a === "function";
-  }
-  function is_empty(obj) {
-    return Object.keys(obj).length === 0;
-  }
-  function append(target, node) {
-    target.appendChild(node);
-  }
-  function insert(target, node, anchor) {
-    target.insertBefore(node, anchor || null);
-  }
-  function detach(node) {
-    if (node.parentNode) {
-      node.parentNode.removeChild(node);
-    }
-  }
-  function element(name) {
-    return document.createElement(name);
-  }
-  function text(data) {
-    return document.createTextNode(data);
-  }
-  function space() {
-    return text(" ");
-  }
-  function listen(node, event, handler, options) {
-    node.addEventListener(event, handler, options);
-    return () => node.removeEventListener(event, handler, options);
-  }
-  function attr(node, attribute, value) {
-    if (value == null)
-      node.removeAttribute(attribute);
-    else if (node.getAttribute(attribute) !== value)
-      node.setAttribute(attribute, value);
-  }
-  function children(element2) {
-    return Array.from(element2.childNodes);
-  }
-  function set_data(text2, data) {
-    data = "" + data;
-    if (text2.data === data)
-      return;
-    text2.data = /** @type {string} */
-    data;
-  }
-  function set_input_value(input, value) {
-    input.value = value == null ? "" : value;
-  }
-  function select_option(select, value, mounting) {
-    for (let i = 0; i < select.options.length; i += 1) {
-      const option = select.options[i];
-      if (option.__value === value) {
-        option.selected = true;
-        return;
-      }
-    }
-    if (!mounting || value !== void 0) {
-      select.selectedIndex = -1;
-    }
-  }
-  function select_value(select) {
-    const selected_option = select.querySelector(":checked");
-    return selected_option && selected_option.__value;
-  }
-  let current_component;
-  function set_current_component(component) {
-    current_component = component;
-  }
-  const dirty_components = [];
-  const binding_callbacks = [];
-  let render_callbacks = [];
-  const flush_callbacks = [];
-  const resolved_promise = /* @__PURE__ */ Promise.resolve();
-  let update_scheduled = false;
-  function schedule_update() {
-    if (!update_scheduled) {
-      update_scheduled = true;
-      resolved_promise.then(flush);
-    }
-  }
-  function add_render_callback(fn) {
-    render_callbacks.push(fn);
-  }
-  function add_flush_callback(fn) {
-    flush_callbacks.push(fn);
-  }
-  const seen_callbacks = /* @__PURE__ */ new Set();
-  let flushidx = 0;
-  function flush() {
-    if (flushidx !== 0) {
-      return;
-    }
-    const saved_component = current_component;
-    do {
-      try {
-        while (flushidx < dirty_components.length) {
-          const component = dirty_components[flushidx];
-          flushidx++;
-          set_current_component(component);
-          update(component.$$);
+        if (dirty & /*Object, sortedData*/
+        2) {
+          each_value_1 = ensure_array_like(
+            /*value*/
+            ctx2[4].message
+          );
+          let i;
+          for (i = 0; i < each_value_1.length; i += 1) {
+            const child_ctx = get_each_context_1(ctx2, each_value_1, i);
+            if (each_blocks[i]) {
+              each_blocks[i].p(child_ctx, dirty);
+            } else {
+              each_blocks[i] = create_each_block_1(child_ctx);
+              each_blocks[i].c();
+              each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+            }
+          }
+          for (; i < each_blocks.length; i += 1) {
+            each_blocks[i].d(1);
+          }
+          each_blocks.length = each_value_1.length;
         }
-      } catch (e) {
-        dirty_components.length = 0;
-        flushidx = 0;
-        throw e;
-      }
-      set_current_component(null);
-      dirty_components.length = 0;
-      flushidx = 0;
-      while (binding_callbacks.length)
-        binding_callbacks.pop()();
-      for (let i = 0; i < render_callbacks.length; i += 1) {
-        const callback = render_callbacks[i];
-        if (!seen_callbacks.has(callback)) {
-          seen_callbacks.add(callback);
-          callback();
+      },
+      d(detaching) {
+        if (detaching) {
+          detach(tr);
+          detach(t6);
+          detach(each_1_anchor);
         }
+        if (if_block)
+          if_block.d();
+        destroy_each(each_blocks, detaching);
       }
-      render_callbacks.length = 0;
-    } while (dirty_components.length);
-    while (flush_callbacks.length) {
-      flush_callbacks.pop()();
-    }
-    update_scheduled = false;
-    seen_callbacks.clear();
-    set_current_component(saved_component);
-  }
-  function update($$) {
-    if ($$.fragment !== null) {
-      $$.update();
-      run_all($$.before_update);
-      const dirty = $$.dirty;
-      $$.dirty = [-1];
-      $$.fragment && $$.fragment.p($$.ctx, dirty);
-      $$.after_update.forEach(add_render_callback);
-    }
-  }
-  function flush_render_callbacks(fns) {
-    const filtered = [];
-    const targets = [];
-    render_callbacks.forEach((c) => fns.indexOf(c) === -1 ? filtered.push(c) : targets.push(c));
-    targets.forEach((c) => c());
-    render_callbacks = filtered;
-  }
-  const outroing = /* @__PURE__ */ new Set();
-  let outros;
-  function transition_in(block, local) {
-    if (block && block.i) {
-      outroing.delete(block);
-      block.i(local);
-    }
-  }
-  function transition_out(block, local, detach2, callback) {
-    if (block && block.o) {
-      if (outroing.has(block))
-        return;
-      outroing.add(block);
-      outros.c.push(() => {
-        outroing.delete(block);
-        if (callback) {
-          if (detach2)
-            block.d(1);
-          callback();
-        }
-      });
-      block.o(local);
-    } else if (callback) {
-      callback();
-    }
-  }
-  function bind(component, name, callback) {
-    const index = component.$$.props[name];
-    if (index !== void 0) {
-      component.$$.bound[index] = callback;
-      callback(component.$$.ctx[index]);
-    }
-  }
-  function create_component(block) {
-    block && block.c();
-  }
-  function mount_component(component, target, anchor) {
-    const { fragment, after_update } = component.$$;
-    fragment && fragment.m(target, anchor);
-    add_render_callback(() => {
-      const new_on_destroy = component.$$.on_mount.map(run).filter(is_function);
-      if (component.$$.on_destroy) {
-        component.$$.on_destroy.push(...new_on_destroy);
-      } else {
-        run_all(new_on_destroy);
-      }
-      component.$$.on_mount = [];
-    });
-    after_update.forEach(add_render_callback);
-  }
-  function destroy_component(component, detaching) {
-    const $$ = component.$$;
-    if ($$.fragment !== null) {
-      flush_render_callbacks($$.after_update);
-      run_all($$.on_destroy);
-      $$.fragment && $$.fragment.d(detaching);
-      $$.on_destroy = $$.fragment = null;
-      $$.ctx = [];
-    }
-  }
-  function make_dirty(component, i) {
-    if (component.$$.dirty[0] === -1) {
-      dirty_components.push(component);
-      schedule_update();
-      component.$$.dirty.fill(0);
-    }
-    component.$$.dirty[i / 31 | 0] |= 1 << i % 31;
-  }
-  function init(component, options, instance2, create_fragment2, not_equal, props, append_styles = null, dirty = [-1]) {
-    const parent_component = current_component;
-    set_current_component(component);
-    const $$ = component.$$ = {
-      fragment: null,
-      ctx: [],
-      // state
-      props,
-      update: noop,
-      not_equal,
-      bound: blank_object(),
-      // lifecycle
-      on_mount: [],
-      on_destroy: [],
-      on_disconnect: [],
-      before_update: [],
-      after_update: [],
-      context: new Map(options.context || (parent_component ? parent_component.$$.context : [])),
-      // everything else
-      callbacks: blank_object(),
-      dirty,
-      skip_bound: false,
-      root: options.target || parent_component.$$.root
     };
-    append_styles && append_styles($$.root);
-    let ready = false;
-    $$.ctx = instance2 ? instance2(component, options.props || {}, (i, ret, ...rest) => {
-      const value = rest.length ? rest[0] : ret;
-      if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
-        if (!$$.skip_bound && $$.bound[i])
-          $$.bound[i](value);
-        if (ready)
-          make_dirty(component, i);
-      }
-      return ret;
-    }) : [];
-    $$.update();
-    ready = true;
-    run_all($$.before_update);
-    $$.fragment = create_fragment2 ? create_fragment2($$.ctx) : false;
-    if (options.target) {
-      if (options.hydrate) {
-        const nodes = children(options.target);
-        $$.fragment && $$.fragment.l(nodes);
-        nodes.forEach(detach);
-      } else {
-        $$.fragment && $$.fragment.c();
-      }
-      if (options.intro)
-        transition_in(component.$$.fragment);
-      mount_component(component, options.target, options.anchor);
-      flush();
-    }
-    set_current_component(parent_component);
   }
-  class SvelteComponent {
-    constructor() {
-      /**
-       * ### PRIVATE API
-       *
-       * Do not use, may change at any time
-       *
-       * @type {any}
-       */
-      __publicField(this, "$$");
-      /**
-       * ### PRIVATE API
-       *
-       * Do not use, may change at any time
-       *
-       * @type {any}
-       */
-      __publicField(this, "$$set");
+  function create_fragment$2(ctx) {
+    let dialog;
+    let div;
+    let select;
+    let option0;
+    let option1;
+    let option2;
+    let t3;
+    let table;
+    let thead;
+    let t11;
+    let tbody;
+    let t12;
+    let form;
+    let mounted;
+    let dispose;
+    let each_value = ensure_array_like(Object.values(
+      /*sortedData*/
+      ctx[1]
+    ));
+    let each_blocks = [];
+    for (let i = 0; i < each_value.length; i += 1) {
+      each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
     }
-    /** @returns {void} */
-    $destroy() {
-      destroy_component(this, 1);
-      this.$destroy = noop;
-    }
-    /**
-     * @template {Extract<keyof Events, string>} K
-     * @param {K} type
-     * @param {((e: Events[K]) => void) | null | undefined} callback
-     * @returns {() => void}
-     */
-    $on(type, callback) {
-      if (!is_function(callback)) {
-        return noop;
-      }
-      const callbacks = this.$$.callbacks[type] || (this.$$.callbacks[type] = []);
-      callbacks.push(callback);
-      return () => {
-        const index = callbacks.indexOf(callback);
-        if (index !== -1)
-          callbacks.splice(index, 1);
-      };
-    }
-    /**
-     * @param {Partial<Props>} props
-     * @returns {void}
-     */
-    $set(props) {
-      if (this.$$set && !is_empty(props)) {
-        this.$$.skip_bound = true;
-        this.$$set(props);
-        this.$$.skip_bound = false;
-      }
-    }
-  }
-  const PUBLIC_VERSION = "4";
-  if (typeof window !== "undefined")
-    (window.__svelte || (window.__svelte = { v: /* @__PURE__ */ new Set() })).v.add(PUBLIC_VERSION);
-  function parseRawHeaders(h) {
-    const s = h.trim();
-    if (!s) {
-      return new Headers();
-    }
-    const array = s.split("\r\n").map((value) => {
-      let s2 = value.split(":");
-      return [s2[0].trim(), s2[1].trim()];
-    });
-    return new Headers(array);
-  }
-  function parseGMResponse(req, res) {
-    return new ResImpl(res.response, {
-      statusCode: res.status,
-      statusText: res.statusText,
-      headers: parseRawHeaders(res.responseHeaders),
-      finalUrl: res.finalUrl,
-      redirected: res.finalUrl === req.url
-    });
-  }
-  class ResImpl {
-    constructor(body, init2) {
-      this.rawBody = body;
-      this.init = init2;
-      this.body = toReadableStream(body);
-      const { headers, statusCode, statusText, finalUrl, redirected } = init2;
-      this.headers = headers;
-      this.status = statusCode;
-      this.statusText = statusText;
-      this.url = finalUrl;
-      this.type = "basic";
-      this.redirected = redirected;
-      this._bodyUsed = false;
-    }
-    get bodyUsed() {
-      return this._bodyUsed;
-    }
-    get ok() {
-      return this.status < 300;
-    }
-    arrayBuffer() {
-      if (this.bodyUsed) {
-        throw new TypeError("Failed to execute 'arrayBuffer' on 'Response': body stream already read");
-      }
-      this._bodyUsed = true;
-      return this.rawBody.arrayBuffer();
-    }
-    blob() {
-      if (this.bodyUsed) {
-        throw new TypeError("Failed to execute 'blob' on 'Response': body stream already read");
-      }
-      this._bodyUsed = true;
-      return Promise.resolve(this.rawBody.slice(0, this.rawBody.size, this.rawBody.type));
-    }
-    clone() {
-      if (this.bodyUsed) {
-        throw new TypeError("Failed to execute 'clone' on 'Response': body stream already read");
-      }
-      return new ResImpl(this.rawBody, this.init);
-    }
-    formData() {
-      if (this.bodyUsed) {
-        throw new TypeError("Failed to execute 'formData' on 'Response': body stream already read");
-      }
-      this._bodyUsed = true;
-      return this.rawBody.text().then(decode);
-    }
-    async json() {
-      if (this.bodyUsed) {
-        throw new TypeError("Failed to execute 'json' on 'Response': body stream already read");
-      }
-      this._bodyUsed = true;
-      return JSON.parse(await this.rawBody.text());
-    }
-    text() {
-      if (this.bodyUsed) {
-        throw new TypeError("Failed to execute 'text' on 'Response': body stream already read");
-      }
-      this._bodyUsed = true;
-      return this.rawBody.text();
-    }
-  }
-  function decode(body) {
-    const form = new FormData();
-    body.trim().split("&").forEach(function(bytes) {
-      var _a;
-      if (bytes) {
-        const split = bytes.split("=");
-        const name = (_a = split.shift()) == null ? void 0 : _a.replace(/\+/g, " ");
-        const value = split.join("=").replace(/\+/g, " ");
-        form.append(decodeURIComponent(name), decodeURIComponent(value));
-      }
-    });
-    return form;
-  }
-  function toReadableStream(value) {
-    return new ReadableStream({
-      start(controller) {
-        controller.enqueue(value);
-        controller.close();
-      }
-    });
-  }
-  async function GM_fetch(input, init2) {
-    const request = new Request(input, init2);
-    let data;
-    if (init2 == null ? void 0 : init2.body) {
-      data = await request.text();
-    }
-    return await XHR(request, init2, data);
-  }
-  function XHR(request, init2, data) {
-    return new Promise((resolve, reject) => {
-      if (request.signal && request.signal.aborted) {
-        return reject(new DOMException("Aborted", "AbortError"));
-      }
-      GM.xmlHttpRequest({
-        url: request.url,
-        method: gmXHRMethod(request.method.toUpperCase()),
-        headers: Object.fromEntries(new Headers(init2 == null ? void 0 : init2.headers).entries()),
-        data,
-        responseType: "blob",
-        onload(res) {
-          resolve(parseGMResponse(request, res));
-        },
-        onabort() {
-          reject(new DOMException("Aborted", "AbortError"));
-        },
-        ontimeout() {
-          reject(new TypeError("Network request failed, timeout"));
-        },
-        onerror(err) {
-          reject(new TypeError("Failed to fetch: " + err.finalUrl));
+    return {
+      c() {
+        dialog = element("dialog");
+        div = element("div");
+        select = element("select");
+        option0 = element("option");
+        option0.textContent = "정렬 순서";
+        option1 = element("option");
+        option1.textContent = "오름차순";
+        option2 = element("option");
+        option2.textContent = "내림차순";
+        t3 = space();
+        table = element("table");
+        thead = element("thead");
+        thead.innerHTML = `<tr class="bg-base-200 font-bold"><th>ID</th> <th>닉네임</th> <th>후원금액</th> <th>내용</th></tr>`;
+        t11 = space();
+        tbody = element("tbody");
+        for (let i = 0; i < each_blocks.length; i += 1) {
+          each_blocks[i].c();
         }
-      });
-    });
-  }
-  const httpMethods = ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "TRACE", "OPTIONS", "CONNECT"];
-  function includes(array, element2) {
-    return array.includes(element2);
-  }
-  function gmXHRMethod(method) {
-    if (includes(httpMethods, method)) {
-      return method;
-    }
-    throw new Error(`unsupported http method ${method}`);
-  }
-  function getAfHpBalloon(col, id, nickname) {
-    var _a, _b, _c;
-    const balloon = (_b = (_a = col.querySelector("td.value > p")) == null ? void 0 : _a.textContent) == null ? void 0 : _b.replace(" 개", "").replace(",", "");
-    if (!balloon) {
-      alert("별풍선 개수 가져오기 오류");
-      return;
-    }
-    if (isNaN(Number(balloon))) {
-      alert("별풍선 개수가 숫자가 아닌 값이 있습니다.");
-      return;
-    }
-    const msg = (_c = col.querySelector("td.msg > p")) == null ? void 0 : _c.textContent;
-    const newBalloonData = {
-      uid: id,
-      nickname,
-      balloonAmount: Number(balloon),
-      message: msg === null ? void 0 : msg
-    };
-    return newBalloonData;
-  }
-  function getAfHpSub(col, id, nickname) {
-    var _a, _b;
-    const month = (_b = (_a = col.querySelector("td.value > p")) == null ? void 0 : _a.textContent) == null ? void 0 : _b.replace(" 개월", "");
-    if (!month) {
-      alert("별풍선 개수 가져오기 오류");
-      return;
-    }
-    const newSubData = {
-      uid: id,
-      nickname,
-      month: Number(month)
-    };
-    return newSubData;
-  }
-  function getAfHp(streamStartTime) {
-    var _a, _b, _c, _d, _e, _f, _g;
-    const cols = document.querySelectorAll("#alertlist_table > tbody > tr");
-    const balloonRawData = [];
-    const subRawData = [];
-    for (const col of cols) {
-      const type = (_a = col.querySelector("td.type > p > b")) == null ? void 0 : _a.textContent;
-      const timeText = (_c = (_b = col.querySelector("td.time > p > span")) == null ? void 0 : _b.textContent) == null ? void 0 : _c.split("분")[0].replace("(", "");
-      const nickname = (_e = (_d = col.querySelector("td.name > p")) == null ? void 0 : _d.textContent) == null ? void 0 : _e.split("(")[0];
-      let id = (_g = (_f = col.querySelector("td.name > p > span")) == null ? void 0 : _f.textContent) == null ? void 0 : _g.slice(1, -1);
-      const time = dayjs().subtract(Number(timeText), "minute").add(1, "minutes");
-      if (time.isBefore(dayjs(streamStartTime))) {
-        continue;
-      }
-      if (!type) {
-        alert("타입 가져오기 오류");
-        continue;
-      }
-      if (!nickname) {
-        alert("닉네임 가져오기 오류");
-        return;
-      }
-      if (!id) {
-        id = nickname;
-        return;
-      }
-      if (type.startsWith("별풍선")) {
-        const data = getAfHpBalloon(col, id, nickname);
-        if (data === void 0) {
-          continue;
+        t12 = space();
+        form = element("form");
+        form.innerHTML = `<button>close</button>`;
+        option0.disabled = true;
+        option0.selected = true;
+        option0.__value = "정렬 순서";
+        set_input_value(option0, option0.__value);
+        option1.__value = "asc";
+        set_input_value(option1, option1.__value);
+        option2.__value = "desc";
+        set_input_value(option2, option2.__value);
+        attr(select, "class", "daisy-select w-full text-base-content mb-4");
+        if (
+          /*sortOrder*/
+          ctx[0] === void 0
+        )
+          add_render_callback(() => (
+            /*select_change_handler*/
+            ctx[3].call(select)
+          ));
+        attr(table, "class", "daisy-table overflow-x-auto");
+        attr(div, "class", "daisy-modal-box w-11/12 max-w-5xl");
+        attr(form, "class", "daisy-modal-backdrop");
+        attr(form, "method", "dialog");
+        attr(dialog, "class", "daisy-modal z-[1000]");
+        attr(dialog, "id", "data_modal");
+      },
+      m(target, anchor) {
+        insert(target, dialog, anchor);
+        append(dialog, div);
+        append(div, select);
+        append(select, option0);
+        append(select, option1);
+        append(select, option2);
+        select_option(
+          select,
+          /*sortOrder*/
+          ctx[0],
+          true
+        );
+        append(div, t3);
+        append(div, table);
+        append(table, thead);
+        append(table, t11);
+        append(table, tbody);
+        for (let i = 0; i < each_blocks.length; i += 1) {
+          if (each_blocks[i]) {
+            each_blocks[i].m(tbody, null);
+          }
         }
-        balloonRawData.push(data);
-        continue;
-      }
-      if (type.startsWith("구독")) {
-        const data = getAfHpSub(col, id, nickname);
-        if (data === void 0) {
-          continue;
+        append(dialog, t12);
+        append(dialog, form);
+        if (!mounted) {
+          dispose = listen(
+            select,
+            "change",
+            /*select_change_handler*/
+            ctx[3]
+          );
+          mounted = true;
         }
-        subRawData.push(data);
-        continue;
+      },
+      p(ctx2, [dirty]) {
+        if (dirty & /*sortOrder*/
+        1) {
+          select_option(
+            select,
+            /*sortOrder*/
+            ctx2[0]
+          );
+        }
+        if (dirty & /*Object, sortedData*/
+        2) {
+          each_value = ensure_array_like(Object.values(
+            /*sortedData*/
+            ctx2[1]
+          ));
+          let i;
+          for (i = 0; i < each_value.length; i += 1) {
+            const child_ctx = get_each_context(ctx2, each_value, i);
+            if (each_blocks[i]) {
+              each_blocks[i].p(child_ctx, dirty);
+            } else {
+              each_blocks[i] = create_each_block(child_ctx);
+              each_blocks[i].c();
+              each_blocks[i].m(tbody, null);
+            }
+          }
+          for (; i < each_blocks.length; i += 1) {
+            each_blocks[i].d(1);
+          }
+          each_blocks.length = each_value.length;
+        }
+      },
+      i: noop,
+      o: noop,
+      d(detaching) {
+        if (detaching) {
+          detach(dialog);
+        }
+        destroy_each(each_blocks, detaching);
+        mounted = false;
+        dispose();
       }
-    }
-    const balloonMapData = /* @__PURE__ */ new Map();
-    for (const data of balloonRawData) {
-      if (!balloonMapData.has(data.uid)) {
-        balloonMapData.set(data.uid, {
-          uid: data.uid,
-          nicknames: [],
-          balloonAmountSum: 0,
-          balloonCount: 0,
-          messageData: []
-        });
-      }
-      const balloonData = balloonMapData.get(data.uid);
-      if (!balloonData.nicknames.includes(data.nickname)) {
-        balloonData.nicknames.push(data.nickname);
-      }
-      balloonData.balloonAmountSum += data.balloonAmount;
-      if (data.message) {
-        balloonData.messageData.push(data.message);
-      }
-      balloonData.balloonCount++;
-    }
-    const afHpData = {
-      timestamp: streamStartTime,
-      balloonData: Array.from(balloonMapData.values()),
-      subData: subRawData
     };
-    _GM_setValue(HELPER_DATA, afHpData);
-    if (cols.length >= 200) {
-      const okay = confirm("200개 이상의 별풍선 메시지가 존재합니다. 별풍선 정보 웹사이트를 사용하여 나머지 정보를 가져오시겠습니까?");
-      if (okay) {
-        _GM_setValue(AUTO_OPEN, true);
-        _GM_openInTab("https://point.afreecatv.com/Balloon/AfreecaNormalExchange.asp", { active: true });
-      }
-    }
   }
-  async function getStreamStartTime(broadcastId) {
-    var _a;
-    const res = await GM_fetch("https://play.afreecatv.com/" + broadcastId);
-    const html = await res.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-    const timeText = (_a = doc.querySelector("#player_area > div.broadcast_information > div.text_information > ul > li:nth-child(1) > span")) == null ? void 0 : _a.textContent;
-    if (!timeText) {
-      console.error("time not found");
-      return;
+  function instance$2($$self, $$props, $$invalidate) {
+    let sortedData;
+    let { data } = $$props;
+    let sortOrder = "asc";
+    function select_change_handler() {
+      sortOrder = select_value(this);
+      $$invalidate(0, sortOrder);
     }
-    return timeText;
+    $$self.$$set = ($$props2) => {
+      if ("data" in $$props2)
+        $$invalidate(2, data = $$props2.data);
+    };
+    $$self.$$.update = () => {
+      if ($$self.$$.dirty & /*data, sortOrder*/
+      5) {
+        $$invalidate(1, sortedData = Utils.sortData(data, sortOrder));
+      }
+    };
+    return [sortOrder, sortedData, data, select_change_handler];
+  }
+  class ViewData extends SvelteComponent {
+    constructor(options) {
+      super();
+      init(this, options, instance$2, create_fragment$2, safe_not_equal, { data: 2 });
+    }
   }
   function commonjsRequire(path) {
     throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
@@ -26181,6 +26316,42 @@
     });
   })(exceljs_min);
   var exceljs_minExports = exceljs_min.exports;
+  function toExcel(data) {
+    const workbook = new exceljs_minExports.Workbook();
+    workbook.creator = "니나 계산기";
+    workbook.lastModifiedBy = "니나 계산기";
+    workbook.created = /* @__PURE__ */ new Date();
+    workbook.modified = /* @__PURE__ */ new Date();
+    const sheet = workbook.addWorksheet("별풍선");
+    const headers = ["ID", "닉네임", "후원금액", "내용"];
+    const headerRow = sheet.addRow(headers);
+    headerRow.font = { bold: true };
+    headerRow.fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "8DB4E2" }
+    };
+    for (const balloonData of Object.values(data)) {
+      const row = [
+        balloonData.uid,
+        balloonData.nicknames.join(", "),
+        balloonData.amountSum
+      ];
+      if (balloonData.message.length > 0) {
+        row.push(balloonData.message[0]);
+      }
+      const addedRow = sheet.addRow(row);
+      addedRow.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "C5D9F1" }
+      };
+      for (let i = 1; i < balloonData.message.length; i++) {
+        sheet.addRow(["", "", "", balloonData.message[i]]);
+      }
+    }
+    return workbook;
+  }
   var jszip_min = { exports: {} };
   /*!
 
@@ -28827,85 +28998,6 @@
   })(jszip_min);
   var jszip_minExports = jszip_min.exports;
   const JSZip = /* @__PURE__ */ getDefaultExportFromCjs(jszip_minExports);
-  function toExcel(data) {
-    const workbook = new exceljs_minExports.Workbook();
-    workbook.creator = "니나 계산기";
-    workbook.lastModifiedBy = "니나 계산기";
-    workbook.created = /* @__PURE__ */ new Date();
-    workbook.modified = /* @__PURE__ */ new Date();
-    const sheet = workbook.addWorksheet("별풍선");
-    const headers = ["ID", "닉네임", "도네 개수", "별풍선", "메시지"];
-    const headerRow = sheet.addRow(headers);
-    headerRow.font = { bold: true };
-    headerRow.fill = {
-      type: "pattern",
-      pattern: "solid",
-      fgColor: { argb: "8DB4E2" }
-    };
-    for (const balloonData of data.balloonData) {
-      const row = [
-        balloonData.uid,
-        balloonData.nicknames.join(", "),
-        balloonData.balloonCount,
-        balloonData.balloonAmountSum
-      ];
-      if (balloonData.messageData) {
-        if (headers.length === 3)
-          headers.push("메시지");
-        row.push(balloonData.messageData[0]);
-        const addedRow = sheet.addRow(row);
-        addedRow.fill = {
-          type: "pattern",
-          pattern: "solid",
-          fgColor: { argb: "C5D9F1" }
-        };
-        for (let i = 1; i < balloonData.messageData.length; i++) {
-          sheet.addRow(["", "", "", "", balloonData.messageData[i]]);
-        }
-      } else {
-        const addedRow = sheet.addRow(row);
-        addedRow.fill = {
-          type: "pattern",
-          pattern: "solid",
-          fgColor: { argb: "C5D9F1" }
-        };
-      }
-    }
-    if (data.subData) {
-      const sheet2 = workbook.addWorksheet("구독");
-      const headers2 = ["ID", "닉네임", "월"];
-      const headerRow2 = sheet2.addRow(headers2);
-      headerRow2.font = { bold: true };
-      headerRow2.fill = {
-        type: "pattern",
-        pattern: "solid",
-        fgColor: { argb: "8DB4E2" }
-      };
-      for (const subData of data.subData) {
-        const row = [
-          subData.uid,
-          subData.nickname,
-          subData.month
-        ];
-        sheet2.addRow(row);
-      }
-    }
-    return workbook;
-  }
-  function sortData(data, type) {
-    switch (type) {
-      case "asc":
-        return data.balloonData.sort((a, b) => a.nicknames[0].localeCompare(b.nicknames[0]));
-      case "desc":
-        return data.balloonData.sort((a, b) => b.nicknames[0].localeCompare(a.nicknames[0]));
-      case "latest":
-        return;
-      case "oldest":
-        return data.balloonData.reverse();
-      case "random":
-        return data.balloonData.sort(() => 0.5 - Math.random());
-    }
-  }
   async function downloadExcel(workbook, filename) {
     const fileData = await workbook.xlsx.writeBuffer();
     const blob = new Blob([fileData], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
@@ -28941,83 +29033,32 @@
       }
     });
   }
-  async function downloadData(data, sort) {
-    sortData(data, sort);
-    const excel = toExcel(data);
-    return downloadExcel(excel, `ninacalc ${data.timestamp}`);
-  }
-  function mixData(afData, afhpData) {
-    var _a;
-    for (const af of afData.balloonData) {
-      af.messageData = (_a = afhpData.balloonData.find((afhpDataBalloon) => af.uid === afhpDataBalloon.uid)) == null ? void 0 : _a.messageData;
-    }
-    return afData;
-  }
   function create_fragment$1(ctx) {
-    let div6;
+    let div3;
     let input;
     let t0;
     let div0;
     let t2;
-    let div5;
-    let div4;
+    let div2;
+    let div1;
     let select;
     let option0;
     let option1;
     let option2;
-    let option3;
-    let option4;
-    let option5;
-    let t9;
-    let div3;
-    let div1;
-    let h30;
-    let t11;
-    let button0;
-    let t12_value = (
-      /*afData*/
-      (ctx[0] === null ? "데이터 없음" : (
-        /*afData*/
-        ctx[0].timestamp
-      )) + ""
-    );
-    let t12;
-    let button0_disabled_value;
-    let t13;
-    let div2;
-    let h31;
-    let t15;
-    let button1;
-    let t16_value = (
-      /*afhpData*/
-      (ctx[1] === null ? "데이터 없음" : (
-        /*afhpData*/
-        ctx[1].timestamp
-      )) + ""
-    );
-    let t16;
-    let button1_disabled_value;
-    let t17;
-    let button2;
-    let t18_value = (
-      /*afData*/
-      ctx[0] === null || /*afhpData*/
-      ctx[1] === null ? "데이터 없음" : "데이터 병합 다운로드"
-    );
-    let t18;
-    let button2_disabled_value;
+    let t6;
+    let button;
     let mounted;
     let dispose;
     return {
       c() {
-        div6 = element("div");
+        div3 = element("div");
         input = element("input");
         t0 = space();
         div0 = element("div");
         div0.textContent = "데이터 다운로드";
         t2 = space();
-        div5 = element("div");
-        div4 = element("div");
+        div2 = element("div");
+        div1 = element("div");
         select = element("select");
         option0 = element("option");
         option0.textContent = "정렬 순서";
@@ -29025,30 +29066,10 @@
         option1.textContent = "오름차순";
         option2 = element("option");
         option2.textContent = "내림차순";
-        option3 = element("option");
-        option3.textContent = "최신";
-        option4 = element("option");
-        option4.textContent = "오래된순";
-        option5 = element("option");
-        option5.textContent = "랜덤";
-        t9 = space();
-        div3 = element("div");
-        div1 = element("div");
-        h30 = element("h3");
-        h30.textContent = "별풍선 데이터 다운로드";
-        t11 = space();
-        button0 = element("button");
-        t12 = text(t12_value);
-        t13 = space();
-        div2 = element("div");
-        h31 = element("h3");
-        h31.textContent = "아프리카 도우미 데이터 다운로드";
-        t15 = space();
-        button1 = element("button");
-        t16 = text(t16_value);
-        t17 = space();
-        button2 = element("button");
-        t18 = text(t18_value);
+        t6 = space();
+        button = element("button");
+        button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"></path></svg>
+                데이터 다운로드`;
         attr(input, "type", "checkbox");
         attr(div0, "class", "daisy-collapse-title text-xl font-medium");
         option0.disabled = true;
@@ -29059,102 +29080,53 @@
         set_input_value(option1, option1.__value);
         option2.__value = "desc";
         set_input_value(option2, option2.__value);
-        option3.__value = "latest";
-        set_input_value(option3, option3.__value);
-        option4.__value = "oldest";
-        set_input_value(option4, option4.__value);
-        option5.__value = "random";
-        set_input_value(option5, option5.__value);
         attr(select, "class", "daisy-select w-full text-base-content");
         if (
           /*sortOrder*/
-          ctx[2] === void 0
+          ctx[0] === void 0
         )
           add_render_callback(() => (
             /*select_change_handler*/
-            ctx[5].call(select)
+            ctx[3].call(select)
           ));
-        attr(h30, "class", "font-medium text-sm");
-        attr(button0, "class", "daisy-btn daisy-btn-primary");
-        button0.disabled = button0_disabled_value = /*afData*/
-        ctx[0] === null;
-        attr(div1, "class", "flex flex-col w-1/2");
-        attr(h31, "class", "font-medium text-sm");
-        attr(button1, "class", "daisy-btn daisy-btn-primary");
-        button1.disabled = button1_disabled_value = /*afhpData*/
-        ctx[1] === null;
-        attr(div2, "class", "flex flex-col w-1/2");
-        attr(div3, "class", "flex gap-4");
-        attr(button2, "class", "daisy-btn daisy-btn-primary");
-        button2.disabled = button2_disabled_value = /*afData*/
-        ctx[0] === null || /*afhpData*/
-        ctx[1] === null;
-        attr(div4, "class", "flex flex-col gap-4");
-        attr(div5, "class", "daisy-collapse-content");
-        attr(div6, "class", "daisy-collapse bg-base-200");
+        attr(button, "class", "daisy-btn daisy-btn-primary");
+        attr(div1, "class", "flex flex-col gap-4");
+        attr(div2, "class", "daisy-collapse-content");
+        attr(div3, "class", "daisy-collapse bg-base-200");
       },
       m(target, anchor) {
-        insert(target, div6, anchor);
-        append(div6, input);
-        append(div6, t0);
-        append(div6, div0);
-        append(div6, t2);
-        append(div6, div5);
-        append(div5, div4);
-        append(div4, select);
+        insert(target, div3, anchor);
+        append(div3, input);
+        append(div3, t0);
+        append(div3, div0);
+        append(div3, t2);
+        append(div3, div2);
+        append(div2, div1);
+        append(div1, select);
         append(select, option0);
         append(select, option1);
         append(select, option2);
-        append(select, option3);
-        append(select, option4);
-        append(select, option5);
         select_option(
           select,
           /*sortOrder*/
-          ctx[2],
+          ctx[0],
           true
         );
-        append(div4, t9);
-        append(div4, div3);
-        append(div3, div1);
-        append(div1, h30);
-        append(div1, t11);
-        append(div1, button0);
-        append(button0, t12);
-        append(div3, t13);
-        append(div3, div2);
-        append(div2, h31);
-        append(div2, t15);
-        append(div2, button1);
-        append(button1, t16);
-        append(div4, t17);
-        append(div4, button2);
-        append(button2, t18);
+        append(div1, t6);
+        append(div1, button);
         if (!mounted) {
           dispose = [
             listen(
               select,
               "change",
               /*select_change_handler*/
-              ctx[5]
+              ctx[3]
             ),
             listen(
-              button0,
+              button,
               "click",
-              /*click_handler*/
-              ctx[6]
-            ),
-            listen(
-              button1,
-              "click",
-              /*click_handler_1*/
-              ctx[7]
-            ),
-            listen(
-              button2,
-              "click",
-              /*downloadMixedClick*/
-              ctx[4]
+              /*onDownload*/
+              ctx[1]
             )
           ];
           mounted = true;
@@ -29162,54 +29134,19 @@
       },
       p(ctx2, [dirty]) {
         if (dirty & /*sortOrder*/
-        4) {
+        1) {
           select_option(
             select,
             /*sortOrder*/
-            ctx2[2]
+            ctx2[0]
           );
-        }
-        if (dirty & /*afData*/
-        1 && t12_value !== (t12_value = /*afData*/
-        (ctx2[0] === null ? "데이터 없음" : (
-          /*afData*/
-          ctx2[0].timestamp
-        )) + ""))
-          set_data(t12, t12_value);
-        if (dirty & /*afData*/
-        1 && button0_disabled_value !== (button0_disabled_value = /*afData*/
-        ctx2[0] === null)) {
-          button0.disabled = button0_disabled_value;
-        }
-        if (dirty & /*afhpData*/
-        2 && t16_value !== (t16_value = /*afhpData*/
-        (ctx2[1] === null ? "데이터 없음" : (
-          /*afhpData*/
-          ctx2[1].timestamp
-        )) + ""))
-          set_data(t16, t16_value);
-        if (dirty & /*afhpData*/
-        2 && button1_disabled_value !== (button1_disabled_value = /*afhpData*/
-        ctx2[1] === null)) {
-          button1.disabled = button1_disabled_value;
-        }
-        if (dirty & /*afData, afhpData*/
-        3 && t18_value !== (t18_value = /*afData*/
-        ctx2[0] === null || /*afhpData*/
-        ctx2[1] === null ? "데이터 없음" : "데이터 병합 다운로드"))
-          set_data(t18, t18_value);
-        if (dirty & /*afData, afhpData*/
-        3 && button2_disabled_value !== (button2_disabled_value = /*afData*/
-        ctx2[0] === null || /*afhpData*/
-        ctx2[1] === null)) {
-          button2.disabled = button2_disabled_value;
         }
       },
       i: noop,
       o: noop,
       d(detaching) {
         if (detaching) {
-          detach(div6);
+          detach(div3);
         }
         mounted = false;
         run_all(dispose);
@@ -29217,302 +29154,173 @@
     };
   }
   function instance$1($$self, $$props, $$invalidate) {
-    let { afData } = $$props;
-    let { afhpData } = $$props;
+    var sortData = Utils.sortData;
+    let { data } = $$props;
     let sortOrder = "asc";
-    function downloadClick(data) {
-      if (data === null) {
-        alert("데이터가 없습니다.");
-        return;
-      }
-      downloadData(data, sortOrder);
-    }
-    function downloadMixedClick() {
-      if (afData === null || afhpData === null) {
-        alert("데이터가 없습니다.");
-        return;
-      }
-      if (afData.timestamp !== afhpData.timestamp) {
-        alert("두 데이터의 방송 시작 시간이 다릅니다.");
-        return;
-      }
-      downloadData(mixData(afData, afhpData), sortOrder);
-    }
+    const startTime = _GM_getValue(LAST_SAVE_TIME);
+    const onDownload = () => {
+      const sortedData = sortData(data, sortOrder);
+      const excelData = toExcel(sortedData);
+      downloadExcel(excelData, dayjs(startTime).format("YYYY-MM-DD"));
+    };
     function select_change_handler() {
       sortOrder = select_value(this);
-      $$invalidate(2, sortOrder);
+      $$invalidate(0, sortOrder);
     }
-    const click_handler = () => downloadClick(afData);
-    const click_handler_1 = () => downloadClick(afhpData);
     $$self.$$set = ($$props2) => {
-      if ("afData" in $$props2)
-        $$invalidate(0, afData = $$props2.afData);
-      if ("afhpData" in $$props2)
-        $$invalidate(1, afhpData = $$props2.afhpData);
+      if ("data" in $$props2)
+        $$invalidate(2, data = $$props2.data);
     };
-    return [
-      afData,
-      afhpData,
-      sortOrder,
-      downloadClick,
-      downloadMixedClick,
-      select_change_handler,
-      click_handler,
-      click_handler_1
-    ];
+    return [sortOrder, onDownload, data, select_change_handler];
   }
   class DownloadCollpase extends SvelteComponent {
     constructor(options) {
       super();
-      init(this, options, instance$1, create_fragment$1, safe_not_equal, { afData: 0, afhpData: 1 });
+      init(this, options, instance$1, create_fragment$1, safe_not_equal, { data: 2 });
     }
-  }
-  function create_if_block(ctx) {
-    let h3;
-    let t1;
-    let input;
-    let t2;
-    let button;
-    let mounted;
-    let dispose;
-    return {
-      c() {
-        h3 = element("h3");
-        h3.textContent = "방송국 ID 입력";
-        t1 = space();
-        input = element("input");
-        t2 = space();
-        button = element("button");
-        button.textContent = "가져오기 시작";
-        attr(h3, "class", "font-bold text-lg");
-        attr(input, "type", "text");
-        attr(input, "placeholder", "방송국 ID");
-        attr(input, "class", "daisy-input daisy-input-bordered w-full max-w-xs");
-        attr(button, "class", "daisy-btn daisy-btn-primary");
-      },
-      m(target, anchor) {
-        insert(target, h3, anchor);
-        insert(target, t1, anchor);
-        insert(target, input, anchor);
-        set_input_value(
-          input,
-          /*broadcastId*/
-          ctx[0]
-        );
-        insert(target, t2, anchor);
-        insert(target, button, anchor);
-        if (!mounted) {
-          dispose = [
-            listen(
-              input,
-              "input",
-              /*input_input_handler*/
-              ctx[6]
-            ),
-            listen(
-              button,
-              "click",
-              /*onStartClick*/
-              ctx[5]
-            )
-          ];
-          mounted = true;
-        }
-      },
-      p(ctx2, dirty) {
-        if (dirty & /*broadcastId*/
-        1 && input.value !== /*broadcastId*/
-        ctx2[0]) {
-          set_input_value(
-            input,
-            /*broadcastId*/
-            ctx2[0]
-          );
-        }
-      },
-      d(detaching) {
-        if (detaching) {
-          detach(h3);
-          detach(t1);
-          detach(input);
-          detach(t2);
-          detach(button);
-        }
-        mounted = false;
-        run_all(dispose);
-      }
-    };
   }
   function create_fragment(ctx) {
     let dialog;
     let div1;
     let div0;
-    let t0;
-    let downloadcollpase;
-    let updating_afData;
-    let updating_afhpData;
+    let button0;
     let t1;
+    let button1;
+    let t3;
+    let downloadcollpase;
+    let t4;
     let form;
+    let t6;
+    let viewdata;
     let current;
-    let if_block = (
-      /*isBalloon*/
-      (ctx[4] || /*isHelper*/
-      ctx[3]) && create_if_block(ctx)
-    );
-    function downloadcollpase_afData_binding(value) {
-      ctx[7](value);
-    }
-    function downloadcollpase_afhpData_binding(value) {
-      ctx[8](value);
-    }
-    let downloadcollpase_props = {};
-    if (
-      /*afData*/
-      ctx[1] !== void 0
-    ) {
-      downloadcollpase_props.afData = /*afData*/
-      ctx[1];
-    }
-    if (
-      /*afHpData*/
-      ctx[2] !== void 0
-    ) {
-      downloadcollpase_props.afhpData = /*afHpData*/
-      ctx[2];
-    }
-    downloadcollpase = new DownloadCollpase({ props: downloadcollpase_props });
-    binding_callbacks.push(() => bind(downloadcollpase, "afData", downloadcollpase_afData_binding));
-    binding_callbacks.push(() => bind(downloadcollpase, "afhpData", downloadcollpase_afhpData_binding));
+    let mounted;
+    let dispose;
+    downloadcollpase = new DownloadCollpase({ props: { data: (
+      /*data*/
+      ctx[0]
+    ) } });
+    viewdata = new ViewData({ props: { data: (
+      /*data*/
+      ctx[0]
+    ) } });
     return {
       c() {
         dialog = element("dialog");
         div1 = element("div");
         div0 = element("div");
-        if (if_block)
-          if_block.c();
-        t0 = space();
-        create_component(downloadcollpase.$$.fragment);
+        button0 = element("button");
+        button0.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5"></path></svg>
+                별풍선 데이터 보기`;
         t1 = space();
+        button1 = element("button");
+        button1.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path></svg>
+                감사인사 미루기`;
+        t3 = space();
+        create_component(downloadcollpase.$$.fragment);
+        t4 = space();
         form = element("form");
         form.innerHTML = `<button>close</button>`;
+        t6 = space();
+        create_component(viewdata.$$.fragment);
+        attr(button0, "class", "daisy-btn daisy-btn-primary");
+        attr(button1, "class", "daisy-btn daisy-btn-warning");
         attr(div0, "class", "flex flex-col gap-4");
         attr(div1, "class", "daisy-modal-box");
         attr(form, "class", "daisy-modal-backdrop");
         attr(form, "method", "dialog");
-        attr(dialog, "class", "daisy-modal");
+        attr(dialog, "class", "daisy-modal z-[999]");
         attr(dialog, "id", "app_modal");
       },
       m(target, anchor) {
         insert(target, dialog, anchor);
         append(dialog, div1);
         append(div1, div0);
-        if (if_block)
-          if_block.m(div0, null);
-        append(div0, t0);
+        append(div0, button0);
+        append(div0, t1);
+        append(div0, button1);
+        append(div0, t3);
         mount_component(downloadcollpase, div0, null);
-        append(dialog, t1);
+        append(dialog, t4);
         append(dialog, form);
+        insert(target, t6, anchor);
+        mount_component(viewdata, target, anchor);
         current = true;
+        if (!mounted) {
+          dispose = [
+            listen(
+              button0,
+              "click",
+              /*openDataView*/
+              ctx[2]
+            ),
+            listen(
+              button1,
+              "click",
+              /*onPostpone*/
+              ctx[1]
+            )
+          ];
+          mounted = true;
+        }
       },
       p(ctx2, [dirty]) {
-        if (
-          /*isBalloon*/
-          ctx2[4] || /*isHelper*/
-          ctx2[3]
-        )
-          if_block.p(ctx2, dirty);
         const downloadcollpase_changes = {};
-        if (!updating_afData && dirty & /*afData*/
-        2) {
-          updating_afData = true;
-          downloadcollpase_changes.afData = /*afData*/
-          ctx2[1];
-          add_flush_callback(() => updating_afData = false);
-        }
-        if (!updating_afhpData && dirty & /*afHpData*/
-        4) {
-          updating_afhpData = true;
-          downloadcollpase_changes.afhpData = /*afHpData*/
-          ctx2[2];
-          add_flush_callback(() => updating_afhpData = false);
-        }
+        if (dirty & /*data*/
+        1)
+          downloadcollpase_changes.data = /*data*/
+          ctx2[0];
         downloadcollpase.$set(downloadcollpase_changes);
+        const viewdata_changes = {};
+        if (dirty & /*data*/
+        1)
+          viewdata_changes.data = /*data*/
+          ctx2[0];
+        viewdata.$set(viewdata_changes);
       },
       i(local) {
         if (current)
           return;
         transition_in(downloadcollpase.$$.fragment, local);
+        transition_in(viewdata.$$.fragment, local);
         current = true;
       },
       o(local) {
         transition_out(downloadcollpase.$$.fragment, local);
+        transition_out(viewdata.$$.fragment, local);
         current = false;
       },
       d(detaching) {
         if (detaching) {
           detach(dialog);
+          detach(t6);
         }
-        if (if_block)
-          if_block.d();
         destroy_component(downloadcollpase);
+        destroy_component(viewdata, detaching);
+        mounted = false;
+        run_all(dispose);
       }
     };
   }
   function instance($$self, $$props, $$invalidate) {
-    const currentSite = location.host + location.pathname;
-    const isHelper = currentSite === "afreehp.kr/setup/alertlist";
-    const isBalloon = currentSite === "point.afreecatv.com/Balloon/AfreecaNormalExchange.asp";
-    let broadcastId = _GM_getValue(BROADCASTER_ID, "");
-    let afData = _GM_getValue(AF_BALLOON_DATA, null);
-    let afHpData = _GM_getValue(HELPER_DATA, null);
-    async function onStartClick() {
-      _GM_setValue(BROADCASTER_ID, broadcastId);
-      let startTime = await getStreamStartTime(broadcastId);
-      if (!startTime) {
-        const ok = prompt("해당 라이버가 방송중이 아니거나 시간을 가져올 수 없습니다. 수동으로 입력해주세요.", dayjs().format("YYYY-MM-DD HH:mm:ss"));
-        if (ok) {
-          startTime = ok;
-        } else {
-          return;
-        }
+    const data = {};
+    const keys = _GM_getValue(BALLOON_KEYS, []);
+    for (const key of keys) {
+      const newData = _GM_getValue(key);
+      data[key] = newData;
+    }
+    document.addEventListener("balloonDataChanged", (event) => {
+      $$invalidate(0, data[BALLOON + event.detail.uid] = event.detail, data);
+    });
+    const onPostpone = async () => {
+      const ok = confirm("정말로 감사인사를 미루시겠습니까?");
+      if (ok) {
+        await _GM.setValue(IS_POSTPONE, true);
       }
-      if (!dayjs(startTime).isValid()) {
-        alert("시간을 잘못 입력하셨습니다. 다시 입력해주세요.");
-        return;
-      }
-      if (isHelper) {
-        getAfHp(startTime);
-        $$invalidate(2, afHpData = _GM_getValue(HELPER_DATA, null));
-      } else if (isBalloon) {
-        _GM_setValue(TEMP_START_TIME, startTime);
-        getAfBalloon();
-        $$invalidate(1, afData = _GM_getValue(AF_BALLOON_DATA, null));
-      }
-      alert("데이터 수집을 완료했습니다!");
-    }
-    function input_input_handler() {
-      broadcastId = this.value;
-      $$invalidate(0, broadcastId);
-    }
-    function downloadcollpase_afData_binding(value) {
-      afData = value;
-      $$invalidate(1, afData);
-    }
-    function downloadcollpase_afhpData_binding(value) {
-      afHpData = value;
-      $$invalidate(2, afHpData);
-    }
-    return [
-      broadcastId,
-      afData,
-      afHpData,
-      isHelper,
-      isBalloon,
-      onStartClick,
-      input_input_handler,
-      downloadcollpase_afData_binding,
-      downloadcollpase_afhpData_binding
-    ];
+    };
+    const openDataView = () => {
+      data_modal.showModal();
+    };
+    return [data, onPostpone, openDataView];
   }
   class Modal extends SvelteComponent {
     constructor(options) {
@@ -29520,24 +29328,338 @@
       init(this, options, instance, create_fragment, safe_not_equal, {});
     }
   }
-  if (_GM_getValue(AF_WORKING, false)) {
-    getAfBalloon();
-  }
-  new Modal({
-    target: (() => {
-      const app2 = document.createElement("div");
-      document.body.append(app2);
-      return app2;
-    })()
-  });
-  if (_GM_getValue(AUTO_OPEN, false)) {
-    app_modal.showModal();
-    _GM_setValue(AUTO_OPEN, false);
-  }
-  document.addEventListener("keydown", (e) => {
-    if (e.key == "F10") {
-      app_modal.showModal();
+  function parseRawHeaders(h) {
+    const s = h.trim();
+    if (!s) {
+      return new Headers();
     }
-  });
+    const array = s.split("\r\n").map((value) => {
+      let s2 = value.split(":");
+      return [s2[0].trim(), s2[1].trim()];
+    });
+    return new Headers(array);
+  }
+  function parseGMResponse(req, res) {
+    return new ResImpl(res.response, {
+      statusCode: res.status,
+      statusText: res.statusText,
+      headers: parseRawHeaders(res.responseHeaders),
+      finalUrl: res.finalUrl,
+      redirected: res.finalUrl === req.url
+    });
+  }
+  class ResImpl {
+    constructor(body, init2) {
+      this.rawBody = body;
+      this.init = init2;
+      this.body = toReadableStream(body);
+      const { headers, statusCode, statusText, finalUrl, redirected } = init2;
+      this.headers = headers;
+      this.status = statusCode;
+      this.statusText = statusText;
+      this.url = finalUrl;
+      this.type = "basic";
+      this.redirected = redirected;
+      this._bodyUsed = false;
+    }
+    get bodyUsed() {
+      return this._bodyUsed;
+    }
+    get ok() {
+      return this.status < 300;
+    }
+    arrayBuffer() {
+      if (this.bodyUsed) {
+        throw new TypeError("Failed to execute 'arrayBuffer' on 'Response': body stream already read");
+      }
+      this._bodyUsed = true;
+      return this.rawBody.arrayBuffer();
+    }
+    blob() {
+      if (this.bodyUsed) {
+        throw new TypeError("Failed to execute 'blob' on 'Response': body stream already read");
+      }
+      this._bodyUsed = true;
+      return Promise.resolve(this.rawBody.slice(0, this.rawBody.size, this.rawBody.type));
+    }
+    clone() {
+      if (this.bodyUsed) {
+        throw new TypeError("Failed to execute 'clone' on 'Response': body stream already read");
+      }
+      return new ResImpl(this.rawBody, this.init);
+    }
+    formData() {
+      if (this.bodyUsed) {
+        throw new TypeError("Failed to execute 'formData' on 'Response': body stream already read");
+      }
+      this._bodyUsed = true;
+      return this.rawBody.text().then(decode);
+    }
+    async json() {
+      if (this.bodyUsed) {
+        throw new TypeError("Failed to execute 'json' on 'Response': body stream already read");
+      }
+      this._bodyUsed = true;
+      return JSON.parse(await this.rawBody.text());
+    }
+    text() {
+      if (this.bodyUsed) {
+        throw new TypeError("Failed to execute 'text' on 'Response': body stream already read");
+      }
+      this._bodyUsed = true;
+      return this.rawBody.text();
+    }
+  }
+  function decode(body) {
+    const form = new FormData();
+    body.trim().split("&").forEach(function(bytes) {
+      var _a;
+      if (bytes) {
+        const split = bytes.split("=");
+        const name = (_a = split.shift()) == null ? void 0 : _a.replace(/\+/g, " ");
+        const value = split.join("=").replace(/\+/g, " ");
+        form.append(decodeURIComponent(name), decodeURIComponent(value));
+      }
+    });
+    return form;
+  }
+  function toReadableStream(value) {
+    return new ReadableStream({
+      start(controller) {
+        controller.enqueue(value);
+        controller.close();
+      }
+    });
+  }
+  async function GM_fetch(input, init2) {
+    const request = new Request(input, init2);
+    let data;
+    if (init2 == null ? void 0 : init2.body) {
+      data = await request.text();
+    }
+    return await XHR(request, init2, data);
+  }
+  function XHR(request, init2, data) {
+    return new Promise((resolve, reject) => {
+      if (request.signal && request.signal.aborted) {
+        return reject(new DOMException("Aborted", "AbortError"));
+      }
+      GM.xmlHttpRequest({
+        url: request.url,
+        method: gmXHRMethod(request.method.toUpperCase()),
+        headers: Object.fromEntries(new Headers(init2 == null ? void 0 : init2.headers).entries()),
+        data,
+        responseType: "blob",
+        onload(res) {
+          resolve(parseGMResponse(request, res));
+        },
+        onabort() {
+          reject(new DOMException("Aborted", "AbortError"));
+        },
+        ontimeout() {
+          reject(new TypeError("Network request failed, timeout"));
+        },
+        onerror(err) {
+          reject(new TypeError("Failed to fetch: " + err.finalUrl));
+        }
+      });
+    });
+  }
+  const httpMethods = ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "TRACE", "OPTIONS", "CONNECT"];
+  function includes(array, element2) {
+    return array.includes(element2);
+  }
+  function gmXHRMethod(method) {
+    if (includes(httpMethods, method)) {
+      return method;
+    }
+    throw new Error(`unsupported http method ${method}`);
+  }
+  async function getStreamStartTime(broadcastId) {
+    var _a;
+    const res = await GM_fetch("https://play.afreecatv.com/" + broadcastId);
+    const html = await res.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    const timeText = (_a = doc.querySelector("#player_area > div.broadcast_information > div.text_information > ul > li:nth-child(1) > span")) == null ? void 0 : _a.textContent;
+    if (!timeText) {
+      console.error("time not found");
+      return;
+    }
+    return dayjs(timeText);
+  }
+  const balloonTemp = /* @__PURE__ */ new Map();
+  const indexMap = /* @__PURE__ */ new Map();
+  async function addBalloonMsg(msg, index) {
+    console.log("addBalloonMsg", msg, index);
+    if (msg === "" || msg === void 0 || index === void 0) {
+      console.error("validation failed");
+      return;
+    }
+    if (index in balloonTemp) {
+      console.error("key already exists");
+      return;
+    }
+    const key = indexMap.get(index);
+    if (!key) {
+      console.error("key not found");
+      return;
+    }
+    balloonTemp.set(index, null);
+    const balloonSum = await _GM.getValue(key, null);
+    if (!balloonSum) {
+      alert("방송 시작 시간을 가져오는데 오류가 발생했습니다.");
+      return;
+    }
+    balloonSum.message.push(msg);
+    await _GM.setValue(key, balloonSum);
+    const event = new CustomEvent("balloonDataChanged", {
+      detail: balloonSum
+    });
+    document.dispatchEvent(event);
+  }
+  async function addBalloon(balloon) {
+    const startTime = await Utils.getTimeValue(LAST_SAVE_TIME);
+    if (!startTime) {
+      alert("방송 시작 시간을 가져오는데 오류가 발생했습니다.");
+      return;
+    }
+    const balloonTime = dayjs(balloon.timestamp);
+    const balloonSum = await _GM.getValue(BALLOON + balloon.uid, {
+      uid: balloon.uid,
+      nicknames: [],
+      amountSum: 0,
+      count: 0,
+      message: [],
+      timestamps: {}
+    });
+    if (balloon.timestamp in balloonSum.timestamps) {
+      console.log("data already exists");
+      return;
+    }
+    if (balloonTime.isBefore(startTime)) {
+      console.log("data is too old");
+      return;
+    }
+    if (!balloonSum.nicknames.includes(balloon.nickname)) {
+      balloonSum.nicknames.push(balloon.nickname);
+    }
+    balloonSum.amountSum += balloon.amount;
+    if (balloon.message) {
+      balloonSum.message.push(balloon.message);
+    }
+    balloonSum.timestamps[balloon.timestamp] = null;
+    balloonSum.count += 1;
+    const key = BALLOON + balloon.uid;
+    await _GM.setValue(key, balloonSum);
+    const keys = await _GM.getValue(BALLOON_KEYS, []);
+    if (!keys.includes(key)) {
+      keys.push(key);
+    }
+    await _GM.setValue(BALLOON_KEYS, keys);
+    console.log(`balloon ${balloon.uid}, ${balloonTime.format("YYYY-MM-DD HH:mm:ss")} ${balloon.message} added`);
+    indexMap.set(balloon.idx, key);
+    const event = new CustomEvent("balloonDataChanged", {
+      detail: balloonSum
+    });
+    document.dispatchEvent(event);
+  }
+  const cmdType = {
+    SENDBALLOON: "star",
+    SENDBALLOONSUB: "star",
+    ADBALLOON: "star",
+    VODBALLOON: "star",
+    VIDEOBALLOON: "star",
+    SENDFANLETTER: "star",
+    SENDFANLETTERSUB: "star",
+    CHOCOLATE: "star",
+    CHOCOLATESUB: "star",
+    FOLLOW_ITEM: "afsubscription",
+    FOLLOW_ITEM_EFFECT: "afsubscription",
+    up: "afup",
+    SENDPUNGBALLOON: "afpung",
+    SENDPUNGBALLOONSUB: "afpung"
+  };
+  function connectionPoll() {
+    setTimeout(() => {
+      const poll = setInterval(() => {
+        const socket = page.data.socket;
+        if (!socket) {
+          console.log("socket not found");
+          return;
+        }
+        socket.on("cmd", async (data) => {
+          if (!(data.type === "alertload")) {
+            return;
+          }
+          if (data.sub === "chat") {
+            console.log(data);
+            await addBalloonMsg(data.msg, data.id);
+          } else if (data.sub === "add" || data.sub === "load") {
+            for (const item of data.data) {
+              console.log(item);
+              if (cmdType[item.type] === "star") {
+                await addBalloon({
+                  idx: item.idx,
+                  uid: item.id,
+                  nickname: item.name,
+                  amount: item.value,
+                  timestamp: item.time,
+                  message: item.msg
+                });
+              }
+            }
+          }
+        });
+        const refreshButton = document.querySelector("#page_save_btn > div > div > a.btns.btn_gray.btn_alertlist_refresh");
+        if (!refreshButton) {
+          console.log("refresh button not found");
+          return;
+        }
+        refreshButton.click();
+        clearInterval(poll);
+      }, 500);
+    }, 500);
+  }
+  const main = async () => {
+    let broadcasterId = loginInfo.afreeca.pid;
+    if (!broadcasterId) {
+      alert("로그인 상태가 아닙니다.");
+      return;
+    }
+    const startTime = await getStreamStartTime(broadcasterId);
+    if (!startTime) {
+      alert("방송 시작 시간을 가져오는데 오류가 발생했습니다.");
+      return;
+    }
+    const lastSaveTime = await Utils.getTimeValue(LAST_SAVE_TIME, startTime);
+    if (!lastSaveTime) {
+      alert("방송 시작 시간을 가져오는데 오류가 발생했습니다.");
+      return;
+    }
+    if (lastSaveTime.isBefore(startTime)) {
+      const isPostpone = await _GM.getValue(IS_POSTPONE, false);
+      if (!isPostpone) {
+        console.log("Deleting old balloons");
+        await Utils.deleteAllBalloons();
+      }
+      await _GM.setValue(IS_POSTPONE, false);
+    }
+    await _GM.setValue(LAST_SAVE_TIME, startTime.toISOString());
+    new Modal({
+      target: (() => {
+        const app2 = document.createElement("div");
+        document.body.append(app2);
+        return app2;
+      })()
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key == "F10") {
+        app_modal.showModal();
+      }
+    });
+    connectionPoll();
+  };
+  await( main());
 
 })();

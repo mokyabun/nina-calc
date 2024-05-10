@@ -1,72 +1,53 @@
 <script lang="ts">
-    import type {BalloonSaveData, sortType} from "../../types";
-    import {downloadData} from "../download.js";
-    import {mixData} from "../mix";
+    import type { BalloonDataSum, sortType } from '../../types'
+    import { Utils } from '../utils'
+    import { toExcel } from '../excel'
+    import { downloadExcel } from '../download.js'
+    import { GM_getValue } from '$'
+    import { LAST_SAVE_TIME } from '../constants'
+    import dayjs from 'dayjs'
 
-    export let afData: BalloonSaveData | null
-    export let afhpData: BalloonSaveData | null
+    export let data: { [key: string]: BalloonDataSum }
 
     let sortOrder: sortType = 'asc'
 
-    function downloadClick(data: BalloonSaveData | null) {
-        if (data === null) {
-            alert('데이터가 없습니다.')
-            return
-        }
+    const startTime = GM_getValue<string>(LAST_SAVE_TIME)
 
-        downloadData(data, sortOrder)
-    }
+    const onDownload = () => {
+        const sortedData = Utils.sortData(data, sortOrder)
 
-    function downloadMixedClick() {
-        if (afData === null || afhpData === null) {
-            alert('데이터가 없습니다.')
-            return
-        }
+        const excelData = toExcel(sortedData)
 
-        if (afData.timestamp !== afhpData.timestamp) {
-            alert('두 데이터의 방송 시작 시간이 다릅니다.')
-            return
-        }
-
-        downloadData(mixData(afData, afhpData), sortOrder)
+        downloadExcel(excelData, dayjs(startTime).format('YYYY-MM-DD'))
     }
 </script>
 
 <div class="daisy-collapse bg-base-200">
-    <input type="checkbox"/>
-    <div class="daisy-collapse-title text-xl font-medium">
-        데이터 다운로드
-    </div>
+    <input type="checkbox" />
+    <div class="daisy-collapse-title text-xl font-medium">데이터 다운로드</div>
     <div class="daisy-collapse-content">
         <div class="flex flex-col gap-4">
-            <select class="daisy-select w-full text-base-content" bind:value={sortOrder}>
+            <select bind:value={sortOrder} class="daisy-select w-full text-base-content">
                 <option disabled selected>정렬 순서</option>
                 <option value="asc">오름차순</option>
                 <option value="desc">내림차순</option>
-                <option value="latest">최신</option>
-                <option value="oldest">오래된순</option>
-                <option value="random">랜덤</option>
             </select>
-            <div class="flex gap-4">
-                <div class="flex flex-col w-1/2">
-                    <h3 class="font-medium text-sm">별풍선 데이터 다운로드</h3>
-                    <button class="daisy-btn daisy-btn-primary" disabled={afData === null}
-                            on:click={() => downloadClick(afData)}>
-                        {afData === null ? '데이터 없음' : afData.timestamp}
-                    </button>
-                </div>
-                <div class="flex flex-col w-1/2">
-                    <h3 class="font-medium text-sm">아프리카 도우미 데이터 다운로드</h3>
-                    <button class="daisy-btn daisy-btn-primary" disabled={afhpData === null}
-                            on:click={() => downloadClick(afhpData)}>
-                        {afhpData === null ? '데이터 없음' : afhpData.timestamp}
-                    </button>
-                </div>
-            </div>
-
-            <button class="daisy-btn daisy-btn-primary" disabled={afData === null || afhpData === null}
-                    on:click={downloadMixedClick}>
-                {afData === null || afhpData === null ? '데이터 없음' : '데이터 병합 다운로드'}
+            <button class="daisy-btn daisy-btn-primary" on:click={onDownload}>
+                <svg
+                    class="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+                데이터 다운로드
             </button>
         </div>
     </div>

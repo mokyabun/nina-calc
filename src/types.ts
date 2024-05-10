@@ -1,28 +1,42 @@
-export interface BalloonSaveData {
-    timestamp: string
-    balloonData: BalloonData[]
-    subData?: SubSingleData[]
-}
+export type sortType = 'asc' | 'desc'
 
-export interface SubSingleData {
+export interface Sub {
     uid: string
     nickname: string
     month: number
 }
 
-export interface BalloonSingleData {
+export interface Balloon {
+    idx: number
     uid: string
     nickname: string
-    balloonAmount: number
-    message?: string
+    amount: number
+    timestamp: number
+    message: string
 }
 
-export interface BalloonData {
+export interface BalloonDataSum {
     uid: string
     nicknames: string[]
-    balloonAmountSum: number
-    balloonCount: number
-    messageData?: string[]
+    amountSum: number
+    count: number
+    message: string[]
+    timestamps: { [key: number]: null }
 }
 
-export type sortType = 'asc' | 'desc' | 'latest' | 'oldest' | 'random'
+export const cmdType = {
+    SENDBALLOON: 'star',
+    SENDBALLOONSUB: 'star',
+    ADBALLOON: 'star',
+    VODBALLOON: 'star',
+    VIDEOBALLOON: 'star',
+    SENDFANLETTER: 'star',
+    SENDFANLETTERSUB: 'star',
+    CHOCOLATE: 'star',
+    CHOCOLATESUB: 'star',
+    FOLLOW_ITEM: 'afsubscription',
+    FOLLOW_ITEM_EFFECT: 'afsubscription',
+    up: 'afup',
+    SENDPUNGBALLOON: 'afpung',
+    SENDPUNGBALLOONSUB: 'afpung',
+}

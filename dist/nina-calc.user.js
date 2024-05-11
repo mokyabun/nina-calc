@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nina-calc
 // @namespace    sucat.dev
-// @version      2.0.1
+// @version      2.0.2
 // @author       sucat0
 // @description  버츄얼 헤르츠 도네 감사인사용으로 만들어진 Tampermonkey용 팬 제작 스크립트입니다.
 // @license      MIT
@@ -29648,8 +29648,6 @@
     };
     onMount(async () => {
       await Promise.all([loadBalloon(), loadSub()]);
-      console.log(balloonData);
-      console.log(subData);
     });
     document.addEventListener("balloonDataChanged", (event) => {
       const key = BALLOON + event.detail.uid;

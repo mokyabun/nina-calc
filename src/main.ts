@@ -4,7 +4,9 @@ import { IS_POSTPONE, LAST_SAVE_TIME } from './lib/constants'
 import Modal from './lib/components/Modal.svelte'
 import { getStreamStartTime } from './lib/stream-info'
 import { Utils } from './lib/utils'
-import { connectionPoll } from './lib/socket'
+import { connectionPoll, onCmd } from './lib/socket'
+import { addBalloon } from './lib/balloon'
+import { testData } from './lib/testdata'
 
 const main = async () => {
     // @ts-ignore

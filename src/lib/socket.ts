@@ -1,5 +1,6 @@
 import { addBalloon, addBalloonMsg } from './balloon'
 import { cmdType } from '../types'
+import { addSub } from './sub'
 
 export function connectionPoll() {
     // Refresh to load existing balloons
@@ -13,32 +14,7 @@ export function connectionPoll() {
                 return
             }
 
-            socket.on('cmd', async (data: any) => {
-                if (!(data.type === 'alertload')) {
-                    return
-                }
-
-                if (data.sub === 'chat') {
-                    console.log(data)
-
-                    await addBalloonMsg(data.msg, data.id)
-                } else if (data.sub === 'add' || data.sub === 'load') {
-                    for (const item of data.data) {
-                        console.log(item)
-
-                        if (cmdType[item.type as keyof typeof cmdType] === 'star') {
-                            await addBalloon({
-                                idx: item.idx,
-                                uid: item.id,
-                                nickname: item.name,
-                                amount: item.value,
-                                timestamp: item.time,
-                                message: item.msg,
-                            })
-                        }
-                    }
-                }
-            })
+            socket.on('cmd', onCmd)
 
             // Get a href by selector
             const refreshButton = document.querySelector<HTMLAnchorElement>(
@@ -55,4 +31,34 @@ export function connectionPoll() {
             clearInterval(poll)
         }, 500)
     }, 500)
+}
+
+export async function onCmd(data: any) {
+    if (!(data.type === 'alertload')) {
+        return
+    }
+
+    if (data.sub === 'chat') {
+        await addBalloonMsg(data.msg, data.id)
+    } else if (data.sub === 'add' || data.sub === 'load') {
+        for (const item of data.data) {
+            if (cmdType[item.type as keyof typeof cmdType] === 'star') {
+                await addBalloon({
+                    idx: item.idx,
+                    uid: item.id,
+                    nickname: item.name,
+                    amount: item.value,
+                    timestamp: item.time,
+                    message: item.msg,
+                })
+            } else if (cmdType[item.type as keyof typeof cmdType] === 'afsubscription') {
+                await addSub({
+                    uid: item.id,
+                    nickname: item.name,
+                    month: item.value,
+                    timestamp: item.time,
+                })
+            }
+        }
+    }
 }

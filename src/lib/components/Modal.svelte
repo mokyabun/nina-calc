@@ -1,23 +1,59 @@
 <script lang="ts">
-    import type { BalloonDataSum } from '../../types'
+    import type { BalloonDataSum, Sub } from '../../types'
     import { GM, GM_getValue } from '$'
-    import { BALLOON, BALLOON_KEYS, IS_POSTPONE } from '../constants'
+    import { BALLOON, BALLOON_KEYS, IS_POSTPONE, SUB_KEYS, SUB } from '../constants'
+    import { onMount } from 'svelte'
     import ViewData from './ViewData.svelte'
     import DownloadCollpase from './DownloadCollpase.svelte'
 
-    const data: { [key: string]: BalloonDataSum } = {}
+    const balloonData: { [key: string]: BalloonDataSum } = {}
+    const subData: { [key: string]: Sub } = {}
 
-    // Load data
-    const keys = GM_getValue<string[]>(BALLOON_KEYS, [])
-    for (const key of keys) {
-        const newData = GM_getValue<BalloonDataSum>(key)
+    // Load balloon data
+    const loadBalloon = async () => {
+        const keys = await GM.getValue<string[]>(BALLOON_KEYS, [])
 
-        data[key] = newData
+        await Promise.all(
+            keys.map(async (key: string) => {
+                const data = await GM.getValue<BalloonDataSum | null>(key, null)
+
+                if (data === null) return
+
+                balloonData[key] = data
+            }),
+        )
     }
+
+    // Load sub data
+    const loadSub = async () => {
+        const keys = GM_getValue<string[]>(SUB_KEYS, [])
+
+        await Promise.all(
+            keys.map(async (key) => {
+                const data = await GM.getValue<Sub | null>(key, null)
+
+                if (data === null) return
+
+                subData[key] = data
+            }),
+        )
+    }
+
+    onMount(async () => {
+        await Promise.all([loadBalloon(), loadSub()])
+    })
 
     // Listen for data changes
     document.addEventListener('balloonDataChanged', ((event: CustomEvent<BalloonDataSum>) => {
-        data[BALLOON + event.detail.uid] = event.detail
+        const key = BALLOON + event.detail.uid
+
+        balloonData[key] = event.detail
+    }) as EventListener)
+
+    document.addEventListener('subDataChanged', ((event: CustomEvent<Sub>) => {
+        const key = SUB + event.detail.uid
+
+        subData[key] = event.detail
     }) as EventListener)
 
     const onPostpone = async () => {
@@ -71,7 +107,7 @@
                 </svg>
                 감사인사 미루기
             </button>
-            <DownloadCollpase {data} />
+            <DownloadCollpase {balloonData} {subData} />
         </div>
     </div>
     <form class="daisy-modal-backdrop" method="dialog">
@@ -79,4 +115,4 @@
     </form>
 </dialog>
 
-<ViewData {data} />
+<ViewData {balloonData} {subData} />

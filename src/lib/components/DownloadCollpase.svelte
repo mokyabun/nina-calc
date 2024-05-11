@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { BalloonDataSum, sortType } from '../../types'
+    import type { BalloonDataSum, sortType, Sub } from '../../types'
     import { Utils } from '../utils'
     import { toExcel } from '../excel'
     import { downloadExcel } from '../download.js'
@@ -7,16 +7,18 @@
     import { LAST_SAVE_TIME } from '../constants'
     import dayjs from 'dayjs'
 
-    export let data: { [key: string]: BalloonDataSum }
+    export let balloonData: { [key: string]: BalloonDataSum }
+    export let subData: { [key: string]: Sub }
 
     let sortOrder: sortType = 'asc'
 
     const startTime = GM_getValue<string>(LAST_SAVE_TIME)
 
     const onDownload = () => {
-        const sortedData = Utils.sortData(data, sortOrder)
+        const sortedBalloonData = Utils.sortBalloonData(balloonData, sortOrder)
+        const sortedSubData = Utils.sortSubData(subData, sortOrder)
 
-        const excelData = toExcel(sortedData)
+        const excelData = toExcel(sortedBalloonData, sortedSubData)
 
         downloadExcel(excelData, dayjs(startTime).format('YYYY-MM-DD'))
     }

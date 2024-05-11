@@ -1,7 +1,7 @@
 import { GM } from '$'
 import dayjs, { Dayjs } from 'dayjs'
 import { BALLOON_KEYS } from './constants'
-import type { BalloonDataSum, sortType } from '../types'
+import type { BalloonDataSum, sortType, Sub } from '../types'
 
 export namespace Utils {
     export async function getTimeValue(key: string, defaultValue: Dayjs | null = null) {
@@ -38,7 +38,7 @@ export namespace Utils {
         await GM.deleteValue(BALLOON_KEYS)
     }
 
-    export function sortData(data: { [key: string]: BalloonDataSum }, type: sortType) {
+    export function sortBalloonData(data: { [key: string]: BalloonDataSum }, type: sortType) {
         switch (type) {
             case 'asc':
                 return Object.values(data).sort((a, b) => {
@@ -47,6 +47,19 @@ export namespace Utils {
             case 'desc':
                 return Object.values(data).sort((a, b) => {
                     return b.nicknames[0].localeCompare(a.nicknames[0])
+                })
+        }
+    }
+
+    export function sortSubData(data: { [key: string]: Sub }, type: sortType) {
+        switch (type) {
+            case 'asc':
+                return Object.values(data).sort((a, b) => {
+                    return a.nickname.localeCompare(b.nickname)
+                })
+            case 'desc':
+                return Object.values(data).sort((a, b) => {
+                    return b.nickname.localeCompare(a.nickname)
                 })
         }
     }

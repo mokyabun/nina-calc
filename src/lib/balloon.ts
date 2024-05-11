@@ -1,4 +1,4 @@
-import type { Balloon, BalloonDataSum } from '../types'
+import type { Balloon, BalloonDataSum, Sub } from '../types'
 import { GM } from '$'
 import { BALLOON, BALLOON_KEYS, LAST_SAVE_TIME } from './constants'
 import dayjs from 'dayjs'
@@ -57,7 +57,9 @@ export async function addBalloon(balloon: Balloon) {
 
     const balloonTime = dayjs(balloon.timestamp)
 
-    const balloonSum = await GM.getValue<BalloonDataSum>(BALLOON + balloon.uid, {
+    const key = BALLOON + balloon.uid
+
+    const balloonSum = await GM.getValue<BalloonDataSum>(key, {
         uid: balloon.uid,
         nicknames: [],
         amountSum: 0,
@@ -65,8 +67,6 @@ export async function addBalloon(balloon: Balloon) {
         message: [],
         timestamps: {},
     })
-
-    const key = BALLOON + balloon.uid
 
     // Check if key already exists
     if (balloon.timestamp in balloonSum.timestamps) {

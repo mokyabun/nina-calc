@@ -4,6 +4,7 @@ export interface Sub {
     uid: string
     nickname: string
     month: number
+    timestamp: number
 }
 
 export interface Balloon {

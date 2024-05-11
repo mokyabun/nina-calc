@@ -19,8 +19,7 @@
 
 ## 기능
 - **[아프리카 도우미](http://afreehp.kr/setup/alertlist) 데이터 가져오기**
-- **[아프리카 별풍선](https://point.afreecatv.com/Balloon/AfreecaNormalExchange.asp) 데이터 가져오기**
+- **실시간 별풍선, 구독 데이터 반영**
+- **감사인사 미루기 기능**
+- **자체 데이터 뷰어**
 - **xlsx(엑셀) 파일로 데이터 저장**
-- **아프리카 도우미, 별풍선 데이터 병합** (아프리카 도우미 200개 제한 넘었을 경우 사용)
-
-#### and i also 니나 조아

@@ -29648,6 +29648,8 @@
     };
     onMount(async () => {
       await Promise.all([loadBalloon(), loadSub()]);
+      console.log(balloonData);
+      console.log(subData);
     });
     document.addEventListener("balloonDataChanged", (event) => {
       const key = BALLOON + event.detail.uid;
@@ -29949,7 +29951,7 @@
       return;
     }
     await _GM.setValue(key, sub);
-    keys.push(sub.uid);
+    keys.push(key);
     await _GM.setValue(SUB_KEYS, keys);
     console.log(`sub ${sub.uid}, ${sub.timestamp} added`);
     emitSubDataChanged(sub);

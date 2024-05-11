@@ -38,7 +38,7 @@ export async function addSub(sub: Sub) {
     await GM.setValue(key, sub)
 
     // Add sub uid to SUB_KEYS
-    keys.push(sub.uid)
+    keys.push(key)
     await GM.setValue(SUB_KEYS, keys)
 
     console.log(`sub ${sub.uid}, ${sub.timestamp} added`)
